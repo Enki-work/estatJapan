@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+import 'model/ImmigrationStatisticsRoot.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -99,8 +101,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         //     children: response.data.map<Widget>(
                         //         (e) => ListTile(title: Text(e["aa"]))));
                       } else {
+                        Response response = snapshot.data;
+                        ImmigrationStatisticsRoot rootModel =
+                            ImmigrationStatisticsRoot.fromJson(response.data);
+                        String a = rootModel.GET_STATS_DATA.RESULT.ERROR_MSG;
                         return Text(
-                          '$snapshot Error \n You have pushed the button this many times:',
+                          '$a \n You have pushed the button this many times:',
                         );
                       }
                     } else {
