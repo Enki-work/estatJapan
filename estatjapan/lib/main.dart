@@ -81,22 +81,34 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            FutureBuilder(
-              future: _dio.get(
-                  "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=7bed85b352e6c3d46ad6def4390196b23d86bcec&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0"),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (false) {
-                  Response response = snapshot.data;
-                  return ListView(
-                      children: response.data
-                          .map<Widget>((e) => ListTile(title: Text(e["aa"]))));
-                } else {
-                  return Text(
-                    '$snapshot Error \n You have pushed the button this many times:',
-                  );
-                }
-              },
-            ),
+            Container(
+                alignment: Alignment.center,
+                child: FutureBuilder(
+                  future: _dio.get(
+                      "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=7bed85b352e6c3d46ad6def4390196b23d86bcec&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0"),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      //请求完成
+                      if (snapshot.hasError) {
+                        //发生错误
+                        return Text(snapshot.error.toString());
+                      }
+                      if (false) {
+                        // Response response = snapshot.data;
+                        // return ListView(
+                        //     children: response.data.map<Widget>(
+                        //         (e) => ListTile(title: Text(e["aa"]))));
+                      } else {
+                        return Text(
+                          '$snapshot Error \n You have pushed the button this many times:',
+                        );
+                      }
+                    } else {
+                      //请求未完成时弹出loading
+                      return CircularProgressIndicator();
+                    }
+                  },
+                )),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
