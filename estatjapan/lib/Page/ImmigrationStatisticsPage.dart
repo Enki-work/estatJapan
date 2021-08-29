@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 
 import 'MenuDrawer.dart';
 
-class ScaffoldRoute extends StatefulWidget {
+class ImmigrationStatisticsPage extends StatefulWidget {
   final String title;
 
-  const ScaffoldRoute({Key? key, required this.title}) : super(key: key);
+  const ImmigrationStatisticsPage({Key? key, required this.title})
+      : super(key: key);
   @override
-  _ScaffoldRouteState createState() => _ScaffoldRouteState();
+  _ImmigrationStatisticsPageState createState() =>
+      _ImmigrationStatisticsPageState();
 }
 
-class _ScaffoldRouteState extends State<ScaffoldRoute> {
+class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
   int _selectedIndex = 0;
 
   @override

@@ -1,4 +1,4 @@
-import 'package:estatjapan/Page/ScaffoldRoute.dart';
+import 'package:estatjapan/Page/ImmigrationStatisticsPage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ScaffoldRoute(title: 'Flutter Demo Home Page'),
+      home: ImmigrationStatisticsPage(title: 'Flutter Demo Home Page'),
     );
   }
 }
