@@ -1,6 +1,7 @@
 import 'package:estatjapan/Page/ImmigrationStatisticsPage.dart';
 import 'package:flutter/material.dart';
 
+import 'Page/DataTablePage.dart';
 import 'Page/MonthSelectPage.dart';
 import 'model/RouteModel.dart';
 
@@ -19,6 +20,10 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           "MonthSelectPage": (context) => MonthSelectPage(
+                routeModel:
+                    ModalRoute.of(context)?.settings.arguments as RouteModel,
+              ),
+          "DataTablePage": (context) => DataTablePage(
                 routeModel:
                     ModalRoute.of(context)?.settings.arguments as RouteModel,
               ),

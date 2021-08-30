@@ -2,7 +2,9 @@ import 'Class.dart';
 import 'ImmigrationStatisticsRoot.dart';
 
 class RouteModel {
-  Class selectedCLASS;
+  final Class selectedCLASS;
+  Class? selectedMonth;
   ImmigrationStatisticsRoot? rootModel;
+  late ImmigrationStatisticsRoot loadedDatarootModel;
   RouteModel({required this.selectedCLASS, this.rootModel});
 }

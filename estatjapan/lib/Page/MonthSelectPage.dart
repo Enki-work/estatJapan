@@ -27,6 +27,12 @@ class MonthSelectPage extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) => ListTile(
               title: Text(obj.CLASS[index].name),
               minVerticalPadding: 25,
+              onTap: () {
+                this.routeModel.selectedMonth = obj.CLASS[index];
+                this.routeModel.selectedMonth!.parentID = obj.id;
+                Navigator.of(context)
+                    .pushNamed("DataTablePage", arguments: this.routeModel);
+              },
             ),
             separatorBuilder: (BuildContext context, int index) => Divider(
               height: 0.5,
