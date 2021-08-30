@@ -22,16 +22,11 @@ class ClassOBJ {
     List<Class> ClassList = [];
     if (CLASS is List<dynamic>) {
       List<dynamic> list = CLASS;
-      Type type = list.first.runtimeType;
       list.forEach((element) {
         ClassList.add(Class.fromJson(element));
       });
-      dynamic a = ClassList.length;
-      print("$a");
-      print("{$type}222222");
     } else if (CLASS is Map<String, dynamic>) {
       ClassList.add(Class.fromJson(CLASS));
-      print("１１１１");
     }
     return ClassList;
   }
