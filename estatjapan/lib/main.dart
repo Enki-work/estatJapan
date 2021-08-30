@@ -1,6 +1,9 @@
 import 'package:estatjapan/Page/ImmigrationStatisticsPage.dart';
 import 'package:flutter/material.dart';
 
+import 'Page/MonthSelectPage.dart';
+import 'model/RouteModel.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -10,11 +13,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ImmigrationStatisticsPage(title: '在留資格の取得等の受理及び処理人員'),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routes: {
+          "MonthSelectPage": (context) => MonthSelectPage(
+                routeModel:
+                    ModalRoute.of(context)?.settings.arguments as RouteModel,
+              ),
+          "/": (context) =>
+              ImmigrationStatisticsPage(title: '在留資格の取得等の受理及び処理人員'),
+        });
   }
 }

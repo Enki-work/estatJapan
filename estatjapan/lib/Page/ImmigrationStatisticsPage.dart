@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:estatjapan/model/Class.dart';
 import 'package:estatjapan/model/ImmigrationStatisticsModel.dart';
 import 'package:estatjapan/model/ImmigrationStatisticsRoot.dart';
+import 'package:estatjapan/model/RouteModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
     Dio _dio = Dio();
     return FutureBuilder(
         future: _dio.get(
-            "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=7bed85b352e6c3d46ad6def4390196b23d86bcec&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0"),
+            "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=7bed85b352e6c3d46ad6def4390196b23d86bcec&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0"),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
@@ -137,10 +138,19 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
       itemCount: CLASSList.length,
       shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) => ListTile(
-        title: Text(CLASSList[index].name),
-        minVerticalPadding: 25,
-      ),
+      itemBuilder: (BuildContext context, int index) {
+        Class CLASS = CLASSList[index];
+        return ListTile(
+          title: Text(CLASS.name),
+          minVerticalPadding: 25,
+          onTap: () {
+            print("$rootModel 11111");
+            Navigator.of(context).pushNamed("MonthSelectPage",
+                arguments:
+                    RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
+          },
+        );
+      },
       separatorBuilder: (BuildContext context, int index) => Divider(
         height: 0.5,
         indent: 20,
