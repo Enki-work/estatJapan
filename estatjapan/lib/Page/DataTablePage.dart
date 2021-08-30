@@ -5,8 +5,6 @@ import 'package:estatjapan/model/RouteModel.dart';
 import 'package:estatjapan/model/Value.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
-import 'package:horizontal_data_table/refresh/hdt_refresh_controller.dart';
-import 'package:horizontal_data_table/refresh/pull_to_refresh/src/indicator/waterdrop_header.dart';
 import 'package:horizontal_data_table/scroll/scroll_bar_style.dart';
 
 class DataTablePage extends StatefulWidget {
@@ -21,7 +19,6 @@ class DataTablePage extends StatefulWidget {
 }
 
 class _DataTablePageState extends State<DataTablePage> {
-  HDTRefreshController _hdtRefreshController = HDTRefreshController();
   @override
   Widget build(BuildContext context) {
     Dio _dio = Dio();
@@ -104,15 +101,6 @@ class _DataTablePageState extends State<DataTablePage> {
           thickness: 4.0,
           radius: Radius.circular(5.0),
         ),
-        enablePullToRefresh: true,
-        refreshIndicator: const WaterDropHeader(),
-        refreshIndicatorHeight: 60,
-        onRefresh: () async {
-          //Do sth
-          await Future.delayed(const Duration(milliseconds: 500));
-          _hdtRefreshController.refreshCompleted();
-        },
-        htdRefreshController: _hdtRefreshController,
       ),
       height: MediaQuery.of(context).size.height,
     );
