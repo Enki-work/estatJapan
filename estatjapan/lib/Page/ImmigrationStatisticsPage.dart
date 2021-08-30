@@ -106,25 +106,21 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
         .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
         .firstWhere((e) => e.id == "cat01")
         .CLASS;
-    return ChangeNotifierProvider<ImmigrationStatisticsRoot>(
-        create: (_) => rootModel,
-        child: Builder(builder: (context) {
-          return Expanded(
-              child: ListView.separated(
-            padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-            itemCount: CLASSList.length,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) => ListTile(
-              title: Text(CLASSList[index].name),
-              minVerticalPadding: 25,
-            ),
-            separatorBuilder: (BuildContext context, int index) => Divider(
-              height: 0.5,
-              indent: 20,
-              color: Colors.grey[120],
-            ),
-          ));
-        }));
+    return Expanded(
+        child: ListView.separated(
+      padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+      itemCount: CLASSList.length,
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) => ListTile(
+        title: Text(CLASSList[index].name),
+        minVerticalPadding: 25,
+      ),
+      separatorBuilder: (BuildContext context, int index) => Divider(
+        height: 0.5,
+        indent: 20,
+        color: Colors.grey[120],
+      ),
+    ));
   }
 
   void _onItemTapped(int index) {
