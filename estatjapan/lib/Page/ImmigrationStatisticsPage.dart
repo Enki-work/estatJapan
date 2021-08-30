@@ -66,7 +66,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
                             Provider.of<ImmigrationStatisticsModel>(context)
                                 .selectedIndex,
                         fixedColor: Colors.blue,
-                        onTap: _onItemTapped,
+                        onTap: (index) => model.selectedIndex = index,
                       );
                     }),
                     body: Builder(builder: (context) {
@@ -191,11 +191,5 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
         color: Colors.grey[120],
       ),
     ));
-  }
-
-  void _onItemTapped(int index) {
-    model.selectedIndex = index;
-    // setState(() {
-    // });
   }
 }
