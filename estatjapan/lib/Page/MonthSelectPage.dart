@@ -13,7 +13,6 @@ class MonthSelectPage extends StatelessWidget {
         .rootModel?.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
         .firstWhere((e) => e.id == "time");
     if (obj == null) return Center(child: Text("予想外エラー"));
-    print("{ $obj }");
     return Scaffold(
         appBar: AppBar(
           //导航栏

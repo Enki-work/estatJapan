@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 import 'ImmigrationStatisticsRoot.dart';
 
-@JsonSerializable()
 class ImmigrationStatisticsModel extends ChangeNotifier {
   int _selectedIndex = 0;
   ImmigrationStatisticsRoot? _rootModel = null;
