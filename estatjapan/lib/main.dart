@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ImmigrationStatisticsPage(title: 'Flutter Demo Home Page'),
+      home: ImmigrationStatisticsPage(title: '在留資格の取得等の受理及び処理人員'),
     );
   }
 }

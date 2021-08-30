@@ -22,14 +22,13 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
   @override
   Widget build(BuildContext context) {
     Dio _dio = Dio();
-    ScrollController _controller = new ScrollController();
     return Scaffold(
         appBar: AppBar(
           //导航栏
           title: Text(widget.title),
           actions: <Widget>[
             //导航栏右侧菜单
-            IconButton(icon: Icon(Icons.share), onPressed: () {}),
+            // IconButton(icon: Icon(Icons.share), onPressed: () {}),
           ],
         ),
         drawer: new MenuDrawer(), //抽屉
@@ -65,29 +64,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          () {
-                            List<Class> CLASSList = rootModel.GET_STATS_DATA
-                                .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-                                .firstWhere((e) => e.id == "cat01")
-                                .CLASS;
-                            return Expanded(
-                                child: ListView.separated(
-                              padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                              itemCount: CLASSList.length,
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index) =>
-                                  ListTile(
-                                title: Text(CLASSList[index].name),
-                                minVerticalPadding: 25,
-                              ),
-                              separatorBuilder:
-                                  (BuildContext context, int index) => Divider(
-                                height: 0.5,
-                                indent: 20,
-                                color: Colors.grey[120],
-                              ),
-                            ));
-                          }(),
+                          _cat01ListView(rootModel),
                         ],
                       );
                     case 1:
@@ -103,6 +80,28 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
                 }
               }),
         ));
+  }
+
+  Widget _cat01ListView(ImmigrationStatisticsRoot rootModel) {
+    List<Class> CLASSList = rootModel
+        .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+        .firstWhere((e) => e.id == "cat01")
+        .CLASS;
+    return Expanded(
+        child: ListView.separated(
+      padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+      itemCount: CLASSList.length,
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) => ListTile(
+        title: Text(CLASSList[index].name),
+        minVerticalPadding: 25,
+      ),
+      separatorBuilder: (BuildContext context, int index) => Divider(
+        height: 0.5,
+        indent: 20,
+        color: Colors.grey[120],
+      ),
+    ));
   }
 
   void _onItemTapped(int index) {
