@@ -95,7 +95,18 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
                             ],
                           );
                         case 2:
-                          return Center(child: Text("222"));
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Consumer<ImmigrationStatisticsModel>(
+                                builder: (context, value, _) {
+                                  if (value.model == null)
+                                    return Center(child: Text("予想外エラー"));
+                                  return _cat03ListView(value.model!);
+                                },
+                              )
+                            ],
+                          );
                         default:
                           return Center(child: Text("予想外エラー"));
                       }
@@ -155,6 +166,29 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
       ),
     ));
   }
+
+  Widget _cat03ListView(ImmigrationStatisticsRoot rootModel) {
+    List<Class> CLASSList = rootModel
+        .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+        .firstWhere((e) => e.id == "cat03")
+        .CLASS;
+    return Expanded(
+        child: ListView.separated(
+      padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+      itemCount: CLASSList.length,
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) => ListTile(
+        title: Text(CLASSList[index].name),
+        minVerticalPadding: 25,
+      ),
+      separatorBuilder: (BuildContext context, int index) => Divider(
+        height: 0.5,
+        indent: 20,
+        color: Colors.grey[120],
+      ),
+    ));
+  }
+
   void _onItemTapped(int index) {
     model.selectedIndex = index;
     // setState(() {
