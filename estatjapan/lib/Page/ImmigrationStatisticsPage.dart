@@ -36,36 +36,40 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             ImmigrationStatisticsRoot rootModel =
                 ImmigrationStatisticsRoot.fromJson(response.data);
             model.rootModel = rootModel;
-            return Scaffold(
-                appBar: AppBar(
-                  //导航栏
-                  title: Text(widget.title),
-                  actions: <Widget>[
-                    //导航栏右侧菜单
-                    // IconButton(icon: Icon(Icons.share), onPressed: () {}),
-                  ],
-                ),
-                drawer: new MenuDrawer(), //抽屉
-                bottomNavigationBar: BottomNavigationBar(
-                  // 底部导航
-                  items: <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.add_chart_rounded),
-                        title: Text('在留資格審査')),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.align_horizontal_left_rounded),
-                        title: Text('審査受理・処理')),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.all_inbox_rounded),
-                        title: Text('在留管理局・支局')),
-                  ],
-                  currentIndex: model.selectedIndex,
-                  fixedColor: Colors.blue,
-                  onTap: _onItemTapped,
-                ),
-                body: ChangeNotifierProvider<ImmigrationStatisticsModel>(
-                    create: (_) => model,
-                    child: Builder(builder: (context) {
+            return ChangeNotifierProvider<ImmigrationStatisticsModel>(
+                create: (_) => model,
+                child: Scaffold(
+                    appBar: AppBar(
+                      //导航栏
+                      title: Text(widget.title),
+                      actions: <Widget>[
+                        //导航栏右侧菜单
+                        // IconButton(icon: Icon(Icons.share), onPressed: () {}),
+                      ],
+                    ),
+                    drawer: new MenuDrawer(), //抽屉
+                    bottomNavigationBar: Builder(builder: (context) {
+                      return BottomNavigationBar(
+                        // 底部导航
+                        items: <BottomNavigationBarItem>[
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.add_chart_rounded),
+                              title: Text('在留資格審査')),
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.align_horizontal_left_rounded),
+                              title: Text('審査受理・処理')),
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.all_inbox_rounded),
+                              title: Text('在留管理局・支局')),
+                        ],
+                        currentIndex:
+                            Provider.of<ImmigrationStatisticsModel>(context)
+                                .selectedIndex,
+                        fixedColor: Colors.blue,
+                        onTap: _onItemTapped,
+                      );
+                    }),
+                    body: Builder(builder: (context) {
                       switch (Provider.of<ImmigrationStatisticsModel>(context)
                           .selectedIndex) {
                         case 0:
