@@ -10,6 +10,8 @@ import 'package:horizontal_data_table/refresh/pull_to_refresh/src/indicator/wate
 import 'package:horizontal_data_table/scroll/scroll_bar_style.dart';
 
 class DataTablePage extends StatefulWidget {
+  static const double height = 56;
+  static const double width = 110;
   final RouteModel routeModel;
 
   const DataTablePage({Key? key, required this.routeModel}) : super(key: key);
@@ -67,13 +69,13 @@ class _DataTablePageState extends State<DataTablePage> {
   Widget _getBodyWidget() {
     return Container(
       child: HorizontalDataTable(
-        leftHandSideColumnWidth: 110,
+        leftHandSideColumnWidth: DataTablePage.width,
         rightHandSideColumnWidth: widget.routeModel.rootModel!.GET_STATS_DATA
                 .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
                 .firstWhere((element) => element.id == "cat03")
                 .CLASS
                 .length *
-            110,
+            DataTablePage.width,
         isFixedHeader: true,
         headerWidgets: _getTitleWidget(),
         leftSideItemBuilder: _generateFirstColumnRow,
@@ -122,13 +124,13 @@ class _DataTablePageState extends State<DataTablePage> {
           .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
           .firstWhere((element) => element.id == "cat03")
           .CLASS
-          .map((e) => _getTitleItemWidget(e.name, 110))
+          .map((e) => _getTitleItemWidget(e.name, DataTablePage.width))
           .toList());
       list.insert(
           0,
           SizedBox(
-            width: 110,
-            height: 56,
+            width: DataTablePage.width,
+            height: DataTablePage.height,
           ));
       return list;
     }
@@ -143,7 +145,7 @@ class _DataTablePageState extends State<DataTablePage> {
         textAlign: TextAlign.center,
       ),
       width: width,
-      height: 56,
+      height: DataTablePage.height,
       padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
       alignment: Alignment.center,
     );
@@ -156,8 +158,8 @@ class _DataTablePageState extends State<DataTablePage> {
           .firstWhere((element) => element.id == "cat02");
       return Container(
         child: Text(obj.CLASS[index].name),
-        width: 110,
-        height: 52,
+        width: DataTablePage.width,
+        height: DataTablePage.height,
         padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
         alignment: Alignment.center,
       );
@@ -185,8 +187,8 @@ class _DataTablePageState extends State<DataTablePage> {
               value.cat03 == element.code) {
             children.add(Container(
               child: Text(value.value ?? ""),
-              width: 110,
-              height: 52,
+              width: DataTablePage.width,
+              height: DataTablePage.height,
               padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
               alignment: Alignment.center,
             ));

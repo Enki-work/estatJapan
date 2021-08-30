@@ -159,19 +159,26 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
   }
 
   Widget _cat02ListView(ImmigrationStatisticsRoot rootModel) {
-    List<Class> CLASSList = rootModel
-        .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-        .firstWhere((e) => e.id == "cat02")
-        .CLASS;
+    ClassOBJ obj = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+        .firstWhere((e) => e.id == "cat02");
     return Expanded(
         child: ListView.separated(
       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount: CLASSList.length,
+      itemCount: obj.CLASS.length,
       shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) => ListTile(
-        title: Text(CLASSList[index].name),
-        minVerticalPadding: 25,
-      ),
+      itemBuilder: (BuildContext context, int index) {
+        Class CLASS = obj.CLASS[index];
+        return ListTile(
+          title: Text(CLASS.name),
+          minVerticalPadding: 25,
+          onTap: () {
+            CLASS.parentID = obj.id;
+            Navigator.of(context).pushNamed("MonthSelectPage",
+                arguments:
+                    RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
+          },
+        );
+      },
       separatorBuilder: (BuildContext context, int index) => Divider(
         height: 0.5,
         indent: 20,
@@ -181,19 +188,26 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
   }
 
   Widget _cat03ListView(ImmigrationStatisticsRoot rootModel) {
-    List<Class> CLASSList = rootModel
-        .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-        .firstWhere((e) => e.id == "cat03")
-        .CLASS;
+    ClassOBJ obj = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+        .firstWhere((e) => e.id == "cat03");
     return Expanded(
         child: ListView.separated(
       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount: CLASSList.length,
+      itemCount: obj.CLASS.length,
       shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) => ListTile(
-        title: Text(CLASSList[index].name),
-        minVerticalPadding: 25,
-      ),
+      itemBuilder: (BuildContext context, int index) {
+        Class CLASS = obj.CLASS[index];
+        return ListTile(
+          title: Text(CLASS.name),
+          minVerticalPadding: 25,
+          onTap: () {
+            CLASS.parentID = obj.id;
+            Navigator.of(context).pushNamed("MonthSelectPage",
+                arguments:
+                    RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
+          },
+        );
+      },
       separatorBuilder: (BuildContext context, int index) => Divider(
         height: 0.5,
         indent: 20,
