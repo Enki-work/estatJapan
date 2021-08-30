@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:estatjapan/model/Class.dart';
+import 'package:estatjapan/model/ClassOBJ.dart';
 import 'package:estatjapan/model/ImmigrationStatisticsModel.dart';
 import 'package:estatjapan/model/ImmigrationStatisticsRoot.dart';
 import 'package:estatjapan/model/RouteModel.dart';
@@ -129,22 +130,20 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
   }
 
   Widget _cat01ListView(ImmigrationStatisticsRoot rootModel) {
-    List<Class> CLASSList = rootModel
-        .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-        .firstWhere((e) => e.id == "cat01")
-        .CLASS;
+    ClassOBJ obj = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+        .firstWhere((e) => e.id == "cat01");
     return Expanded(
         child: ListView.separated(
       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount: CLASSList.length,
+      itemCount: obj.CLASS.length,
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
-        Class CLASS = CLASSList[index];
+        Class CLASS = obj.CLASS[index];
         return ListTile(
           title: Text(CLASS.name),
           minVerticalPadding: 25,
           onTap: () {
-            print("$rootModel 11111");
+            CLASS.parentID = obj.id;
             Navigator.of(context).pushNamed("MonthSelectPage",
                 arguments:
                     RouteModel(rootModel: rootModel, selectedCLASS: CLASS));

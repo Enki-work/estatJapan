@@ -14,6 +14,8 @@ class Class {
   final String? parentCode;
   @JsonKey(name: "@unit")
   final String? unit;
+
+  String? parentID;
   Class(
       {required this.code,
       required this.name,
