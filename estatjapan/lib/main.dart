@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'Page/DataTablePage.dart';
 import 'Page/LicenseInfoPage.dart';
 import 'Page/MonthSelectPage.dart';
+import 'Page/eStatInfoPage.dart';
 import 'model/RouteModel.dart';
 
 void main() {
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
                     ModalRoute.of(context)?.settings.arguments as RouteModel,
               ),
           "LicenseInfoPage": (context) => LicenseInfoPage(),
+          "eStaInfoPage": (context) => eStaInfoPage(),
           "/": (context) =>
               ImmigrationStatisticsPage(title: '在留資格の取得等の受理及び処理人員'),
         });

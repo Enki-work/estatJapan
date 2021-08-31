@@ -50,8 +50,12 @@ class MenuDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: const Icon(Icons.settings),
-                    title: const Text('Manage accounts'),
+                    leading: const Icon(Icons.article_rounded),
+                    title: const Text('データ提供元'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).pushNamed("eStaInfoPage");
+                    },
                   ),
                 ],
               ),
