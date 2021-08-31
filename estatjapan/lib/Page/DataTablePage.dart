@@ -10,6 +10,8 @@ import 'package:horizontal_data_table/scroll/scroll_bar_style.dart';
 class DataTablePage extends StatefulWidget {
   static const double height = 56;
   static const double width = 110;
+  static const double compactidth = 70;
+
   final RouteModel routeModel;
 
   const DataTablePage({Key? key, required this.routeModel}) : super(key: key);
@@ -66,7 +68,10 @@ class _DataTablePageState extends State<DataTablePage> {
   Widget _getBodyWidget() {
     return Container(
       child: HorizontalDataTable(
-        leftHandSideColumnWidth: DataTablePage.width,
+        leftHandSideColumnWidth:
+            widget.routeModel.selectedCLASS.parentID == "cat02"
+                ? DataTablePage.compactidth * 2
+                : DataTablePage.width,
         rightHandSideColumnWidth: widget.routeModel.rootModel!.GET_STATS_DATA
                 .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
                 .firstWhere((element) => element.id == "cat03")
@@ -77,11 +82,32 @@ class _DataTablePageState extends State<DataTablePage> {
         headerWidgets: _getTitleWidget(),
         leftSideItemBuilder: _generateFirstColumnRow,
         rightSideItemBuilder: _generateRightHandSideColumnRow,
-        itemCount: widget.routeModel.rootModel!.GET_STATS_DATA.STATISTICAL_DATA
-            .CLASS_INF.CLASS_OBJ
-            .firstWhere((element) => element.id == "cat02")
-            .CLASS
-            .length,
+        itemCount: () {
+          if (widget.routeModel.selectedCLASS.parentID == "cat01") {
+            return widget.routeModel.rootModel!.GET_STATS_DATA.STATISTICAL_DATA
+                .CLASS_INF.CLASS_OBJ
+                .firstWhere((element) => element.id == "cat02")
+                .CLASS
+                .length;
+          } else if (widget.routeModel.selectedCLASS.parentID == "cat02") {
+            return widget.routeModel.rootModel!.GET_STATS_DATA.STATISTICAL_DATA
+                .CLASS_INF.CLASS_OBJ
+                .firstWhere((element) => element.id == "cat01")
+                .CLASS
+                .length;
+          } else {
+            return widget.routeModel.rootModel!.GET_STATS_DATA.STATISTICAL_DATA
+                    .CLASS_INF.CLASS_OBJ
+                    .firstWhere((element) => element.id == "cat01")
+                    .CLASS
+                    .length *
+                widget.routeModel.rootModel!.GET_STATS_DATA.STATISTICAL_DATA
+                    .CLASS_INF.CLASS_OBJ
+                    .firstWhere((element) => element.id == "cat02")
+                    .CLASS
+                    .length;
+          }
+        }(),
         rowSeparatorWidget: Divider(
           color: Colors.grey[120],
           height: 0.5,
@@ -107,7 +133,16 @@ class _DataTablePageState extends State<DataTablePage> {
   }
 
   List<Widget> _getTitleWidget() {
-    if (widget.routeModel.selectedCLASS.parentID == "cat01") {
+    if (widget.routeModel.selectedCLASS.parentID == "cat03") {
+      return [
+        SizedBox(
+          width: DataTablePage.width,
+          height: DataTablePage.height,
+        ),
+        _getTitleItemWidget(
+            widget.routeModel.selectedCLASS.name, DataTablePage.width)
+      ];
+    } else {
       List<Widget> list = List<Widget>.from(widget.routeModel.rootModel!
           .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
           .firstWhere((element) => element.id == "cat03")
@@ -122,7 +157,6 @@ class _DataTablePageState extends State<DataTablePage> {
           ));
       return list;
     }
-    return [];
   }
 
   Widget _getTitleItemWidget(String label, double width) {
@@ -151,10 +185,66 @@ class _DataTablePageState extends State<DataTablePage> {
         padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
         alignment: Alignment.center,
       );
+    } else if (widget.routeModel.selectedCLASS.parentID == "cat02") {
+      ClassOBJ obj = widget.routeModel.rootModel!.GET_STATS_DATA
+          .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+          .firstWhere((element) => element.id == "cat01");
+      return Container(
+        child: Flex(
+          direction: Axis.horizontal,
+          children: [
+            Expanded(
+                flex: 1,
+                child: Text(
+                  obj.CLASS[index].name,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12),
+                )),
+            Expanded(
+                flex: 1,
+                child: Text(widget.routeModel.selectedCLASS.name,
+                    style: TextStyle(fontSize: 12),
+                    textAlign: TextAlign.center))
+          ],
+        ),
+        width: DataTablePage.compactidth * 2,
+        height: DataTablePage.height,
+        padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+        alignment: Alignment.center,
+      );
+    } else {
+      ClassOBJ cat01Obj = widget.routeModel.rootModel!.GET_STATS_DATA
+          .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+          .firstWhere((element) => element.id == "cat01");
+      ClassOBJ cat02Obj = widget.routeModel.rootModel!.GET_STATS_DATA
+          .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+          .firstWhere((element) => element.id == "cat02");
+      int cat01Index = index ~/ cat02Obj.CLASS.length;
+      int cat02Index = (index % cat02Obj.CLASS.length).toInt();
+      return Container(
+        child: Flex(
+          direction: Axis.horizontal,
+          children: () {
+            return [
+              Expanded(
+                  flex: 1,
+                  child: Text(cat01Obj.CLASS[cat01Index].name,
+                      style: TextStyle(fontSize: 12),
+                      textAlign: TextAlign.center)),
+              Expanded(
+                  flex: 1,
+                  child: Text(cat02Obj.CLASS[cat02Index].name,
+                      style: TextStyle(fontSize: 12),
+                      textAlign: TextAlign.center))
+            ];
+          }(),
+        ),
+        width: DataTablePage.compactidth * 2,
+        height: DataTablePage.height,
+        padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+        alignment: Alignment.center,
+      );
     }
-    return Row(
-      children: [],
-    );
   }
 
   Widget _generateRightHandSideColumnRow(BuildContext context, int index) {
@@ -180,13 +270,67 @@ class _DataTablePageState extends State<DataTablePage> {
               padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
               alignment: Alignment.center,
             ));
+            break;
           }
         }
       });
       return Row(children: children);
+    } else if (widget.routeModel.selectedCLASS.parentID == "cat02") {
+      ClassOBJ objCat01 = widget.routeModel.rootModel!.GET_STATS_DATA
+          .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+          .firstWhere((element) => element.id == "cat01");
+      ClassOBJ objCat03 = widget.routeModel.rootModel!.GET_STATS_DATA
+          .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+          .firstWhere((element) => element.id == "cat03");
+      String cat01Code = objCat01.CLASS[index].code;
+      List<Widget> children = [];
+      objCat03.CLASS.forEach((element) {
+        for (Value value in widget.routeModel.loadedDatarootModel.GET_STATS_DATA
+            .STATISTICAL_DATA.DATA_INF.VALUE) {
+          if (value.cat01 == cat01Code &&
+              value.cat02 == widget.routeModel.selectedCLASS.code &&
+              value.cat03 == element.code) {
+            children.add(Container(
+              child: Text(value.value ?? ""),
+              width: DataTablePage.width,
+              height: DataTablePage.height,
+              padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+              alignment: Alignment.center,
+            ));
+            break;
+          }
+        }
+      });
+      return Row(children: children);
+    } else {
+      ClassOBJ cat01Obj = widget.routeModel.rootModel!.GET_STATS_DATA
+          .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+          .firstWhere((element) => element.id == "cat01");
+      ClassOBJ cat02Obj = widget.routeModel.rootModel!.GET_STATS_DATA
+          .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+          .firstWhere((element) => element.id == "cat02");
+      int cat01Index = index ~/ cat02Obj.CLASS.length;
+      int cat02Index = (index % cat02Obj.CLASS.length).toInt();
+      List<Widget> children = [];
+
+      for (Value value in widget.routeModel.loadedDatarootModel.GET_STATS_DATA
+          .STATISTICAL_DATA.DATA_INF.VALUE) {
+        if (value.cat01 == cat01Obj.CLASS[cat01Index].code &&
+            value.cat02 == cat02Obj.CLASS[cat02Index].code &&
+            value.cat03 == widget.routeModel.selectedCLASS.code) {
+          children.add(Container(
+            child: Text(value.value ?? ""),
+            width: DataTablePage.width,
+            height: DataTablePage.height,
+            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+            alignment: Alignment.center,
+          ));
+          break;
+        }
+      }
+      return Row(
+        children: children,
+      );
     }
-    return Row(
-      children: [],
-    );
   }
 }
