@@ -2,6 +2,7 @@ import 'package:estatjapan/Page/ImmigrationStatisticsPage.dart';
 import 'package:flutter/material.dart';
 
 import 'Page/DataTablePage.dart';
+import 'Page/LicenseInfoPage.dart';
 import 'Page/MonthSelectPage.dart';
 import 'model/RouteModel.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
                 routeModel:
                     ModalRoute.of(context)?.settings.arguments as RouteModel,
               ),
+          "LicenseInfoPage": (context) => LicenseInfoPage(),
           "/": (context) =>
               ImmigrationStatisticsPage(title: '在留資格の取得等の受理及び処理人員'),
         });

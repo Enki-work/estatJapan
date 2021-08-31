@@ -16,7 +16,7 @@ class MenuDrawer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 38.0),
+              padding: const EdgeInsets.only(top: 38.0, bottom: 10),
               child: Row(
                 children: <Widget>[
                   // Padding(
@@ -29,9 +29,10 @@ class MenuDrawer extends StatelessWidget {
                   //   ),
                   // ),
                   Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                      padding: EdgeInsets.only(left: 20),
                       child: Text(
                         "在留資格取得等統計",
+                        textAlign: TextAlign.center,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ))
                 ],
@@ -41,8 +42,12 @@ class MenuDrawer extends StatelessWidget {
               child: ListView(
                 children: <Widget>[
                   ListTile(
-                    leading: const Icon(Icons.add),
-                    title: const Text('Add account'),
+                    leading: const Icon(Icons.archive_rounded),
+                    title: const Text('ライセンス情報'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).pushNamed("LicenseInfoPage");
+                    },
                   ),
                   ListTile(
                     leading: const Icon(Icons.settings),
