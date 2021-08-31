@@ -56,13 +56,13 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
                         items: <BottomNavigationBarItem>[
                           BottomNavigationBarItem(
                               icon: Icon(Icons.add_chart_rounded),
-                              title: Text('在留資格審査')),
+                              label: '在留資格審査'),
                           BottomNavigationBarItem(
                               icon: Icon(Icons.align_horizontal_left_rounded),
-                              title: Text('審査受理・処理')),
+                              label: '審査受理・処理'),
                           BottomNavigationBarItem(
                               icon: Icon(Icons.all_inbox_rounded),
-                              title: Text('在留管理局・支局')),
+                              label: '在留管理局・支局'),
                         ],
                         currentIndex:
                             Provider.of<ImmigrationStatisticsModel>(context)

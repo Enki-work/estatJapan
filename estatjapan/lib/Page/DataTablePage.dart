@@ -29,15 +29,13 @@ class _DataTablePageState extends State<DataTablePage> {
     if (widget.routeModel.selectedMonth != null) {
       url = url + "&cdTime=" + widget.routeModel.selectedMonth!.code;
     }
-    if (widget.routeModel.selectedCLASS != null) {
-      final idStr = widget.routeModel.selectedCLASS.parentID;
-      if (idStr != null && idStr.isNotEmpty) {
-        url = url +
-            "&cd" +
-            idStr.replaceFirst(idStr[0], idStr[0].toUpperCase()) +
-            "=" +
-            widget.routeModel.selectedCLASS.code;
-      }
+    final idStr = widget.routeModel.selectedCLASS.parentID;
+    if (idStr != null && idStr.isNotEmpty) {
+      url = url +
+          "&cd" +
+          idStr.replaceFirst(idStr[0], idStr[0].toUpperCase()) +
+          "=" +
+          widget.routeModel.selectedCLASS.code;
     }
     return Scaffold(
         appBar: AppBar(
@@ -135,7 +133,7 @@ class _DataTablePageState extends State<DataTablePage> {
   List<Widget> _getTitleWidget() {
     if (widget.routeModel.selectedCLASS.parentID == "cat03") {
       return [
-        SizedBox(
+        const SizedBox(
           width: DataTablePage.width,
           height: DataTablePage.height,
         ),
