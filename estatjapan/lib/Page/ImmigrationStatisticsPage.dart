@@ -38,8 +38,8 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             ImmigrationStatisticsRoot rootModel =
                 ImmigrationStatisticsRoot.fromJson(response.data);
             model.rootModel = rootModel;
-            return ChangeNotifierProvider<ImmigrationStatisticsModel>(
-                create: (_) => model,
+            return ChangeNotifierProvider<ImmigrationStatisticsModel>.value(
+                value: model,
                 child: Scaffold(
                     appBar: AppBar(
                       //导航栏
