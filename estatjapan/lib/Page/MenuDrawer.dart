@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({
@@ -41,6 +42,11 @@ class MenuDrawer extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: <Widget>[
+                  const Divider(height: 0.5),
+                  ListTile(
+                    title: const Text("その他",
+                        style: TextStyle(fontSize: 12, color: Colors.grey)),
+                  ),
                   ListTile(
                     leading: const Icon(Icons.archive_rounded),
                     title: const Text('ライセンス情報'),
@@ -56,6 +62,29 @@ class MenuDrawer extends StatelessWidget {
                       Navigator.pop(context);
                       Navigator.of(context).pushNamed("eStaInfoPage");
                     },
+                  ),
+                  const Divider(height: 0.5),
+                  ListTile(
+                    title: const Text("アプリに関して",
+                        style: TextStyle(fontSize: 12, color: Colors.grey)),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.info_outline_rounded),
+                    title: const Text('バージョン'),
+                    subtitle: FutureBuilder<PackageInfo>(
+                      future: PackageInfo.fromPlatform(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasError) {
+                            return Text(snapshot.error.toString());
+                          } else {
+                            return Text(snapshot.data?.version ?? "-");
+                          }
+                        } else {
+                          return Text("-");
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),
