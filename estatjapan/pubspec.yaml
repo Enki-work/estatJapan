@@ -29,7 +29,6 @@ dependencies:
   horizontal_data_table: ^3.4.3
   flutter_svg: ^0.22.0
   package_info: ^2.0.2
-  flutter_launcher_icons: ^0.9.2
 
 dev_dependencies:
   flutter_test:
@@ -37,6 +36,7 @@ dev_dependencies:
   json_serializable: ^4.1.4
   build_runner: ^2.0.0
   flutter_lints: ^1.0.4
+  flutter_launcher_icons: ^0.9.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
