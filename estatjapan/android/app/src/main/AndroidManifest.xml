@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.estatjapan">
    <application
-        android:label="estatjapan"
+        android:label="在留取得統計"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
