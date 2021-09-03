@@ -31,8 +31,7 @@ class MyApp extends StatelessWidget {
               ),
           "LicenseInfoPage": (context) => LicenseInfoPage(),
           "eStaInfoPage": (context) => eStaInfoPage(),
-          "/": (context) =>
-              ImmigrationStatisticsPage(title: '在留資格の取得等の受理及び処理人員'),
+          "/": (context) => ImmigrationStatisticsPage(title: '在留資格取得の受理・処理'),
         });
   }
 }
