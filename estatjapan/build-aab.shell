@@ -1,0 +1,8 @@
+flutter build appbundle --release;\
+	open build/app/outputs/bundle/release/;\
+	cd build/app/intermediates/flutter/release;\
+	mkdir -p symbols;\
+	cp -r ./arm64-v8a ./armeabi-v7a ./x86_64 ./symbols;\
+	zip -r symbols.zip ./symbols;\
+	rm -r ./symbols;\
+	open .
