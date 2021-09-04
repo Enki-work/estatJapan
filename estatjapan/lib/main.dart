@@ -13,13 +13,14 @@ void main() {
 
 class MyApp extends StatelessWidget {
   static const appId = '7bed85b352e6c3d46ad6def4390196b23d86bcec';
+  Color _themeColor = Colors.teal;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+            primarySwatch: Colors.deepOrange,
+            iconTheme: IconThemeData(color: _themeColor)),
         routes: {
           "MonthSelectPage": (context) => MonthSelectPage(
                 routeModel:

@@ -67,7 +67,6 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
                         currentIndex:
                             Provider.of<ImmigrationStatisticsModel>(context)
                                 .selectedIndex,
-                        fixedColor: Colors.blue,
                         onTap: (index) => model.selectedIndex = index,
                       );
                     }),

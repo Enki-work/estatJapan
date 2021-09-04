@@ -113,14 +113,14 @@ class _DataTablePageState extends State<DataTablePage> {
         ),
         leftHandSideColBackgroundColor: Color(0xFFFFFFFF),
         rightHandSideColBackgroundColor: Color(0xFFFFFFFF),
-        verticalScrollbarStyle: const ScrollbarStyle(
-          thumbColor: Colors.yellow,
+        verticalScrollbarStyle: ScrollbarStyle(
+          thumbColor: Theme.of(context).primaryColorDark,
           isAlwaysShown: true,
           thickness: 4.0,
           radius: Radius.circular(5.0),
         ),
-        horizontalScrollbarStyle: const ScrollbarStyle(
-          thumbColor: Colors.red,
+        horizontalScrollbarStyle: ScrollbarStyle(
+          thumbColor: Theme.of(context).primaryColorDark,
           isAlwaysShown: true,
           thickness: 4.0,
           radius: Radius.circular(5.0),
