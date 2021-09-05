@@ -1,6 +1,7 @@
 import 'package:estatjapan/Page/ImmigrationStatisticsPage.dart';
 import 'package:flutter/material.dart';
 
+import 'Page/ContactMePage.dart';
 import 'Page/DataTablePage.dart';
 import 'Page/LicenseInfoPage.dart';
 import 'Page/MonthSelectPage.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
               ),
           "LicenseInfoPage": (context) => LicenseInfoPage(),
           "eStaInfoPage": (context) => eStaInfoPage(),
+          "ContactMePage": (context) => ContactMePage(),
           "/": (context) => ImmigrationStatisticsPage(title: '在留資格取得の受理・処理'),
         });
   }

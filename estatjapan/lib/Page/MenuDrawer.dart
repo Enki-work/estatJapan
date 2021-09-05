@@ -52,6 +52,7 @@ class MenuDrawer extends StatelessWidget {
                     title: const Text('開発者に連絡する'),
                     onTap: () {
                       Navigator.pop(context);
+                      Navigator.of(context).pushNamed("ContactMePage");
                     },
                   ),
                   ListTile(
