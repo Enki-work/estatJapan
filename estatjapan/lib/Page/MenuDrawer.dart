@@ -48,6 +48,13 @@ class MenuDrawer extends StatelessWidget {
                         style: TextStyle(fontSize: 12, color: Colors.grey)),
                   ),
                   ListTile(
+                    leading: const Icon(Icons.email_rounded),
+                    title: const Text('開発者に連絡する'),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.archive_rounded),
                     title: const Text('ライセンス情報'),
                     onTap: () {
