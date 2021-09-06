@@ -29,6 +29,7 @@ dependencies:
   horizontal_data_table: ^3.4.3
   flutter_svg: ^0.22.0
   package_info_plus: ^1.0.6
+  url_launcher: ^6.0.10
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - images/stat.svg
+     - images/daqige_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
