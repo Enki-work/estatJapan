@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactMePage extends StatelessWidget {
   const ContactMePage({Key? key}) : super(key: key);
@@ -42,8 +43,8 @@ class ContactMePage extends StatelessWidget {
                       icon: Icon(Icons.smart_display_rounded),
                       label: Text("YouTube チャンネル"),
                       onPressed: () {
-                        // https://www.youtube.com/channel/UCGZZz9-uu4lEtTZgQxLXZrA
-                        Navigator.of(context).pushNamed("ContactMePage");
+                        _launchURL(
+                            "https://www.youtube.com/channel/UCGZZz9-uu4lEtTZgQxLXZrA");
                       },
                     ),
                     const SizedBox(height: 26),
@@ -51,8 +52,7 @@ class ContactMePage extends StatelessWidget {
                       icon: Icon(Icons.featured_video_rounded),
                       label: Text("哔哩哔哩 チャンネル"),
                       onPressed: () {
-                        // https://www.youtube.com/channel/UCGZZz9-uu4lEtTZgQxLXZrA
-                        Navigator.of(context).pushNamed("ContactMePage");
+                        _launchURL("https://space.bilibili.com/2025165032");
                       },
                     ),
                     const SizedBox(height: 26),
@@ -60,11 +60,14 @@ class ContactMePage extends StatelessWidget {
                       icon: Icon(Icons.play_circle_fill_rounded),
                       label: Text("西瓜视频 チャンネル"),
                       onPressed: () {
-                        // https://www.youtube.com/channel/UCGZZz9-uu4lEtTZgQxLXZrA
-                        Navigator.of(context).pushNamed("ContactMePage");
+                        _launchURL("https://www.ixigua.com/home/111243308299");
                       },
                     ),
                   ],
                 ))));
   }
+
+  void _launchURL(String _url) async => await canLaunch(_url)
+      ? await launch(_url)
+      : throw 'Could not launch $_url';
 }
