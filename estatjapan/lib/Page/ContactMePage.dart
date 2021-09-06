@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ContactMePage extends StatelessWidget {
   const ContactMePage({Key? key}) : super(key: key);
@@ -11,25 +10,61 @@ class ContactMePage extends StatelessWidget {
           //导航栏
           title: const Text("開発者に連絡する"),
         ),
-        body: Container(
-            padding:
-                const EdgeInsets.only(top: 26, left: 16, right: 16, bottom: 16),
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SvgPicture.asset(
-                  'images/stat.svg',
-                  width: MediaQuery.of(context).size.width * 0.6,
-                ),
-                const SizedBox(height: 26),
-                const Text(
-                  "このサービスは、政府統計総合窓口(e-Stat)のAPI機能を使用していますが、サービスの内容は国によって保証されたものではありません。",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            )));
+        body: SingleChildScrollView(
+            child: Container(
+                padding: const EdgeInsets.only(
+                    top: 26, left: 16, right: 16, bottom: 16),
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Image.asset('images/daqige_icon.png',
+                        width: MediaQuery.of(context).size.width * 0.4),
+                    const SizedBox(height: 8),
+                    const Text(
+                      "大旗哥在日本",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 26),
+                    ElevatedButton.icon(
+                      style: ButtonStyle(
+                          fixedSize: MaterialStateProperty.all(Size(
+                              MediaQuery.of(context).size.width * 0.5, 60))),
+                      icon: Icon(Icons.send),
+                      label: Text("メール送信"),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("ContactMePage");
+                      },
+                    ),
+                    const SizedBox(height: 26),
+                    TextButton.icon(
+                      icon: Icon(Icons.smart_display_rounded),
+                      label: Text("YouTube チャンネル"),
+                      onPressed: () {
+                        // https://www.youtube.com/channel/UCGZZz9-uu4lEtTZgQxLXZrA
+                        Navigator.of(context).pushNamed("ContactMePage");
+                      },
+                    ),
+                    const SizedBox(height: 26),
+                    TextButton.icon(
+                      icon: Icon(Icons.featured_video_rounded),
+                      label: Text("哔哩哔哩 チャンネル"),
+                      onPressed: () {
+                        // https://www.youtube.com/channel/UCGZZz9-uu4lEtTZgQxLXZrA
+                        Navigator.of(context).pushNamed("ContactMePage");
+                      },
+                    ),
+                    const SizedBox(height: 26),
+                    TextButton.icon(
+                      icon: Icon(Icons.play_circle_fill_rounded),
+                      label: Text("西瓜视频 チャンネル"),
+                      onPressed: () {
+                        // https://www.youtube.com/channel/UCGZZz9-uu4lEtTZgQxLXZrA
+                        Navigator.of(context).pushNamed("ContactMePage");
+                      },
+                    ),
+                  ],
+                ))));
   }
 }
