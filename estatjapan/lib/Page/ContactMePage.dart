@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactMePage extends StatelessWidget {
@@ -34,8 +35,24 @@ class ContactMePage extends StatelessWidget {
                               MediaQuery.of(context).size.width * 0.5, 60))),
                       icon: Icon(Icons.send),
                       label: Text("メール送信"),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed("ContactMePage");
+                      onPressed: () async {
+                        String? encodeQueryParameters(
+                            Map<String, String> params) {
+                          return params.entries
+                              .map((e) =>
+                                  '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                              .join('&');
+                        }
+
+                        final info = await PackageInfo.fromPlatform();
+                        final Uri emailLaunchUri = Uri(
+                          scheme: 'mailto',
+                          path: 'daqige2333@example.com',
+                          query: encodeQueryParameters(<String, String>{
+                            'subject': '${info.appName}_V${info.version}'
+                          }),
+                        );
+                        launch(emailLaunchUri.toString());
                       },
                     ),
                     const SizedBox(height: 26),
