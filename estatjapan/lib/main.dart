@@ -6,14 +6,15 @@ import 'Page/DataTablePage.dart';
 import 'Page/LicenseInfoPage.dart';
 import 'Page/MonthSelectPage.dart';
 import 'Page/eStatInfoPage.dart';
+import 'Util/AppConfig.dart';
 import 'model/RouteModel.dart';
 
-void main() {
+Future<void> main() async {
+  await AppConfig.forEnvironment();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  static const appId = '7bed85b352e6c3d46ad6def4390196b23d86bcec';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
