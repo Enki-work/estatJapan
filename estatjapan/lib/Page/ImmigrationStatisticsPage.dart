@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:estatjapan/Util/AppConfig.dart';
 import 'package:estatjapan/model/Class.dart';
 import 'package:estatjapan/model/ClassOBJ.dart';
 import 'package:estatjapan/model/ImmigrationStatisticsModel.dart';
@@ -28,7 +29,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
     Dio _dio = Dio();
     return FutureBuilder(
         future: _dio.get(
-            "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=7bed85b352e6c3d46ad6def4390196b23d86bcec&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0"),
+            "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=${AppConfig.shared.estatAppId}&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0"),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {

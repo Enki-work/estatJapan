@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:estatjapan/Util/AppConfig.dart';
 import 'package:estatjapan/model/ClassOBJ.dart';
 import 'package:estatjapan/model/ImmigrationStatisticsRoot.dart';
 import 'package:estatjapan/model/RouteModel.dart';
@@ -25,7 +26,7 @@ class _DataTablePageState extends State<DataTablePage> {
   Widget build(BuildContext context) {
     Dio _dio = Dio();
     String url =
-        "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=7bed85b352e6c3d46ad6def4390196b23d86bcec&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0";
+        "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=${AppConfig.shared.estatAppId}&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0";
     if (widget.routeModel.selectedMonth != null) {
       url = url + "&cdTime=" + widget.routeModel.selectedMonth!.code;
     }
