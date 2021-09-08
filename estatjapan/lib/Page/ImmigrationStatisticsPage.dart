@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:estatjapan/Util/AdHelper.dart';
 import 'package:estatjapan/Util/AppConfig.dart';
+import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/Class.dart';
 import 'package:estatjapan/model/ClassOBJ.dart';
 import 'package:estatjapan/model/ImmigrationStatisticsModel.dart';
@@ -25,38 +25,16 @@ class ImmigrationStatisticsPage extends StatefulWidget {
 
 class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
   ImmigrationStatisticsModel model = ImmigrationStatisticsModel();
-
-  late BannerAd _ad;
-  bool _isAdLoaded = false;
+  BannerAdModel _bAdModel = BannerAdModel();
 
   void initState() {
     super.initState();
-
-    _ad = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
-      size: AdSize.banner,
-      request: AdRequest(),
-      listener: BannerAdListener(
-        onAdLoaded: (_) {
-          setState(() {
-            _isAdLoaded = true;
-          });
-        },
-        onAdFailedToLoad: (ad, error) {
-          // Releases an ad resource when it fails to load
-          ad.dispose();
-
-          print('Ad load failed (code=${error.code} message=${error.message})');
-        },
-      ),
-    );
-
-    _ad.load();
+    _bAdModel.loadBannerAd();
   }
 
   @override
   void dispose() {
-    _ad.dispose();
+    _bAdModel.dispose();
     super.dispose();
   }
 
@@ -90,20 +68,22 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
         });
   }
 
-  Widget _cat01ListView(ImmigrationStatisticsRoot rootModel) {
+  Widget _cat01ListView(
+      ImmigrationStatisticsRoot rootModel, BannerAdModel bAdModel) {
     ClassOBJ obj = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
         .firstWhere((e) => e.id == "cat01");
     return Expanded(
         child: ListView.separated(
       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount: this._isAdLoaded ? obj.CLASS.length + 1 : obj.CLASS.length,
+      itemCount:
+          bAdModel.isAdLoaded() ? obj.CLASS.length + 1 : obj.CLASS.length,
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int oIndex) {
-        int index = this._isAdLoaded ? oIndex - 1 : oIndex;
-        if (oIndex == 0 && this._isAdLoaded) {
+        int index = bAdModel.isAdLoaded() ? oIndex - 1 : oIndex;
+        if (oIndex == 0 && bAdModel.isAdLoaded()) {
           return Container(
-            child: AdWidget(ad: _ad),
-            width: _ad.size.width.toDouble(),
+            child: AdWidget(ad: bAdModel.bannerAd()),
+            width: bAdModel.bannerAd().size.width.toDouble(),
             height: 72.0,
             alignment: Alignment.center,
           );
@@ -128,20 +108,22 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
     ));
   }
 
-  Widget _cat02ListView(ImmigrationStatisticsRoot rootModel) {
+  Widget _cat02ListView(
+      ImmigrationStatisticsRoot rootModel, BannerAdModel bAdModel) {
     ClassOBJ obj = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
         .firstWhere((e) => e.id == "cat02");
     return Expanded(
         child: ListView.separated(
       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount: this._isAdLoaded ? obj.CLASS.length + 1 : obj.CLASS.length,
+      itemCount:
+          bAdModel.isAdLoaded() ? obj.CLASS.length + 1 : obj.CLASS.length,
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int oIndex) {
-        int index = this._isAdLoaded ? oIndex - 1 : oIndex;
-        if (oIndex == 0 && this._isAdLoaded) {
+        int index = bAdModel.isAdLoaded() ? oIndex - 1 : oIndex;
+        if (oIndex == 0 && bAdModel.isAdLoaded()) {
           return Container(
-            child: AdWidget(ad: _ad),
-            width: _ad.size.width.toDouble(),
+            child: AdWidget(ad: bAdModel.bannerAd()),
+            width: bAdModel.bannerAd().size.width.toDouble(),
             height: 72.0,
             alignment: Alignment.center,
           );
@@ -166,20 +148,22 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
     ));
   }
 
-  Widget _cat03ListView(ImmigrationStatisticsRoot rootModel) {
+  Widget _cat03ListView(
+      ImmigrationStatisticsRoot rootModel, BannerAdModel bAdModel) {
     ClassOBJ obj = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
         .firstWhere((e) => e.id == "cat03");
     return Expanded(
         child: ListView.separated(
       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount: this._isAdLoaded ? obj.CLASS.length + 1 : obj.CLASS.length,
+      itemCount:
+          bAdModel.isAdLoaded() ? obj.CLASS.length + 1 : obj.CLASS.length,
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int oIndex) {
-        int index = this._isAdLoaded ? oIndex - 1 : oIndex;
-        if (oIndex == 0 && this._isAdLoaded) {
+        int index = bAdModel.isAdLoaded() ? oIndex - 1 : oIndex;
+        if (oIndex == 0 && bAdModel.isAdLoaded()) {
           return Container(
-            child: AdWidget(ad: _ad),
-            width: _ad.size.width.toDouble(),
+            child: AdWidget(ad: bAdModel.bannerAd()),
+            width: bAdModel.bannerAd().size.width.toDouble(),
             height: 72.0,
             alignment: Alignment.center,
           );
@@ -205,8 +189,12 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
   }
 
   Widget getPageWidget() {
-    return ChangeNotifierProvider<ImmigrationStatisticsModel>.value(
-        value: model,
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<ImmigrationStatisticsModel>.value(
+              value: model),
+          ChangeNotifierProvider<BannerAdModel>.value(value: _bAdModel),
+        ],
         child: Scaffold(
             appBar: AppBar(
               //导航栏
@@ -235,45 +223,35 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
               );
             }),
             body: Builder(builder: (context) {
-              switch (Provider.of<ImmigrationStatisticsModel>(context)
-                  .selectedIndex) {
+              BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
+              ImmigrationStatisticsModel isModel =
+                  Provider.of<ImmigrationStatisticsModel>(context);
+              switch (isModel.selectedIndex) {
                 case 0:
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Consumer<ImmigrationStatisticsModel>(
-                        builder: (context, value, _) {
-                          if (value.model == null)
-                            return Center(child: Text("予想外エラー"));
-                          return _cat01ListView(value.model!);
-                        },
-                      )
+                      isModel.model == null
+                          ? Center(child: Text("予想外エラー"))
+                          : _cat01ListView(isModel.model!, bAdModel)
                     ],
                   );
                 case 1:
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Consumer<ImmigrationStatisticsModel>(
-                        builder: (context, value, _) {
-                          if (value.model == null)
-                            return Center(child: Text("予想外エラー"));
-                          return _cat02ListView(value.model!);
-                        },
-                      )
+                      isModel.model == null
+                          ? Center(child: Text("予想外エラー"))
+                          : _cat02ListView(isModel.model!, bAdModel)
                     ],
                   );
                 case 2:
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Consumer<ImmigrationStatisticsModel>(
-                        builder: (context, value, _) {
-                          if (value.model == null)
-                            return Center(child: Text("予想外エラー"));
-                          return _cat03ListView(value.model!);
-                        },
-                      )
+                      isModel.model == null
+                          ? Center(child: Text("予想外エラー"))
+                          : _cat03ListView(isModel.model!, bAdModel)
                     ],
                   );
                 default:
@@ -287,3 +265,5 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
     return MobileAds.instance.initialize();
   }
 }
+
+class Bool {}
