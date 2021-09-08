@@ -7,6 +7,7 @@ import 'package:estatjapan/model/ImmigrationStatisticsRoot.dart';
 import 'package:estatjapan/model/RouteModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import 'MenuDrawer.dart';
@@ -39,84 +40,9 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             ImmigrationStatisticsRoot rootModel =
                 ImmigrationStatisticsRoot.fromJson(response.data);
             model.rootModel = rootModel;
-            return ChangeNotifierProvider<ImmigrationStatisticsModel>.value(
-                value: model,
-                child: Scaffold(
-                    appBar: AppBar(
-                      //导航栏
-                      title: Text(widget.title),
-                      actions: <Widget>[
-                        //导航栏右侧菜单
-                        // IconButton(icon: Icon(Icons.share), onPressed: () {}),
-                      ],
-                    ),
-                    drawer: new MenuDrawer(), //抽屉
-                    bottomNavigationBar: Builder(builder: (context) {
-                      return BottomNavigationBar(
-                        // 底部导航
-                        items: <BottomNavigationBarItem>[
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.add_chart_rounded),
-                              label: '在留資格審査'),
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.align_horizontal_left_rounded),
-                              label: '審査受理・処理'),
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.all_inbox_rounded),
-                              label: '在留管理局・支局'),
-                        ],
-                        currentIndex:
-                            Provider.of<ImmigrationStatisticsModel>(context)
-                                .selectedIndex,
-                        onTap: (index) => model.selectedIndex = index,
-                      );
-                    }),
-                    body: Builder(builder: (context) {
-                      switch (Provider.of<ImmigrationStatisticsModel>(context)
-                          .selectedIndex) {
-                        case 0:
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Consumer<ImmigrationStatisticsModel>(
-                                builder: (context, value, _) {
-                                  if (value.model == null)
-                                    return Center(child: Text("予想外エラー"));
-                                  return _cat01ListView(value.model!);
-                                },
-                              )
-                            ],
-                          );
-                        case 1:
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Consumer<ImmigrationStatisticsModel>(
-                                builder: (context, value, _) {
-                                  if (value.model == null)
-                                    return Center(child: Text("予想外エラー"));
-                                  return _cat02ListView(value.model!);
-                                },
-                              )
-                            ],
-                          );
-                        case 2:
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Consumer<ImmigrationStatisticsModel>(
-                                builder: (context, value, _) {
-                                  if (value.model == null)
-                                    return Center(child: Text("予想外エラー"));
-                                  return _cat03ListView(value.model!);
-                                },
-                              )
-                            ],
-                          );
-                        default:
-                          return Center(child: Text("予想外エラー"));
-                      }
-                    })));
+            return FutureBuilder<InitializationStatus>(
+                future: _initGoogleMobileAds(),
+                builder: (context, snapshot) => getPageWidget());
           } else {
 //请求未完成时弹出loading
             return Scaffold(
@@ -214,5 +140,88 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
         color: Colors.grey[120],
       ),
     ));
+  }
+
+  Widget getPageWidget() {
+    return ChangeNotifierProvider<ImmigrationStatisticsModel>.value(
+        value: model,
+        child: Scaffold(
+            appBar: AppBar(
+              //导航栏
+              title: Text(widget.title),
+              actions: <Widget>[
+                //导航栏右侧菜单
+                // IconButton(icon: Icon(Icons.share), onPressed: () {}),
+              ],
+            ),
+            drawer: new MenuDrawer(), //抽屉
+            bottomNavigationBar: Builder(builder: (context) {
+              return BottomNavigationBar(
+                // 底部导航
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.add_chart_rounded), label: '在留資格審査'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.align_horizontal_left_rounded),
+                      label: '審査受理・処理'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.all_inbox_rounded), label: '在留管理局・支局'),
+                ],
+                currentIndex: Provider.of<ImmigrationStatisticsModel>(context)
+                    .selectedIndex,
+                onTap: (index) => model.selectedIndex = index,
+              );
+            }),
+            body: Builder(builder: (context) {
+              switch (Provider.of<ImmigrationStatisticsModel>(context)
+                  .selectedIndex) {
+                case 0:
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Consumer<ImmigrationStatisticsModel>(
+                        builder: (context, value, _) {
+                          if (value.model == null)
+                            return Center(child: Text("予想外エラー"));
+                          return _cat01ListView(value.model!);
+                        },
+                      )
+                    ],
+                  );
+                case 1:
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Consumer<ImmigrationStatisticsModel>(
+                        builder: (context, value, _) {
+                          if (value.model == null)
+                            return Center(child: Text("予想外エラー"));
+                          return _cat02ListView(value.model!);
+                        },
+                      )
+                    ],
+                  );
+                case 2:
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Consumer<ImmigrationStatisticsModel>(
+                        builder: (context, value, _) {
+                          if (value.model == null)
+                            return Center(child: Text("予想外エラー"));
+                          return _cat03ListView(value.model!);
+                        },
+                      )
+                    ],
+                  );
+                default:
+                  return Center(child: Text("予想外エラー"));
+              }
+            })));
+  }
+
+  Future<InitializationStatus> _initGoogleMobileAds() {
+    // COMPLETE: Initialize Google Mobile Ads SDK
+    return MobileAds.instance.initialize();
   }
 }
