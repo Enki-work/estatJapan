@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:estatjapan/Util/AdHelper.dart';
 import 'package:estatjapan/Util/AppConfig.dart';
 import 'package:estatjapan/model/Class.dart';
 import 'package:estatjapan/model/ClassOBJ.dart';
@@ -24,6 +25,40 @@ class ImmigrationStatisticsPage extends StatefulWidget {
 
 class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
   ImmigrationStatisticsModel model = ImmigrationStatisticsModel();
+
+  late BannerAd _ad;
+  bool _isAdLoaded = false;
+
+  void initState() {
+    super.initState();
+
+    _ad = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          // Releases an ad resource when it fails to load
+          ad.dispose();
+
+          print('Ad load failed (code=${error.code} message=${error.message})');
+        },
+      ),
+    );
+
+    _ad.load();
+  }
+
+  @override
+  void dispose() {
+    _ad.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +96,18 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
     return Expanded(
         child: ListView.separated(
       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount: obj.CLASS.length,
+      itemCount: this._isAdLoaded ? obj.CLASS.length + 1 : obj.CLASS.length,
       shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (BuildContext context, int oIndex) {
+        int index = this._isAdLoaded ? oIndex - 1 : oIndex;
+        if (oIndex == 0 && this._isAdLoaded) {
+          return Container(
+            child: AdWidget(ad: _ad),
+            width: _ad.size.width.toDouble(),
+            height: 72.0,
+            alignment: Alignment.center,
+          );
+        }
         Class CLASS = obj.CLASS[index];
         return ListTile(
           title: Text(CLASS.name),
@@ -90,9 +134,18 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
     return Expanded(
         child: ListView.separated(
       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount: obj.CLASS.length,
+      itemCount: this._isAdLoaded ? obj.CLASS.length + 1 : obj.CLASS.length,
       shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (BuildContext context, int oIndex) {
+        int index = this._isAdLoaded ? oIndex - 1 : oIndex;
+        if (oIndex == 0 && this._isAdLoaded) {
+          return Container(
+            child: AdWidget(ad: _ad),
+            width: _ad.size.width.toDouble(),
+            height: 72.0,
+            alignment: Alignment.center,
+          );
+        }
         Class CLASS = obj.CLASS[index];
         return ListTile(
           title: Text(CLASS.name),
@@ -119,9 +172,18 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
     return Expanded(
         child: ListView.separated(
       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount: obj.CLASS.length,
+      itemCount: this._isAdLoaded ? obj.CLASS.length + 1 : obj.CLASS.length,
       shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (BuildContext context, int oIndex) {
+        int index = this._isAdLoaded ? oIndex - 1 : oIndex;
+        if (oIndex == 0 && this._isAdLoaded) {
+          return Container(
+            child: AdWidget(ad: _ad),
+            width: _ad.size.width.toDouble(),
+            height: 72.0,
+            alignment: Alignment.center,
+          );
+        }
         Class CLASS = obj.CLASS[index];
         return ListTile(
           title: Text(CLASS.name),
