@@ -55,7 +55,15 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             model.rootModel = rootModel;
             return FutureBuilder<InitializationStatus>(
                 future: _initGoogleMobileAds(),
-                builder: (context, snapshot) => getPageWidget());
+                builder: (context, snapshot) =>
+                    snapshot.connectionState == ConnectionState.done
+                        ? getPageWidget()
+                        : Scaffold(
+                            appBar: AppBar(
+                              //导航栏
+                              title: Text(widget.title),
+                            ),
+                            body: Center(child: CircularProgressIndicator())));
           } else {
 //请求未完成时弹出loading
             return Scaffold(
