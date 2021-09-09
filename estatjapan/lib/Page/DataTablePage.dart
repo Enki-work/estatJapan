@@ -65,18 +65,23 @@ class _DataTablePageState extends State<DataTablePage> {
   }
 
   Widget _getBodyWidget() {
+    final leftHandSideColumnWidth =
+        widget.routeModel.selectedCLASS.parentID == "cat02"
+            ? DataTablePage.compactidth * 2
+            : DataTablePage.width;
+    final rightHandSideColumnWidth =
+        widget.routeModel.selectedCLASS.parentID == "cat03"
+            ? MediaQuery.of(context).size.width - leftHandSideColumnWidth
+            : widget.routeModel.rootModel!.GET_STATS_DATA.STATISTICAL_DATA
+                    .CLASS_INF.CLASS_OBJ
+                    .firstWhere((element) => element.id == "cat03")
+                    .CLASS
+                    .length *
+                DataTablePage.width;
     return Container(
       child: HorizontalDataTable(
-        leftHandSideColumnWidth:
-            widget.routeModel.selectedCLASS.parentID == "cat02"
-                ? DataTablePage.compactidth * 2
-                : DataTablePage.width,
-        rightHandSideColumnWidth: widget.routeModel.rootModel!.GET_STATS_DATA
-                .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-                .firstWhere((element) => element.id == "cat03")
-                .CLASS
-                .length *
-            DataTablePage.width,
+        leftHandSideColumnWidth: leftHandSideColumnWidth,
+        rightHandSideColumnWidth: rightHandSideColumnWidth,
         isFixedHeader: true,
         headerWidgets: _getTitleWidget(),
         leftSideItemBuilder: _generateFirstColumnRow,
