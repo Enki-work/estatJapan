@@ -1,12 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:estatjapan/Util/AppConfig.dart';
+import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/ClassOBJ.dart';
 import 'package:estatjapan/model/ImmigrationStatisticsRoot.dart';
 import 'package:estatjapan/model/RouteModel.dart';
 import 'package:estatjapan/model/Value.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
 import 'package:horizontal_data_table/scroll/scroll_bar_style.dart';
+import 'package:provider/provider.dart';
 
 class DataTablePage extends StatefulWidget {
   static const double height = 56;
@@ -78,62 +81,75 @@ class _DataTablePageState extends State<DataTablePage> {
                     .CLASS
                     .length *
                 DataTablePage.width;
-    return Container(
-      child: HorizontalDataTable(
-        leftHandSideColumnWidth: leftHandSideColumnWidth,
-        rightHandSideColumnWidth: rightHandSideColumnWidth,
-        isFixedHeader: true,
-        headerWidgets: _getTitleWidget(),
-        leftSideItemBuilder: _generateFirstColumnRow,
-        rightSideItemBuilder: _generateRightHandSideColumnRow,
-        itemCount: () {
-          if (widget.routeModel.selectedCLASS.parentID == "cat01") {
-            return widget.routeModel.rootModel!.GET_STATS_DATA.STATISTICAL_DATA
-                .CLASS_INF.CLASS_OBJ
-                .firstWhere((element) => element.id == "cat02")
-                .CLASS
-                .length;
-          } else if (widget.routeModel.selectedCLASS.parentID == "cat02") {
-            return widget.routeModel.rootModel!.GET_STATS_DATA.STATISTICAL_DATA
-                .CLASS_INF.CLASS_OBJ
-                .firstWhere((element) => element.id == "cat01")
-                .CLASS
-                .length;
-          } else {
-            return widget.routeModel.rootModel!.GET_STATS_DATA.STATISTICAL_DATA
-                    .CLASS_INF.CLASS_OBJ
-                    .firstWhere((element) => element.id == "cat01")
-                    .CLASS
-                    .length *
-                widget.routeModel.rootModel!.GET_STATS_DATA.STATISTICAL_DATA
-                    .CLASS_INF.CLASS_OBJ
-                    .firstWhere((element) => element.id == "cat02")
-                    .CLASS
-                    .length;
-          }
-        }(),
-        rowSeparatorWidget: Divider(
-          color: Colors.grey[120],
-          height: 0.5,
-          thickness: 0.0,
-        ),
-        leftHandSideColBackgroundColor: Color(0xFFFFFFFF),
-        rightHandSideColBackgroundColor: Color(0xFFFFFFFF),
-        verticalScrollbarStyle: ScrollbarStyle(
-          thumbColor: Theme.of(context).primaryColorDark,
-          isAlwaysShown: true,
-          thickness: 4.0,
-          radius: Radius.circular(5.0),
-        ),
-        horizontalScrollbarStyle: ScrollbarStyle(
-          thumbColor: Theme.of(context).primaryColorDark,
-          isAlwaysShown: true,
-          thickness: 4.0,
-          radius: Radius.circular(5.0),
-        ),
-      ),
-      height: MediaQuery.of(context).size.height,
-    );
+    return ChangeNotifierProvider<BannerAdModel>(
+        create: (_) => BannerAdModel()..loadBannerAd(),
+        child: Builder(builder: (context) {
+          BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
+          return Column(children: [
+            Container(
+              child: AdWidget(ad: bAdModel.bannerAd()),
+              width: bAdModel.bannerAd().size.width.toDouble(),
+              height: 72.0,
+              alignment: Alignment.center,
+            ),
+            Expanded(
+              child: HorizontalDataTable(
+                leftHandSideColumnWidth: leftHandSideColumnWidth,
+                rightHandSideColumnWidth: rightHandSideColumnWidth,
+                isFixedHeader: true,
+                headerWidgets: _getTitleWidget(),
+                leftSideItemBuilder: _generateFirstColumnRow,
+                rightSideItemBuilder: _generateRightHandSideColumnRow,
+                itemCount: () {
+                  if (widget.routeModel.selectedCLASS.parentID == "cat01") {
+                    return widget.routeModel.rootModel!.GET_STATS_DATA
+                        .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+                        .firstWhere((element) => element.id == "cat02")
+                        .CLASS
+                        .length;
+                  } else if (widget.routeModel.selectedCLASS.parentID ==
+                      "cat02") {
+                    return widget.routeModel.rootModel!.GET_STATS_DATA
+                        .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+                        .firstWhere((element) => element.id == "cat01")
+                        .CLASS
+                        .length;
+                  } else {
+                    return widget.routeModel.rootModel!.GET_STATS_DATA
+                            .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+                            .firstWhere((element) => element.id == "cat01")
+                            .CLASS
+                            .length *
+                        widget.routeModel.rootModel!.GET_STATS_DATA
+                            .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+                            .firstWhere((element) => element.id == "cat02")
+                            .CLASS
+                            .length;
+                  }
+                }(),
+                rowSeparatorWidget: Divider(
+                  color: Colors.grey[120],
+                  height: 0.5,
+                  thickness: 0.0,
+                ),
+                leftHandSideColBackgroundColor: Color(0xFFFFFFFF),
+                rightHandSideColBackgroundColor: Color(0xFFFFFFFF),
+                verticalScrollbarStyle: ScrollbarStyle(
+                  thumbColor: Theme.of(context).primaryColorDark,
+                  isAlwaysShown: true,
+                  thickness: 4.0,
+                  radius: Radius.circular(5.0),
+                ),
+                horizontalScrollbarStyle: ScrollbarStyle(
+                  thumbColor: Theme.of(context).primaryColorDark,
+                  isAlwaysShown: true,
+                  thickness: 4.0,
+                  radius: Radius.circular(5.0),
+                ),
+              ),
+            )
+          ]);
+        }));
   }
 
   List<Widget> _getTitleWidget() {
