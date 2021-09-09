@@ -102,7 +102,6 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             Navigator.of(context).pushNamed("MonthSelectPage",
                 arguments:
                     RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
-            bAdModel.dispose();
           },
         );
       },
@@ -143,7 +142,6 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             Navigator.of(context).pushNamed("MonthSelectPage",
                 arguments:
                     RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
-            bAdModel.dispose();
           },
         );
       },
@@ -184,7 +182,6 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             Navigator.of(context).pushNamed("MonthSelectPage",
                 arguments:
                     RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
-            bAdModel.dispose();
           },
         );
       },
