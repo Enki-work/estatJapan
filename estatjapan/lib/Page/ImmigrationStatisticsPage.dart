@@ -25,16 +25,13 @@ class ImmigrationStatisticsPage extends StatefulWidget {
 
 class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
   ImmigrationStatisticsModel model = ImmigrationStatisticsModel();
-  BannerAdModel _bAdModel = BannerAdModel();
 
   void initState() {
     super.initState();
-    _bAdModel.loadBannerAd();
   }
 
   @override
   void dispose() {
-    _bAdModel.dispose();
     super.dispose();
   }
 
@@ -105,6 +102,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             Navigator.of(context).pushNamed("MonthSelectPage",
                 arguments:
                     RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
+            bAdModel.dispose();
           },
         );
       },
@@ -145,6 +143,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             Navigator.of(context).pushNamed("MonthSelectPage",
                 arguments:
                     RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
+            bAdModel.dispose();
           },
         );
       },
@@ -185,6 +184,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             Navigator.of(context).pushNamed("MonthSelectPage",
                 arguments:
                     RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
+            bAdModel.dispose();
           },
         );
       },
@@ -201,7 +201,8 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
         providers: [
           ChangeNotifierProvider<ImmigrationStatisticsModel>.value(
               value: model),
-          ChangeNotifierProvider<BannerAdModel>.value(value: _bAdModel),
+          ChangeNotifierProvider<BannerAdModel>(
+              create: (_) => BannerAdModel()..loadBannerAd()),
         ],
         child: Scaffold(
             appBar: AppBar(
