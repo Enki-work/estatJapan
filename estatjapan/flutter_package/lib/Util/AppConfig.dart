@@ -25,11 +25,13 @@ class AppConfig {
     );
     // decode our json
     final json = jsonDecode(contents);
+    print("aaaa$json");
     shared = AppConfig._internal(
         android_inline_banner: json['android_inline_banner'],
         android_inline_native: json['android_inline_native'],
         android_appid: json['android_appid'],
         estatAppId: json['estatAppId']);
+    print("aaaa$shared");
     return shared;
   }
 }

@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:estatjapan/Util/AppConfig.dart';
-import 'package:estatjapan/model/BannerAdModel.dart';
-import 'package:estatjapan/model/ClassOBJ.dart';
-import 'package:estatjapan/model/ImmigrationStatisticsRoot.dart';
-import 'package:estatjapan/model/RouteModel.dart';
-import 'package:estatjapan/model/Value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_package/Util/AppConfig.dart';
+import 'package:flutter_package/model/BannerAdModel.dart';
+import 'package:flutter_package/model/ClassOBJ.dart';
+import 'package:flutter_package/model/ImmigrationStatisticsRoot.dart';
+import 'package:flutter_package/model/RouteModel.dart';
+import 'package:flutter_package/model/Value.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
 import 'package:horizontal_data_table/scroll/scroll_bar_style.dart';

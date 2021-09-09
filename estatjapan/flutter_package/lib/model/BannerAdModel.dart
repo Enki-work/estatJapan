@@ -1,5 +1,5 @@
-import 'package:estatjapan/Util/AdHelper.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_package/Util/AdHelper.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class BannerAdModel extends ChangeNotifier {

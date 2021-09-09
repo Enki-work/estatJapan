@@ -1,4 +1,4 @@
-import 'package:estatjapan/model/Class.dart';
+import 'package:flutter_package/model/Class.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'ClassOBJ.g.dart';
