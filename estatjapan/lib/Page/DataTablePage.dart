@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 class DataTablePage extends StatefulWidget {
   static const double height = 56;
   static const double width = 110;
-  static const double compactidth = 70;
+  static const double compactWidth = 70;
 
   final RouteModel routeModel;
 
@@ -70,7 +70,7 @@ class _DataTablePageState extends State<DataTablePage> {
   Widget _getBodyWidget() {
     final leftHandSideColumnWidth =
         widget.routeModel.selectedCLASS.parentID == "cat02"
-            ? DataTablePage.compactidth * 2
+            ? DataTablePage.compactWidth * 2
             : DataTablePage.width;
     final rightHandSideColumnWidth =
         widget.routeModel.selectedCLASS.parentID == "cat03"
@@ -227,7 +227,7 @@ class _DataTablePageState extends State<DataTablePage> {
                     textAlign: TextAlign.center))
           ],
         ),
-        width: DataTablePage.compactidth * 2,
+        width: DataTablePage.compactWidth * 2,
         height: DataTablePage.height,
         padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
         alignment: Alignment.center,
@@ -259,7 +259,7 @@ class _DataTablePageState extends State<DataTablePage> {
             ];
           }(),
         ),
-        width: DataTablePage.compactidth * 2,
+        width: DataTablePage.compactWidth * 2,
         height: DataTablePage.height,
         padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
         alignment: Alignment.center,
