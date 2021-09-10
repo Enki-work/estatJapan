@@ -83,10 +83,10 @@ class _DataTablePageState extends State<DataTablePage> {
                 DataTablePage.width;
     return ChangeNotifierProvider<BannerAdModel>(
         create: (_) => BannerAdModel()..loadBannerAd(),
-        child: Builder(builder: (context) {
+        child: OrientationBuilder(builder: (context, orientation) {
           BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
           return Column(children: [
-            Container(
+            if (orientation == Orientation.portrait) Container(
               child: AdWidget(ad: bAdModel.bannerAd()),
               width: bAdModel.bannerAd().size.width.toDouble(),
               height: 72.0,
