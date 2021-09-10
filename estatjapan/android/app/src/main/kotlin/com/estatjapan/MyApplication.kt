@@ -19,7 +19,6 @@ import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
 import java.util.Date
 
-private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/3419835294"
 private const val LOG_TAG = "AppOpenAdManager"
 
 /** Application class that initializes, loads and show ads when activities change states. */
@@ -116,7 +115,7 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks, Lif
             val request = AdRequest.Builder().build()
             AppOpenAd.load(
                 context,
-                AD_UNIT_ID,
+                BuildConfig.AD_UNIT_ID,
                 request,
                 AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT,
                 object : AppOpenAdLoadCallback() {

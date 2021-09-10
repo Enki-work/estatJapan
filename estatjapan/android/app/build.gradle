@@ -46,9 +46,12 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+        manifestPlaceholders["AD_APPLICATION_ID"] = keystoreProperties['AD_APPLICATION_ID']
     }
 
     signingConfigs {
+        debug {
+        }
         release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
@@ -58,7 +61,11 @@ android {
     }
     ndkVersion "23.0.7599858" //ここにNDKのバージョンを記入
     buildTypes {
+        debug {
+            buildConfigField "String", "AD_UNIT_ID", keystoreProperties['AD_UNIT_ID_DEBUG']
+        }
         release {
+            buildConfigField "String", "AD_UNIT_ID", keystoreProperties['AD_UNIT_ID_RELEASE']
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release
