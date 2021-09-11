@@ -1,6 +1,6 @@
 import 'dart:async' show Future;
 import 'dart:convert';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -19,7 +19,7 @@ class AppConfig {
       required this.estatAppId});
 
   static Future<AppConfig> forEnvironment() async {
-    final env = 'dev';
+    final env = kReleaseMode ? 'prod' : 'dev';
     final contents = await rootBundle.loadString(
       'lib/config/$env.json',
     );

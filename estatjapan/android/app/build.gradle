@@ -25,6 +25,12 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def flutterBuildMode = localProperties.getProperty('flutter.buildMode')
+if (flutterBuildMode == null) {
+    flutterBuildMode = 'debug'
+}
+println("build.gradle flutterBuildMode ${flutterBuildMode}")
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -62,7 +68,11 @@ android {
     ndkVersion "23.0.7599858" //ここにNDKのバージョンを記入
     buildTypes {
         debug {
-            buildConfigField "String", "AD_UNIT_ID", keystoreProperties['AD_UNIT_ID_DEBUG']
+            if (flutterBuildMode == 'debug') {
+                buildConfigField "String", "AD_UNIT_ID", keystoreProperties['AD_UNIT_ID_DEBUG']
+            } else {
+                buildConfigField "String", "AD_UNIT_ID", keystoreProperties['AD_UNIT_ID_RELEASE']
+            }
         }
         release {
             buildConfigField "String", "AD_UNIT_ID", keystoreProperties['AD_UNIT_ID_RELEASE']
