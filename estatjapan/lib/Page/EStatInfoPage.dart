@@ -12,7 +12,8 @@ class EStaInfoPage extends StatelessWidget {
           title: const Text("データ提供元"),
         ),
         body: Container(
-            padding: const EdgeInsets.only(top: 26, left: 16, right: 16, bottom: 16),
+            padding:
+                const EdgeInsets.only(top: 26, left: 16, right: 16, bottom: 16),
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
