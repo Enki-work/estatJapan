@@ -156,18 +156,19 @@ class RootPage extends StatelessWidget {
                 onTap: (index) => model.selectedIndex = index,
               );
             }),
-            body: Builder(builder: (context) {
+            body: OrientationBuilder(builder: (context, orientation) {
               BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
               ImmigrationStatisticsModel isModel =
                   Provider.of<ImmigrationStatisticsModel>(context);
               return Column(
                 children: [
-                  Container(
-                    child: AdWidget(ad: bAdModel.bannerAd()),
-                    width: MediaQuery.of(context).size.width,
-                    height: 72.0,
-                    alignment: Alignment.center,
-                  ),
+                  if (orientation == Orientation.portrait)
+                    Container(
+                      child: AdWidget(ad: bAdModel.bannerAd()),
+                      width: MediaQuery.of(context).size.width,
+                      height: 72.0,
+                      alignment: Alignment.center,
+                    ),
                   Expanded(
                       flex: 1,
                       child: () {
