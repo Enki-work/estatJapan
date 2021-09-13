@@ -15,28 +15,11 @@ import 'package:provider/provider.dart';
 
 import 'MenuDrawer.dart';
 
-class ImmigrationStatisticsPage extends StatefulWidget {
+class RootPage extends StatelessWidget {
   final String title;
-
-  const ImmigrationStatisticsPage({Key? key, required this.title})
-      : super(key: key);
-  @override
-  _ImmigrationStatisticsPageState createState() =>
-      _ImmigrationStatisticsPageState();
-}
-
-class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
   ImmigrationStatisticsModel model = ImmigrationStatisticsModel();
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  RootPage({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +44,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
                     : Scaffold(
                         appBar: AppBar(
                           //导航栏
-                          title: Text(widget.title),
+                          title: Text(title),
                         ),
                         body:
                             const Center(child: CircularProgressIndicator())));
@@ -70,7 +53,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             return Scaffold(
                 appBar: AppBar(
                   //导航栏
-                  title: Text(widget.title),
+                  title: Text(title),
                 ),
                 body: const Center(child: CircularProgressIndicator()));
           }
@@ -208,7 +191,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
         child: Scaffold(
             appBar: AppBar(
               //导航栏
-              title: Text(widget.title),
+              title: Text(title),
               actions: const <Widget>[
                 //导航栏右侧菜单
                 // IconButton(icon: Icon(Icons.share), onPressed: () {}),

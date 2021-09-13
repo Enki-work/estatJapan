@@ -1,11 +1,11 @@
-import 'package:estatjapan/Page/ImmigrationStatisticsPage.dart';
 import 'package:flutter/material.dart';
 
 import 'Page/ContactMePage.dart';
 import 'Page/DataTablePage.dart';
+import 'Page/EStatInfoPage.dart';
 import 'Page/LicenseInfoPage.dart';
 import 'Page/MonthSelectPage.dart';
-import 'Page/EStatInfoPage.dart';
+import 'Page/RootPage.dart';
 import 'Util/AppConfig.dart';
 import 'model/RouteModel.dart';
 
@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
                     iconTheme: const IconThemeData(color: Colors.orangeAccent)),
                 darkTheme: ThemeData(
                     primarySwatch: Colors.deepOrange,
-                    iconTheme: const IconThemeData(color: Colors.deepOrangeAccent)),
+                    iconTheme:
+                        const IconThemeData(color: Colors.deepOrangeAccent)),
                 routes: {
                     "MonthSelectPage": (context) => MonthSelectPage(
                           routeModel: ModalRoute.of(context)?.settings.arguments
@@ -42,8 +43,7 @@ class MyApp extends StatelessWidget {
                     "LicenseInfoPage": (context) => const LicenseInfoPage(),
                     "eStaInfoPage": (context) => const EStaInfoPage(),
                     "ContactMePage": (context) => const ContactMePage(),
-                    "/": (context) =>
-                        const ImmigrationStatisticsPage(title: '在留資格取得の受理・処理'),
+                    "/": (context) => RootPage(title: '在留資格取得の受理・処理'),
                   })
             : const Center(child: CircularProgressIndicator()));
   }
