@@ -14,6 +14,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import 'MenuDrawer.dart';
+import 'VisaInfoPage.dart';
 
 class RootPage extends StatelessWidget {
   final String title;
@@ -67,19 +68,9 @@ class RootPage extends StatelessWidget {
     return Expanded(
         child: ListView.separated(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount:
-          bAdModel.isAdLoaded() ? obj.CLASS.length + 1 : obj.CLASS.length,
+      itemCount: obj.CLASS.length,
       shrinkWrap: true,
-      itemBuilder: (BuildContext context, int oIndex) {
-        int index = bAdModel.isAdLoaded() ? oIndex - 1 : oIndex;
-        if (oIndex == 0 && bAdModel.isAdLoaded()) {
-          return Container(
-            child: AdWidget(ad: bAdModel.bannerAd()),
-            width: bAdModel.bannerAd().size.width.toDouble(),
-            height: 72.0,
-            alignment: Alignment.center,
-          );
-        }
+      itemBuilder: (BuildContext context, int index) {
         Class CLASS = obj.CLASS[index];
         return ListTile(
           title: Text(CLASS.name),
@@ -107,59 +98,9 @@ class RootPage extends StatelessWidget {
     return Expanded(
         child: ListView.separated(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount:
-          bAdModel.isAdLoaded() ? obj.CLASS.length + 1 : obj.CLASS.length,
+      itemCount: obj.CLASS.length,
       shrinkWrap: true,
-      itemBuilder: (BuildContext context, int oIndex) {
-        int index = bAdModel.isAdLoaded() ? oIndex - 1 : oIndex;
-        if (oIndex == 0 && bAdModel.isAdLoaded()) {
-          return Container(
-            child: AdWidget(ad: bAdModel.bannerAd()),
-            width: bAdModel.bannerAd().size.width.toDouble(),
-            height: 72.0,
-            alignment: Alignment.center,
-          );
-        }
-        Class CLASS = obj.CLASS[index];
-        return ListTile(
-          title: Text(CLASS.name),
-          minVerticalPadding: 25,
-          onTap: () {
-            CLASS.parentID = obj.id;
-            Navigator.of(context).pushNamed("MonthSelectPage",
-                arguments:
-                    RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
-          },
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) => Divider(
-        height: 0.5,
-        indent: 20,
-        color: Colors.grey[120],
-      ),
-    ));
-  }
-
-  Widget _cat03ListView(
-      ImmigrationStatisticsRoot rootModel, BannerAdModel bAdModel) {
-    ClassOBJ obj = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-        .firstWhere((e) => e.id == "cat03");
-    return Expanded(
-        child: ListView.separated(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount:
-          bAdModel.isAdLoaded() ? obj.CLASS.length + 1 : obj.CLASS.length,
-      shrinkWrap: true,
-      itemBuilder: (BuildContext context, int oIndex) {
-        int index = bAdModel.isAdLoaded() ? oIndex - 1 : oIndex;
-        if (oIndex == 0 && bAdModel.isAdLoaded()) {
-          return Container(
-            child: AdWidget(ad: bAdModel.bannerAd()),
-            width: bAdModel.bannerAd().size.width.toDouble(),
-            height: 72.0,
-            alignment: Alignment.center,
-          );
-        }
+      itemBuilder: (BuildContext context, int index) {
         Class CLASS = obj.CLASS[index];
         return ListTile(
           title: Text(CLASS.name),
@@ -208,7 +149,7 @@ class RootPage extends StatelessWidget {
                       icon: Icon(Icons.align_horizontal_left_rounded),
                       label: '審査受理・処理'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.all_inbox_rounded), label: '在留管理局・支局'),
+                      icon: Icon(Icons.all_inbox_rounded), label: 'ビザに関す情報'),
                 ],
                 currentIndex: Provider.of<ImmigrationStatisticsModel>(context)
                     .selectedIndex,
@@ -219,37 +160,44 @@ class RootPage extends StatelessWidget {
               BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
               ImmigrationStatisticsModel isModel =
                   Provider.of<ImmigrationStatisticsModel>(context);
-              switch (isModel.selectedIndex) {
-                case 0:
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      isModel.model == null
-                          ? const Center(child: Text("予想外エラー"))
-                          : _cat01ListView(isModel.model!, bAdModel)
-                    ],
-                  );
-                case 1:
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      isModel.model == null
-                          ? const Center(child: Text("予想外エラー"))
-                          : _cat02ListView(isModel.model!, bAdModel)
-                    ],
-                  );
-                case 2:
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      isModel.model == null
-                          ? const Center(child: Text("予想外エラー"))
-                          : _cat03ListView(isModel.model!, bAdModel)
-                    ],
-                  );
-                default:
-                  return const Center(child: Text("予想外エラー"));
-              }
+              return Column(
+                children: [
+                  Container(
+                    child: AdWidget(ad: bAdModel.bannerAd()),
+                    width: MediaQuery.of(context).size.width,
+                    height: 72.0,
+                    alignment: Alignment.center,
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: () {
+                        switch (isModel.selectedIndex) {
+                          case 0:
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                isModel.model == null
+                                    ? const Center(child: Text("予想外エラー"))
+                                    : _cat01ListView(isModel.model!, bAdModel)
+                              ],
+                            );
+                          case 1:
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                isModel.model == null
+                                    ? const Center(child: Text("予想外エラー"))
+                                    : _cat02ListView(isModel.model!, bAdModel)
+                              ],
+                            );
+                          case 2:
+                            return VisaInfoPage();
+                          default:
+                            return const Center(child: Text("予想外エラー"));
+                        }
+                      }()),
+                ],
+              );
             })));
   }
 
