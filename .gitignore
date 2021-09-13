@@ -1,2 +1,4 @@
 dev.json
 prod.json
+Debug.xcconfig
+Release.xcconfig

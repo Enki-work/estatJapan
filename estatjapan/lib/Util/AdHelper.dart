@@ -7,7 +7,7 @@ class AdHelper {
     if (Platform.isAndroid) {
       return AppConfig.shared.android_inline_banner;
     } else if (Platform.isIOS) {
-      return "<YOUR_IOS_BANNER_AD_UNIT_ID>";
+      return AppConfig.shared.ios_inline_banner;
     } else {
       throw new UnsupportedError("Unsupported platform");
     }
@@ -17,7 +17,7 @@ class AdHelper {
     if (Platform.isAndroid) {
       return AppConfig.shared.android_appid;
     } else if (Platform.isIOS) {
-      return "<YOUR_IOS_NATIVE_AD_UNIT_ID>";
+      return AppConfig.shared.android_appid;
     } else {
       throw new UnsupportedError("Unsupported platform");
     }

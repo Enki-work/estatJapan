@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>GADApplicationIdentifier</key>
-	<string></string>
+	<string>$(GAD_APP_ID)</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
