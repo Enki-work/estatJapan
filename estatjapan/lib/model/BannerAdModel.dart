@@ -13,18 +13,15 @@ class BannerAdModel extends ChangeNotifier {
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
       size: AdSize.banner,
-      request: AdRequest(),
+      request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) {
           _isAdLoaded = true;
-          print('Ad load success');
           notifyListeners();
         },
         onAdFailedToLoad: (ad, error) {
           // Releases an ad resource when it fails to load
           ad.dispose();
-
-          print('Ad load failed (code=${error.code} message=${error.message})');
         },
       ),
     );
@@ -32,9 +29,9 @@ class BannerAdModel extends ChangeNotifier {
     _bannerAd.load();
   }
 
+  @override
   void dispose() {
     _bannerAd.dispose();
-    print('Ad load dispose');
     super.dispose();
   }
 }

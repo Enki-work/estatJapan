@@ -29,10 +29,10 @@ class LicenseInfoPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         //导航栏
-        title: Text("ライセンス情報"),
+        title: const Text("ライセンス情報"),
       ),
       body: Padding(
-          padding: EdgeInsets.fromLTRB(0, 16, 0, 16),
+          padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
           child: ListView(
             children: licenseInfos
                 .map(
@@ -43,7 +43,7 @@ class LicenseInfoPage extends StatelessWidget {
                                   e.isEmpty ? null : Colors.grey.withAlpha(20)),
                           child: Padding(
                             child: Text(e),
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                           ))),
                 )
                 .toList(),

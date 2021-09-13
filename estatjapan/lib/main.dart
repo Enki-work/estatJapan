@@ -5,15 +5,17 @@ import 'Page/ContactMePage.dart';
 import 'Page/DataTablePage.dart';
 import 'Page/LicenseInfoPage.dart';
 import 'Page/MonthSelectPage.dart';
-import 'Page/eStatInfoPage.dart';
+import 'Page/EStatInfoPage.dart';
 import 'Util/AppConfig.dart';
 import 'model/RouteModel.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -24,10 +26,10 @@ class MyApp extends StatelessWidget {
                 title: 'Flutter Demo',
                 theme: ThemeData(
                     primarySwatch: Colors.orange,
-                    iconTheme: IconThemeData(color: Colors.orangeAccent)),
+                    iconTheme: const IconThemeData(color: Colors.orangeAccent)),
                 darkTheme: ThemeData(
                     primarySwatch: Colors.deepOrange,
-                    iconTheme: IconThemeData(color: Colors.deepOrangeAccent)),
+                    iconTheme: const IconThemeData(color: Colors.deepOrangeAccent)),
                 routes: {
                     "MonthSelectPage": (context) => MonthSelectPage(
                           routeModel: ModalRoute.of(context)?.settings.arguments
@@ -37,12 +39,12 @@ class MyApp extends StatelessWidget {
                           routeModel: ModalRoute.of(context)?.settings.arguments
                               as RouteModel,
                         ),
-                    "LicenseInfoPage": (context) => LicenseInfoPage(),
-                    "eStaInfoPage": (context) => eStaInfoPage(),
-                    "ContactMePage": (context) => ContactMePage(),
+                    "LicenseInfoPage": (context) => const LicenseInfoPage(),
+                    "eStaInfoPage": (context) => const EStaInfoPage(),
+                    "ContactMePage": (context) => const ContactMePage(),
                     "/": (context) =>
-                        ImmigrationStatisticsPage(title: '在留資格取得の受理・処理'),
+                        const ImmigrationStatisticsPage(title: '在留資格取得の受理・処理'),
                   })
-            : Center(child: CircularProgressIndicator()));
+            : const Center(child: CircularProgressIndicator()));
   }
 }

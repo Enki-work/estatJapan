@@ -15,7 +15,7 @@ class MonthSelectPage extends StatelessWidget {
     ClassOBJ? obj = routeModel
         .rootModel?.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
         .firstWhere((e) => e.id == "time");
-    if (obj == null) return Center(child: Text("予想外エラー"));
+    if (obj == null) return const Center(child: Text("予想外エラー"));
     return ChangeNotifierProvider<BannerAdModel>(
       create: (_) => BannerAdModel()..loadBannerAd(),
       child: Scaffold(
@@ -31,7 +31,7 @@ class MonthSelectPage extends StatelessWidget {
                   children: [
                     Expanded(
                         child: ListView.separated(
-                      padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       itemCount: bAdModel.isAdLoaded()
                           ? obj.CLASS.length + 1
                           : obj.CLASS.length,
@@ -50,10 +50,10 @@ class MonthSelectPage extends StatelessWidget {
                           title: Text(obj.CLASS[index].name),
                           minVerticalPadding: 25,
                           onTap: () {
-                            this.routeModel.selectedMonth = obj.CLASS[index];
-                            this.routeModel.selectedMonth!.parentID = obj.id;
+                            routeModel.selectedMonth = obj.CLASS[index];
+                            routeModel.selectedMonth!.parentID = obj.id;
                             Navigator.of(context).pushNamed("DataTablePage",
-                                arguments: this.routeModel);
+                                arguments: routeModel);
                           },
                         );
                       },

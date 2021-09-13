@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:estatjapan/model/Class.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -22,9 +24,9 @@ class ClassOBJ {
     List<Class> ClassList = [];
     if (CLASS is List<dynamic>) {
       List<dynamic> list = CLASS;
-      list.forEach((element) {
+      for (var element in list) {
         ClassList.add(Class.fromJson(element));
-      });
+      }
     } else if (CLASS is Map<String, dynamic>) {
       ClassList.add(Class.fromJson(CLASS));
     }

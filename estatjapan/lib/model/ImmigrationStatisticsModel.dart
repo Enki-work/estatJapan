@@ -4,19 +4,19 @@ import 'ImmigrationStatisticsRoot.dart';
 
 class ImmigrationStatisticsModel extends ChangeNotifier {
   int _selectedIndex = 0;
-  ImmigrationStatisticsRoot? _rootModel = null;
+  ImmigrationStatisticsRoot? _rootModel;
 
-  int get selectedIndex => this._selectedIndex;
+  int get selectedIndex => _selectedIndex;
 
   set selectedIndex(int value) {
-    this._selectedIndex = value;
+    _selectedIndex = value;
     notifyListeners();
   }
 
-  ImmigrationStatisticsRoot? get model => this._rootModel;
+  ImmigrationStatisticsRoot? get model => _rootModel;
 
   set rootModel(ImmigrationStatisticsRoot value) {
-    this._rootModel = value;
+    _rootModel = value;
     notifyListeners();
   }
 }

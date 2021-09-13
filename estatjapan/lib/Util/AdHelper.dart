@@ -9,7 +9,7 @@ class AdHelper {
     } else if (Platform.isIOS) {
       return AppConfig.shared.ios_inline_banner;
     } else {
-      throw new UnsupportedError("Unsupported platform");
+      throw UnsupportedError("Unsupported platform");
     }
   }
 
@@ -19,7 +19,7 @@ class AdHelper {
     } else if (Platform.isIOS) {
       return AppConfig.shared.android_appid;
     } else {
-      throw new UnsupportedError("Unsupported platform");
+      throw UnsupportedError("Unsupported platform");
     }
   }
 }
