@@ -47,6 +47,7 @@ class MenuDrawer extends StatelessWidget {
                   ),
                 ),
                 Expanded(
+                    flex:1,
                   child: ListView(
                     children: <Widget>[
                       const Divider(height: 0.5),
@@ -105,10 +106,12 @@ class MenuDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(
-                    child: Container(
-                  child: AdWidget(ad: bAdModel.bannerAd()),
-                )),
+            Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child:SizedBox(
+                    height: bAdModel.bannerAd().size.height.toDouble(),
+                    width: bAdModel.bannerAd().size.width.toDouble(),
+                    child: AdWidget(ad: bAdModel.bannerAd()))),
               ],
             );
           })),
