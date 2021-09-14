@@ -5,17 +5,42 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
-class MonthSelectPage extends StatelessWidget {
-  final RouteModel routeModel;
+enum MonthSelectPageType { old, graph }
 
-  const MonthSelectPage({Key? key, required this.routeModel}) : super(key: key);
+class MonthSelectPage extends StatelessWidget {
+  final MonthSelectPageType pageType;
+  final ClassOBJ? monthClassObj;
+  final RouteModel? routeModel;
+
+  const MonthSelectPage(
+      {Key? key, this.routeModel, required this.pageType, this.monthClassObj})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ClassOBJ? obj = routeModel
-        .rootModel?.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-        .firstWhere((e) => e.id == "time");
-    if (obj == null) return const Center(child: Text("予想外エラー"));
+    Null Function(int index) itemOnTap;
+    ClassOBJ obj;
+    if (pageType == MonthSelectPageType.old) {
+      ClassOBJ? classOBJ = routeModel!
+          .rootModel?.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+          .firstWhere((e) => e.id == "time");
+      if (classOBJ == null) return const Center(child: Text("予想外エラー"));
+      itemOnTap = (int index) {
+        routeModel!.selectedMonth = classOBJ.CLASS[index];
+        routeModel!.selectedMonth!.parentID = classOBJ.id;
+        Navigator.of(context).pushNamed("DataTablePage", arguments: routeModel);
+      };
+      obj = classOBJ;
+    } else {
+      ClassOBJ? classOBJ = monthClassObj;
+      if (classOBJ == null) return const Center(child: Text("予想外エラー"));
+      itemOnTap = (int index) {
+        final selectedClass = classOBJ.CLASS[index];
+        selectedClass.parentID = classOBJ.id;
+        Navigator.pop(context, selectedClass);
+      };
+      obj = classOBJ;
+    }
     return ChangeNotifierProvider<BannerAdModel>(
       create: (_) => BannerAdModel()..loadBannerAd(),
       child: Scaffold(
@@ -50,10 +75,7 @@ class MonthSelectPage extends StatelessWidget {
                           title: Text(obj.CLASS[index].name),
                           minVerticalPadding: 25,
                           onTap: () {
-                            routeModel.selectedMonth = obj.CLASS[index];
-                            routeModel.selectedMonth!.parentID = obj.id;
-                            Navigator.of(context).pushNamed("DataTablePage",
-                                arguments: routeModel);
+                            itemOnTap(index);
                           },
                         );
                       },

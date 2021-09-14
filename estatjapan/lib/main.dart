@@ -35,10 +35,23 @@ class MyApp extends StatelessWidget {
                     iconTheme:
                         const IconThemeData(color: Colors.deepOrangeAccent)),
                 routes: {
-                    "MonthSelectPage": (context) => MonthSelectPage(
+                    "MonthSelectPage": (context) {
+                      if (ModalRoute.of(context)?.settings.arguments
+                          is RouteModel) {
+                        return MonthSelectPage(
                           routeModel: ModalRoute.of(context)?.settings.arguments
                               as RouteModel,
-                        ),
+                          pageType: MonthSelectPageType.old,
+                        );
+                      } else {
+                        return MonthSelectPage(
+                          monthClassObj: ModalRoute.of(context)
+                              ?.settings
+                              .arguments as ClassOBJ,
+                          pageType: MonthSelectPageType.graph,
+                        );
+                      }
+                    },
                     "DataTablePage": (context) => DataTablePage(
                           routeModel: ModalRoute.of(context)?.settings.arguments
                               as RouteModel,

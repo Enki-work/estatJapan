@@ -12,6 +12,7 @@ class GraphDataSelectPage extends StatefulWidget {
 
 class _GraphDataSelectPageState extends State<GraphDataSelectPage> {
   Class? _selectedCat01Mode;
+  Class? _selectedCat02Mode;
   @override
   Widget build(BuildContext context) {
     ImmigrationStatisticsModel isModel =
@@ -49,36 +50,20 @@ class _GraphDataSelectPageState extends State<GraphDataSelectPage> {
                 padding: const EdgeInsets.all(20),
                 child: OutlinedButton(
                   onPressed: () async {
-                    var result = await showModalBottomSheet<Class>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        ClassOBJ? obj = isModel.model!.GET_STATS_DATA
-                            .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-                            .firstWhere((e) => e.id == "time");
-                        return SafeArea(
-                            child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: obj.CLASS
-                              .map(
-                                (e) => SizedBox(
-                                    height: 65,
-                                    child: ListTile(
-                                      title: Text(e.name),
-                                      onTap: () {
-                                        e.parentID = obj.id;
-                                        return Navigator.of(context).pop(e);
-                                      },
-                                    )),
-                              )
-                              .toList(),
-                        ));
-                      },
-                    );
+                    ClassOBJ? obj = isModel.model!.GET_STATS_DATA
+                        .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+                        .firstWhere((e) => e.id == "time");
+                    final result = await Navigator.of(context)
+                        .pushNamed("MonthSelectPage", arguments: obj) as Class?;
                     setState(() {
-                      _selectedCat01Mode = result;
+                      _selectedCat02Mode = result;
                     });
                   },
-                  child: const Text('時間軸選択'),
+                  child: Text(
+                      _selectedCat02Mode == null
+                          ? '時間軸選択'
+                          : '時間軸選択\n(${_selectedCat02Mode?.name})',
+                      textAlign: TextAlign.center),
                 )),
           ),
           SizedBox(
