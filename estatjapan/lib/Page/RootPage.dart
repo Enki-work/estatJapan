@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
+import 'GraphDataSelectPage.dart';
 import 'MenuDrawer.dart';
 import 'VisaInfoPage.dart';
 
@@ -146,7 +147,7 @@ class RootPage extends StatelessWidget {
                   icon: Icon(Icons.add_chart_rounded), label: '在留資格審査'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.align_horizontal_left_rounded),
-                  label: '審査受理・処理'),
+                  label: 'グラフ'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.all_inbox_rounded), label: 'ビザに関す情報'),
             ],
@@ -166,7 +167,7 @@ class RootPage extends StatelessWidget {
               if (orientation == Orientation.portrait)
                 Container(
                   child: AdWidget(ad: bAdModel.bannerAd()),
-                  width: MediaQuery.of(context).size.width,
+                  width: bAdModel.bannerAd().size.width.toDouble(),
                   height: 72.0,
                   alignment: Alignment.center,
                 ),
@@ -184,14 +185,7 @@ class RootPage extends StatelessWidget {
                           ],
                         );
                       case 1:
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            isModel.model == null
-                                ? const Center(child: Text("予想外エラー"))
-                                : _cat02ListView(isModel.model!, bAdModel)
-                          ],
-                        );
+                        return const GraphDataSelectPage();
                       case 2:
                         return const VisaInfoPage();
                       default:
