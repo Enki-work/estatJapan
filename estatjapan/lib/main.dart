@@ -6,6 +6,7 @@ import 'Page/EStatInfoPage.dart';
 import 'Page/LicenseInfoPage.dart';
 import 'Page/MonthSelectPage.dart';
 import 'Page/RootPage.dart';
+import 'Page/WebViewPage.dart';
 import 'Util/AppConfig.dart';
 import 'model/RouteModel.dart';
 
@@ -43,7 +44,12 @@ class MyApp extends StatelessWidget {
                     "LicenseInfoPage": (context) => const LicenseInfoPage(),
                     "eStaInfoPage": (context) => const EStaInfoPage(),
                     "ContactMePage": (context) => const ContactMePage(),
-                    "/": (context) => RootPage(title: '在留資格取得の受理・処理'),
+                    "WebViewPage": (context) {
+                      return WebViewPage(
+                          loadUrl: ModalRoute.of(context)?.settings.arguments
+                              as String?);
+                    },
+                    "/": (context) => const RootPage(title: '在留資格取得の受理・処理'),
                   })
             : const Center(child: CircularProgressIndicator()));
   }
