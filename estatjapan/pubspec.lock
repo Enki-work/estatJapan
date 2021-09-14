@@ -35,7 +35,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.1"
+    version: "2.8.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -351,7 +351,7 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.10"
+    version: "0.12.11"
   meta:
     dependency: transitive
     description:
@@ -566,7 +566,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.3"
   timing:
     dependency: transitive
     description:
@@ -645,19 +645,12 @@ packages:
     source: hosted
     version: "2.1.0"
   webview_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: webview_flutter
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.13"
-  webview_flutter_plus:
-    dependency: "direct main"
-    description:
-      name: webview_flutter_plus
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.3"
   win32:
     dependency: transitive
     description:

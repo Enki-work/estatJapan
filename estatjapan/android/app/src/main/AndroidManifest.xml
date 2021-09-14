@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.estatjapan">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <queries>
         <!-- If your app opens https URLs -->
         <intent>
@@ -63,5 +65,8 @@
        <meta-data
            android:name="com.google.android.gms.ads.APPLICATION_ID"
            android:value="${AD_APPLICATION_ID}"/>
+    </application>
+    <application
+        android:usesCleartextTraffic="true">
     </application>
 </manifest>
