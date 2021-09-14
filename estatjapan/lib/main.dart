@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'Page/BureauSelectPage.dart';
 import 'Page/ContactMePage.dart';
 import 'Page/DataTablePage.dart';
 import 'Page/EStatInfoPage.dart';
@@ -61,6 +62,12 @@ class MyApp extends StatelessWidget {
                     "ContactMePage": (context) => const ContactMePage(),
                     "VisaTypeSelectPage": (context) {
                       return VisaTypeSelectPage(
+                        obj: ModalRoute.of(context)?.settings.arguments
+                            as ClassOBJ,
+                      );
+                    },
+                    "BureauSelectPage": (context) {
+                      return BureauSelectPage(
                         obj: ModalRoute.of(context)?.settings.arguments
                             as ClassOBJ,
                       );

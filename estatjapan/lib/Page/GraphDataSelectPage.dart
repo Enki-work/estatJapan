@@ -13,13 +13,16 @@ class GraphDataSelectPage extends StatefulWidget {
 class _GraphDataSelectPageState extends State<GraphDataSelectPage> {
   Class? _selectedCat01Mode;
   Class? _selectedCat02Mode;
+  Class? _selectedCat03Mode;
+
   @override
   Widget build(BuildContext context) {
     ImmigrationStatisticsModel isModel =
         Provider.of<ImmigrationStatisticsModel>(context);
     return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       Expanded(
-          child: ListView(
+          child: SafeArea(
+              child: ListView(
         children: [
           SizedBox(
             height: 110,
@@ -61,8 +64,8 @@ class _GraphDataSelectPageState extends State<GraphDataSelectPage> {
                   },
                   child: Text(
                       _selectedCat02Mode == null
-                          ? '時間軸選択'
-                          : '時間軸選択\n(${_selectedCat02Mode?.name})',
+                          ? '時間軸（月次）選択'
+                          : '時間軸（月次）選択\n(${_selectedCat02Mode?.name})',
                       textAlign: TextAlign.center),
                 )),
           ),
@@ -71,12 +74,26 @@ class _GraphDataSelectPageState extends State<GraphDataSelectPage> {
             child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: OutlinedButton(
-                  onPressed: () {},
-                  child: const Text('在留管理局・支局選択'),
+                  onPressed: () async {
+                    ClassOBJ obj = isModel.model!.GET_STATS_DATA
+                        .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+                        .firstWhere((e) => e.id == "cat03");
+                    final result = await Navigator.of(context)
+                            .pushNamed("BureauSelectPage", arguments: obj)
+                        as Class?;
+                    setState(() {
+                      _selectedCat03Mode = result;
+                    });
+                  },
+                  child: Text(
+                      _selectedCat03Mode == null
+                          ? '地方出入国在留管理局・支局'
+                          : '地方出入国在留管理局・支局\n(${_selectedCat03Mode?.name})',
+                      textAlign: TextAlign.center),
                 )),
           )
         ],
-      ))
+      )))
     ]);
   }
 }
