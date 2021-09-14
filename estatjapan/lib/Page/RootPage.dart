@@ -18,9 +18,7 @@ import 'VisaInfoPage.dart';
 
 class RootPage extends StatelessWidget {
   final String title;
-  ImmigrationStatisticsModel model = ImmigrationStatisticsModel();
-
-  RootPage({Key? key, required this.title}) : super(key: key);
+  const RootPage({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,19 +34,27 @@ class RootPage extends StatelessWidget {
             Response response = snapshot.data;
             ImmigrationStatisticsRoot rootModel =
                 ImmigrationStatisticsRoot.fromJson(response.data);
+            ImmigrationStatisticsModel model = ImmigrationStatisticsModel();
             model.rootModel = rootModel;
-            return FutureBuilder<InitializationStatus>(
-                future: _initGoogleMobileAds(),
-                builder: (context, snapshot) => snapshot.connectionState ==
-                        ConnectionState.done
-                    ? getPageWidget()
-                    : Scaffold(
-                        appBar: AppBar(
-                          //导航栏
-                          title: Text(title),
-                        ),
-                        body:
-                            const Center(child: CircularProgressIndicator())));
+            return MultiProvider(
+                providers: [
+                  ChangeNotifierProvider<ImmigrationStatisticsModel>.value(
+                      value: model),
+                  ChangeNotifierProvider<BannerAdModel>(
+                      create: (_) => BannerAdModel()..loadBannerAd()),
+                ],
+                child: FutureBuilder<InitializationStatus>(
+                    future: _initGoogleMobileAds(),
+                    builder: (context, snapshot) =>
+                        snapshot.connectionState == ConnectionState.done
+                            ? getPageWidget()
+                            : Scaffold(
+                                appBar: AppBar(
+                                  //导航栏
+                                  title: Text(title),
+                                ),
+                                body: const Center(
+                                    child: CircularProgressIndicator()))));
           } else {
 //请求未完成时弹出loading
             return Scaffold(
@@ -122,84 +128,79 @@ class RootPage extends StatelessWidget {
   }
 
   Widget getPageWidget() {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<ImmigrationStatisticsModel>.value(
-              value: model),
-          ChangeNotifierProvider<BannerAdModel>(
-              create: (_) => BannerAdModel()..loadBannerAd()),
-        ],
-        child: Scaffold(
-            appBar: AppBar(
-              //导航栏
-              title: Text(title),
-              actions: const <Widget>[
-                //导航栏右侧菜单
-                // IconButton(icon: Icon(Icons.share), onPressed: () {}),
-              ],
-            ),
-            drawer: const MenuDrawer(), //抽屉
-            bottomNavigationBar: Builder(builder: (context) {
-              return BottomNavigationBar(
-                // 底部导航
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.add_chart_rounded), label: '在留資格審査'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.align_horizontal_left_rounded),
-                      label: '審査受理・処理'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.all_inbox_rounded), label: 'ビザに関す情報'),
-                ],
-                currentIndex: Provider.of<ImmigrationStatisticsModel>(context)
-                    .selectedIndex,
-                onTap: (index) => model.selectedIndex = index,
-              );
-            }),
-            body: OrientationBuilder(builder: (context, orientation) {
-              BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
-              ImmigrationStatisticsModel isModel =
-                  Provider.of<ImmigrationStatisticsModel>(context);
-              return Column(
-                children: [
-                  if (orientation == Orientation.portrait)
-                    Container(
-                      child: AdWidget(ad: bAdModel.bannerAd()),
-                      width: MediaQuery.of(context).size.width,
-                      height: 72.0,
-                      alignment: Alignment.center,
-                    ),
-                  Expanded(
-                      flex: 1,
-                      child: () {
-                        switch (isModel.selectedIndex) {
-                          case 0:
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                isModel.model == null
-                                    ? const Center(child: Text("予想外エラー"))
-                                    : _cat01ListView(isModel.model!, bAdModel)
-                              ],
-                            );
-                          case 1:
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                isModel.model == null
-                                    ? const Center(child: Text("予想外エラー"))
-                                    : _cat02ListView(isModel.model!, bAdModel)
-                              ],
-                            );
-                          case 2:
-                            return VisaInfoPage();
-                          default:
-                            return const Center(child: Text("予想外エラー"));
-                        }
-                      }()),
-                ],
-              );
-            })));
+    return Scaffold(
+        appBar: AppBar(
+          //导航栏
+          title: Text(title),
+          actions: const <Widget>[
+            //导航栏右侧菜单
+            // IconButton(icon: Icon(Icons.share), onPressed: () {}),
+          ],
+        ),
+        drawer: const MenuDrawer(), //抽屉
+        bottomNavigationBar: Builder(builder: (context) {
+          return BottomNavigationBar(
+            // 底部导航
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.add_chart_rounded), label: '在留資格審査'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.align_horizontal_left_rounded),
+                  label: '審査受理・処理'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.all_inbox_rounded), label: 'ビザに関す情報'),
+            ],
+            currentIndex:
+                Provider.of<ImmigrationStatisticsModel>(context).selectedIndex,
+            onTap: (index) =>
+                Provider.of<ImmigrationStatisticsModel>(context, listen: false)
+                    .selectedIndex = index,
+          );
+        }),
+        body: OrientationBuilder(builder: (context, orientation) {
+          BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
+          ImmigrationStatisticsModel isModel =
+              Provider.of<ImmigrationStatisticsModel>(context);
+          return Column(
+            children: [
+              if (orientation == Orientation.portrait)
+                Container(
+                  child: AdWidget(ad: bAdModel.bannerAd()),
+                  width: MediaQuery.of(context).size.width,
+                  height: 72.0,
+                  alignment: Alignment.center,
+                ),
+              Expanded(
+                  flex: 1,
+                  child: () {
+                    switch (isModel.selectedIndex) {
+                      case 0:
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            isModel.model == null
+                                ? const Center(child: Text("予想外エラー"))
+                                : _cat01ListView(isModel.model!, bAdModel)
+                          ],
+                        );
+                      case 1:
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            isModel.model == null
+                                ? const Center(child: Text("予想外エラー"))
+                                : _cat02ListView(isModel.model!, bAdModel)
+                          ],
+                        );
+                      case 2:
+                        return const VisaInfoPage();
+                      default:
+                        return const Center(child: Text("予想外エラー"));
+                    }
+                  }()),
+            ],
+          );
+        }));
   }
 
   Future<InitializationStatus> _initGoogleMobileAds() {
