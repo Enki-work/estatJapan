@@ -6,8 +6,10 @@ import 'Page/EStatInfoPage.dart';
 import 'Page/LicenseInfoPage.dart';
 import 'Page/MonthSelectPage.dart';
 import 'Page/RootPage.dart';
+import 'Page/VisaTypeSelectPage.dart';
 import 'Page/WebViewPage.dart';
 import 'Util/AppConfig.dart';
+import 'model/ClassOBJ.dart';
 import 'model/RouteModel.dart';
 
 void main() {
@@ -44,6 +46,12 @@ class MyApp extends StatelessWidget {
                     "LicenseInfoPage": (context) => const LicenseInfoPage(),
                     "eStaInfoPage": (context) => const EStaInfoPage(),
                     "ContactMePage": (context) => const ContactMePage(),
+                    "VisaTypeSelectPage": (context) {
+                      return VisaTypeSelectPage(
+                        obj: ModalRoute.of(context)?.settings.arguments
+                            as ClassOBJ,
+                      );
+                    },
                     "WebViewPage": (context) {
                       return WebViewPage(
                           loadUrl: ModalRoute.of(context)?.settings.arguments

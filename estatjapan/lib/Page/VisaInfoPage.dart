@@ -28,10 +28,6 @@ class VisaInfoPage extends StatelessWidget {
               title: Text(visaDataKeyList[index]),
               minVerticalPadding: 25,
               onTap: () {
-                // routeModel.selectedMonth = obj.CLASS[index];
-                // routeModel.selectedMonth!.parentID = obj.id;
-                // Navigator.of(context).pushNamed("DataTablePage",
-                //     arguments: routeModel);
                 Navigator.of(context).pushNamed("WebViewPage",
                     arguments: visaData[visaDataKeyList[index]]);
               });

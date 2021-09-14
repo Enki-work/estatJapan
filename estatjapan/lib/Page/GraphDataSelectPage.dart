@@ -26,34 +26,21 @@ class _GraphDataSelectPageState extends State<GraphDataSelectPage> {
                 padding: const EdgeInsets.all(20),
                 child: OutlinedButton(
                   onPressed: () async {
-                    var result = await showModalBottomSheet<Class>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        ClassOBJ obj = isModel.model!.GET_STATS_DATA
-                            .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-                            .firstWhere((e) => e.id == "cat01");
-                        return SafeArea(
-                            child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: obj.CLASS
-                              .map(
-                                (e) => SizedBox(
-                                    height: 65,
-                                    child: ListTile(
-                                      title: Text(e.name),
-                                      onTap: () {
-                                        e.parentID = obj.id;
-                                        return Navigator.of(context).pop(e);
-                                      },
-                                    )),
-                              )
-                              .toList(),
-                        ));
-                      },
-                    );
-                    _selectedCat01Mode = result;
+                    ClassOBJ obj = isModel.model!.GET_STATS_DATA
+                        .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+                        .firstWhere((e) => e.id == "cat01");
+                    final result = await Navigator.of(context)
+                            .pushNamed("VisaTypeSelectPage", arguments: obj)
+                        as Class?;
+                    setState(() {
+                      _selectedCat01Mode = result;
+                    });
                   },
-                  child: const Text('在留資格選択'),
+                  child: Text(
+                      _selectedCat01Mode == null
+                          ? '在留資格選択'
+                          : '在留資格選択\n(${_selectedCat01Mode?.name})',
+                      textAlign: TextAlign.center),
                 )),
           ),
           SizedBox(
@@ -87,7 +74,9 @@ class _GraphDataSelectPageState extends State<GraphDataSelectPage> {
                         ));
                       },
                     );
-                    _selectedCat01Mode = result;
+                    setState(() {
+                      _selectedCat01Mode = result;
+                    });
                   },
                   child: const Text('時間軸選択'),
                 )),
