@@ -25,7 +25,7 @@ class GraphData extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isModelNull() {
+  bool isModelExist() {
     return (_selectedCat01Mode != null &&
         _selectedCat02Mode != null &&
         _selectedCat03Mode != null);

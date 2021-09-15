@@ -4,6 +4,7 @@ import 'Page/BureauSelectPage.dart';
 import 'Page/ContactMePage.dart';
 import 'Page/DataTablePage.dart';
 import 'Page/EStatInfoPage.dart';
+import 'Page/GraphDataPage.dart';
 import 'Page/LicenseInfoPage.dart';
 import 'Page/MonthSelectPage.dart';
 import 'Page/RootPage.dart';
@@ -11,6 +12,7 @@ import 'Page/VisaTypeSelectPage.dart';
 import 'Page/WebViewPage.dart';
 import 'Util/AppConfig.dart';
 import 'model/ClassOBJ.dart';
+import 'model/GraphData.dart';
 import 'model/RouteModel.dart';
 
 void main() {
@@ -70,6 +72,12 @@ class MyApp extends StatelessWidget {
                       return BureauSelectPage(
                         obj: ModalRoute.of(context)?.settings.arguments
                             as ClassOBJ,
+                      );
+                    },
+                    "GraphDataPage": (context) {
+                      return GraphDataPage(
+                        graphData: ModalRoute.of(context)?.settings.arguments
+                            as GraphData,
                       );
                     },
                     "WebViewPage": (context) {

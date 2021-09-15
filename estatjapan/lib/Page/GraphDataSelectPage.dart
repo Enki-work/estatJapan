@@ -105,8 +105,15 @@ class GraphDataSelectPage extends StatelessWidget {
                                 label: const Text("確定"),
                                 onPressed: (Provider.of<GraphData>(context,
                                             listen: true)
-                                        .isModelNull())
-                                    ? () async {}
+                                        .isModelExist())
+                                    ? () {
+                                        print("aaa");
+                                        Navigator.of(context).pushNamed(
+                                            "GraphDataPage",
+                                            arguments: Provider.of<GraphData>(
+                                                context,
+                                                listen: false));
+                                      }
                                     : null,
                               )))
                     ],
