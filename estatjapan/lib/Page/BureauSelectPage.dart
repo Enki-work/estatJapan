@@ -56,11 +56,13 @@ class BureauSelectPage extends StatelessWidget {
                             }
                           }()),
                           minVerticalPadding: 25,
-                          onTap: () {
-                            final selectedClass = obj.CLASS[index];
-                            selectedClass.parentID = obj.id;
-                            Navigator.pop(context, selectedClass);
-                          },
+                          onTap: obj.CLASS[index].level == "1"
+                              ? null
+                              : () {
+                                  final selectedClass = obj.CLASS[index];
+                                  selectedClass.parentID = obj.id;
+                                  Navigator.pop(context, selectedClass);
+                                },
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) =>

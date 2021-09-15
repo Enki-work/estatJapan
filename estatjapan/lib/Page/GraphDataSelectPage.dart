@@ -91,7 +91,19 @@ class _GraphDataSelectPageState extends State<GraphDataSelectPage> {
                           : '地方出入国在留管理局・支局\n(${_selectedCat03Mode?.name})',
                       textAlign: TextAlign.center),
                 )),
-          )
+          ),
+          SizedBox(
+              height: 110,
+              child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: ElevatedButton.icon(
+                    style: ButtonStyle(
+                        fixedSize: MaterialStateProperty.all(
+                            Size(MediaQuery.of(context).size.width * 0.5, 60))),
+                    icon: const Icon(Icons.auto_graph_rounded),
+                    label: const Text("確定"),
+                    onPressed: (_selectedCat01Mode != null &&_selectedCat02Mode != null &&_selectedCat03Mode != null) ? () async {} : null,
+                  )))
         ],
       )))
     ]);
