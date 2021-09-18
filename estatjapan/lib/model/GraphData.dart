@@ -1,3 +1,4 @@
+import 'package:estatjapan/Util/AppConfig.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'Class.dart';
@@ -29,5 +30,9 @@ class GraphData extends ChangeNotifier {
     return (_selectedCat01Mode != null &&
         _selectedCat02Mode != null &&
         _selectedCat03Mode != null);
+  }
+
+  String get url {
+    return 'http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=${AppConfig.shared.estatAppId}&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0&cdTime=${_selectedCat02Mode!.code}&cdCat01=${_selectedCat01Mode!.code}&cdCat03=${_selectedCat03Mode!.code}';
   }
 }

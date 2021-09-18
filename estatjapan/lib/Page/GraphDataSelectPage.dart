@@ -107,7 +107,6 @@ class GraphDataSelectPage extends StatelessWidget {
                                             listen: true)
                                         .isModelExist())
                                     ? () {
-                                        print("aaa");
                                         Navigator.of(context).pushNamed(
                                             "GraphDataPage",
                                             arguments: Provider.of<GraphData>(
