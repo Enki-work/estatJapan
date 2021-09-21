@@ -15,6 +15,17 @@ class GraphDataPage extends StatefulWidget {
 }
 
 class _GraphDataPageState extends State<GraphDataPage> {
+  static const List<Color> chartColors = <Color>[
+    Colors.red,
+    Color(0xff0293ee),
+    Color(0xfff8b250),
+    Color(0xff845bef),
+    Color(0xff13d38e),
+    Colors.brown,
+    Colors.indigo,
+    Colors.lime,
+    Colors.green,
+  ];
   @override
   Widget build(BuildContext context) {
     Dio _dio = Dio();
@@ -63,9 +74,45 @@ class _GraphDataPageState extends State<GraphDataPage> {
   }
 
   Widget _pieChart(ImmigrationStatisticsRoot rootModel) {
+    final models = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+        .firstWhere((element) => element.id == "cat02")
+        .CLASS
+        .where((element) => element.level == "1")
+        .toList();
+    final totalResult = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
+        .firstWhere((element) => element.cat02 == models.first.code);
     final touchedIndex = ValueNotifier(-1);
+
+    List<PieChartSectionData> _showingSummarySections(
+        int touchedIndex, ImmigrationStatisticsRoot rootModel) {
+      if (models.length < 2) {
+        return [];
+      }
+      models.sort((a, b) => a.code.compareTo(b.code));
+      return List.generate(models.length - 1, (i) {
+        final isTouched = i == touchedIndex;
+        final fontSize = isTouched ? 25.0 : 17.0;
+        final radius = isTouched ? 110.0 : 90.0;
+        final model = models[i + 1];
+        final resultData = rootModel
+            .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
+            .firstWhere((element) => element.cat02 == model.code);
+        return PieChartSectionData(
+          color: chartColors[i],
+          value: resultData.valueDouble,
+          title:
+              '${resultData.valueDouble.ceil()}${totalResult.unit}\n(${(resultData.valueDouble / totalResult.valueDouble * 100).ceil()}%)',
+          radius: radius,
+          titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff)),
+        );
+      });
+    }
+
     return AspectRatio(
-      aspectRatio: 1,
+      aspectRatio: 0.9,
       child: Padding(
           padding: const EdgeInsets.all(8),
           child: Card(
@@ -74,6 +121,11 @@ class _GraphDataPageState extends State<GraphDataPage> {
               children: <Widget>[
                 const SizedBox(
                   height: 10,
+                ),
+                Text(
+                  "${models.first.name} : "
+                  "${totalResult.value}${totalResult.unit}",
+                  style: const TextStyle(fontSize: 18),
                 ),
                 Expanded(
                   child: ValueListenableProvider<int>.value(
@@ -94,8 +146,6 @@ class _GraphDataPageState extends State<GraphDataPage> {
                                           touchedIndex.value = -1;
                                           return;
                                         }
-                                        print(
-                                            "!!!!!!${pieTouchResponse.touchedSection!.touchedSectionIndex}");
                                         touchedIndex.value = pieTouchResponse
                                             .touchedSection!
                                             .touchedSectionIndex;
@@ -105,8 +155,9 @@ class _GraphDataPageState extends State<GraphDataPage> {
                                       ),
                                       sectionsSpace: 0,
                                       centerSpaceRadius: 50,
-                                      sections: _showingSections(
-                                          Provider.of<int>(context))),
+                                      sections: _showingSummarySections(
+                                          Provider.of<int>(context),
+                                          rootModel)),
                                 )),
                       )),
                 ),
@@ -119,40 +170,16 @@ class _GraphDataPageState extends State<GraphDataPage> {
                           mainAxisSize: MainAxisSize.min,
                           // mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const <Widget>[
-                            Indicator(
-                              color: Color(0xff0293ee),
-                              text: 'First',
-                              isSquare: true,
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Indicator(
-                              color: Color(0xfff8b250),
-                              text: 'Second',
-                              isSquare: true,
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Indicator(
-                              color: Color(0xff845bef),
-                              text: 'Third',
-                              isSquare: true,
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Indicator(
-                              color: Color(0xff13d38e),
-                              text: 'Fourth',
-                              isSquare: true,
-                            ),
-                            SizedBox(
-                              height: 18,
-                            ),
-                          ],
+                          children: models
+                              .where((element) => models.indexOf(element) != 0)
+                              .map((e) => Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: Indicator(
+                                  color: chartColors[models.indexOf(e)],
+                                  text: e.name,
+                                  isSquare: true,
+                                ))
+                          ).toList(),
                         ))),
                 const SizedBox(
                   width: 28,
@@ -161,63 +188,6 @@ class _GraphDataPageState extends State<GraphDataPage> {
             ),
           )),
     );
-  }
-
-  List<PieChartSectionData> _showingSections(int touchedIndex) {
-    print("!!!!!!$touchedIndex");
-    return List.generate(4, (i) {
-      final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 17.0;
-      final radius = isTouched ? 110.0 : 90.0;
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: const Color(0xff0293ee),
-            value: 40,
-            title: '40%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: const Color(0xfff8b250),
-            value: 30,
-            title: '30%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-        case 2:
-          return PieChartSectionData(
-            color: const Color(0xff845bef),
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-        case 3:
-          return PieChartSectionData(
-            color: const Color(0xff13d38e),
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-        default:
-          throw Error();
-      }
-    });
   }
 }
 
