@@ -89,7 +89,8 @@ class _GraphDataPageState extends State<GraphDataPage> {
       padding: const EdgeInsets.all(8),
       children: [
         _getShowingSummaryPieChart(models, totalResult, rootModel),
-        _getShowingReceivedPieChart(models, totalResult, rootModel)
+        _getShowingReceivedPieChart(models, totalResult, rootModel),
+        _getShowingSettledPieChart(models, rootModel)
       ],
     ));
   }
@@ -107,7 +108,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
                 height: 10,
               ),
               Text(
-                "${models.first.name} : "
+                "総数 : "
                 "${totalResult.value}${totalResult.unit}",
                 style: const TextStyle(fontSize: 18),
               ),
@@ -170,6 +171,37 @@ class _GraphDataPageState extends State<GraphDataPage> {
             ],
           ),
         ));
+  }
+
+  List<PieChartSectionData> _showingSummarySections(
+      int touchedIndex,
+      ImmigrationStatisticsRoot rootModel,
+      List<Class> models,
+      Value totalResult) {
+    if (models.length < 2) {
+      return [];
+    }
+    models.sort((a, b) => a.code.compareTo(b.code));
+    return List.generate(models.length - 1, (i) {
+      final isTouched = i == touchedIndex;
+      final fontSize = isTouched ? 25.0 : 17.0;
+      final radius = isTouched ? 110.0 : 90.0;
+      final model = models[i + 1];
+      final resultData = rootModel
+          .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
+          .firstWhere((element) => element.cat02 == model.code);
+      return PieChartSectionData(
+        color: chartColors[i],
+        value: resultData.valueDouble,
+        title:
+            '${resultData.valueDouble.ceil()}${totalResult.unit}\n(${(resultData.valueDouble / totalResult.valueDouble * 100).ceil()}%)',
+        radius: radius,
+        titleStyle: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xffffffff)),
+      );
+    });
   }
 
   Widget _getShowingReceivedPieChart(List<Class> pModels, Value totalResult,
@@ -288,7 +320,94 @@ class _GraphDataPageState extends State<GraphDataPage> {
     });
   }
 
-  List<PieChartSectionData> _showingSummarySections(
+  Widget _getShowingSettledPieChart(
+      List<Class> pModels, ImmigrationStatisticsRoot rootModel) {
+    final touchedIndex = ValueNotifier(-1);
+    final models = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+        .firstWhere((element) => element.id == "cat02")
+        .CLASS
+        .where((element) =>
+            (element.parentCode == pModels[1].code) ||
+            (element.code == pModels[1].code))
+        .toList();
+    final resultData = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
+        .firstWhere((element) => element.cat02 == pModels[1].code);
+    return AspectRatio(
+        aspectRatio: 0.9,
+        child: Card(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "${pModels[1].name} : "
+                "${resultData.value}${resultData.unit}",
+                style: const TextStyle(fontSize: 18),
+              ),
+              Expanded(
+                child: ValueListenableProvider<int>.value(
+                    value: touchedIndex,
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Builder(
+                          builder: (context) => PieChart(
+                                PieChartData(
+                                    pieTouchData: PieTouchData(touchCallback:
+                                        (FlTouchEvent event, pieTouchResponse) {
+                                      if (!event.isInterestedForInteractions ||
+                                          pieTouchResponse == null ||
+                                          pieTouchResponse.touchedSection ==
+                                              null) {
+                                        touchedIndex.value = -1;
+                                        return;
+                                      }
+                                      touchedIndex.value = pieTouchResponse
+                                          .touchedSection!.touchedSectionIndex;
+                                    }),
+                                    borderData: FlBorderData(
+                                      show: false,
+                                    ),
+                                    sectionsSpace: 0,
+                                    centerSpaceRadius: 50,
+                                    sections: _showingSettledSections(
+                                        Provider.of<int>(context),
+                                        rootModel,
+                                        models,
+                                        resultData)),
+                              )),
+                    )),
+              ),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                          right: MediaQuery.of(context).size.width * 0.1),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: models
+                            .where((element) => models.indexOf(element) != 0)
+                            .map((e) => Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: Indicator(
+                                  color: chartColors[models.indexOf(e) - 1],
+                                  text: e.name,
+                                  isSquare: true,
+                                )))
+                            .toList(),
+                      ))),
+              const SizedBox(
+                width: 28,
+              ),
+            ],
+          ),
+        ));
+  }
+
+  List<PieChartSectionData> _showingSettledSections(
       int touchedIndex,
       ImmigrationStatisticsRoot rootModel,
       List<Class> models,
