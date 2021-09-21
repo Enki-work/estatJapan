@@ -111,83 +111,87 @@ class _GraphDataPageState extends State<GraphDataPage> {
       });
     }
 
-    return AspectRatio(
-      aspectRatio: 0.9,
-      child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Card(
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "${models.first.name} : "
-                  "${totalResult.value}${totalResult.unit}",
-                  style: const TextStyle(fontSize: 18),
-                ),
-                Expanded(
-                  child: ValueListenableProvider<int>.value(
-                      value: touchedIndex,
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: Builder(
-                            builder: (context) => PieChart(
-                                  PieChartData(
-                                      pieTouchData: PieTouchData(touchCallback:
-                                          (FlTouchEvent event,
-                                              pieTouchResponse) {
-                                        if (!event
-                                                .isInterestedForInteractions ||
-                                            pieTouchResponse == null ||
-                                            pieTouchResponse.touchedSection ==
-                                                null) {
-                                          touchedIndex.value = -1;
-                                          return;
-                                        }
-                                        touchedIndex.value = pieTouchResponse
-                                            .touchedSection!
-                                            .touchedSectionIndex;
-                                      }),
-                                      borderData: FlBorderData(
-                                        show: false,
-                                      ),
-                                      sectionsSpace: 0,
-                                      centerSpaceRadius: 50,
-                                      sections: _showingSummarySections(
-                                          Provider.of<int>(context),
-                                          rootModel)),
-                                )),
-                      )),
-                ),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                        padding: EdgeInsets.only(
-                            right: MediaQuery.of(context).size.width * 0.1),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          // mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: models
-                              .where((element) => models.indexOf(element) != 0)
-                              .map((e) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 4),
-                                  child: Indicator(
-                                    color: chartColors[models.indexOf(e)],
-                                    text: e.name,
-                                    isSquare: true,
-                                  )))
-                              .toList(),
-                        ))),
-                const SizedBox(
-                  width: 28,
-                ),
-              ],
-            ),
-          )),
-    );
+    return SafeArea(
+        child: ListView(
+      padding: const EdgeInsets.all(8),
+      children: [
+        AspectRatio(
+            aspectRatio: 0.9,
+            child: Card(
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "${models.first.name} : "
+                    "${totalResult.value}${totalResult.unit}",
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  Expanded(
+                    child: ValueListenableProvider<int>.value(
+                        value: touchedIndex,
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: Builder(
+                              builder: (context) => PieChart(
+                                    PieChartData(
+                                        pieTouchData: PieTouchData(
+                                            touchCallback: (FlTouchEvent event,
+                                                pieTouchResponse) {
+                                          if (!event
+                                                  .isInterestedForInteractions ||
+                                              pieTouchResponse == null ||
+                                              pieTouchResponse.touchedSection ==
+                                                  null) {
+                                            touchedIndex.value = -1;
+                                            return;
+                                          }
+                                          touchedIndex.value = pieTouchResponse
+                                              .touchedSection!
+                                              .touchedSectionIndex;
+                                        }),
+                                        borderData: FlBorderData(
+                                          show: false,
+                                        ),
+                                        sectionsSpace: 0,
+                                        centerSpaceRadius: 50,
+                                        sections: _showingSummarySections(
+                                            Provider.of<int>(context),
+                                            rootModel)),
+                                  )),
+                        )),
+                  ),
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              right: MediaQuery.of(context).size.width * 0.1),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: models
+                                .where(
+                                    (element) => models.indexOf(element) != 0)
+                                .map((e) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 4),
+                                    child: Indicator(
+                                      color: chartColors[models.indexOf(e)],
+                                      text: e.name,
+                                      isSquare: true,
+                                    )))
+                                .toList(),
+                          ))),
+                  const SizedBox(
+                    width: 28,
+                  ),
+                ],
+              ),
+            ))
+      ],
+    ));
   }
 }
 
