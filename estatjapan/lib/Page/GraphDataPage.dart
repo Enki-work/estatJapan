@@ -178,7 +178,9 @@ class _GraphDataPageState extends State<GraphDataPage> {
     final models = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
         .firstWhere((element) => element.id == "cat02")
         .CLASS
-        .where((element) => element.parentCode == pModels.first.code)
+        .where((element) =>
+            (element.parentCode == pModels.first.code) ||
+            (element.code == pModels.first.code))
         .toList();
     return AspectRatio(
         aspectRatio: 0.9,
@@ -237,10 +239,11 @@ class _GraphDataPageState extends State<GraphDataPage> {
                         // mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: models
+                            .where((element) => models.indexOf(element) != 0)
                             .map((e) => Padding(
                                 padding: const EdgeInsets.only(bottom: 4),
                                 child: Indicator(
-                                  color: chartColors[models.indexOf(e)],
+                                  color: chartColors[models.indexOf(e) - 1],
                                   text: e.name,
                                   isSquare: true,
                                 )))
@@ -263,11 +266,11 @@ class _GraphDataPageState extends State<GraphDataPage> {
       return [];
     }
     models.sort((a, b) => a.code.compareTo(b.code));
-    return List.generate(models.length, (i) {
+    return List.generate(models.length - 1, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 17.0;
       final radius = isTouched ? 110.0 : 90.0;
-      final model = models[i];
+      final model = models[i + 1];
       final resultData = rootModel
           .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
           .firstWhere((element) => element.cat02 == model.code);
