@@ -57,14 +57,14 @@ class GraphDataSelectPage extends StatelessWidget {
                                     .pushNamed("MonthSelectPage",
                                         arguments: obj) as Class?;
                                 Provider.of<GraphData>(context, listen: false)
-                                    .selectedCat02Mode = result;
+                                    .selectedMonth = result;
                               },
                               child: Text(
                                   Provider.of<GraphData>(context, listen: true)
-                                              .selectedCat02Mode ==
+                                              .selectedMonth ==
                                           null
                                       ? '時間軸（月次）選択'
-                                      : '時間軸（月次）選択\n(${Provider.of<GraphData>(context, listen: true).selectedCat02Mode?.name})',
+                                      : '時間軸（月次）選択\n(${Provider.of<GraphData>(context, listen: true).selectedMonth?.name})',
                                   textAlign: TextAlign.center),
                             )),
                       ),

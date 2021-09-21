@@ -36,7 +36,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
             widget.graphData.selectedCat03Mode!.name +
                 "の" +
                 widget.graphData.selectedCat01Mode!.name +
-                "\n(${widget.graphData.selectedCat02Mode!.name})統計グラフ",
+                "\n(${widget.graphData.selectedMonth!.name})統計グラフ",
             style: const TextStyle(
               color: Colors.black,
               fontSize: 18,
@@ -173,13 +173,13 @@ class _GraphDataPageState extends State<GraphDataPage> {
                           children: models
                               .where((element) => models.indexOf(element) != 0)
                               .map((e) => Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: Indicator(
-                                  color: chartColors[models.indexOf(e)],
-                                  text: e.name,
-                                  isSquare: true,
-                                ))
-                          ).toList(),
+                                  padding: const EdgeInsets.only(bottom: 4),
+                                  child: Indicator(
+                                    color: chartColors[models.indexOf(e)],
+                                    text: e.name,
+                                    isSquare: true,
+                                  )))
+                              .toList(),
                         ))),
                 const SizedBox(
                   width: 28,
