@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:estatjapan/Util/Indicator.dart';
+import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/Class.dart';
 import 'package:estatjapan/model/GraphData.dart';
 import 'package:estatjapan/model/ImmigrationStatisticsRoot.dart';
 import 'package:estatjapan/model/Value.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 class GraphDataPage extends StatefulWidget {
@@ -84,15 +86,25 @@ class _GraphDataPageState extends State<GraphDataPage> {
     final totalResult = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
         .firstWhere((element) => element.cat02 == models.first.code);
 
-    return SafeArea(
-        child: ListView(
-      padding: const EdgeInsets.all(8),
-      children: [
-        _getShowingSummaryPieChart(models, totalResult, rootModel),
-        _getShowingReceivedPieChart(models, totalResult, rootModel),
-        _getShowingSettledPieChart(models, rootModel)
-      ],
-    ));
+    return ChangeNotifierProvider<BannerAdModel>(
+        create: (_) => BannerAdModel()..loadBannerAd(),
+        child: SafeArea(child: Builder(builder: (context) {
+          BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
+          return ListView(
+            padding: const EdgeInsets.all(8),
+            children: [
+              Container(
+                child: AdWidget(ad: bAdModel.bannerAd()),
+                width: bAdModel.bannerAd().size.width.toDouble(),
+                height: 72.0,
+                alignment: Alignment.center,
+              ),
+              _getShowingSummaryPieChart(models, totalResult, rootModel),
+              _getShowingReceivedPieChart(models, totalResult, rootModel),
+              _getShowingSettledPieChart(models, rootModel)
+            ],
+          );
+        })));
   }
 
   Widget _getShowingSummaryPieChart(List<Class> models, Value totalResult,
