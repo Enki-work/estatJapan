@@ -101,14 +101,37 @@ class GraphDataSelectPage extends StatelessWidget {
                                     fixedSize: MaterialStateProperty.all(Size(
                                         MediaQuery.of(context).size.width * 0.5,
                                         60))),
-                                icon: const Icon(Icons.auto_graph_rounded),
-                                label: const Text("確定"),
+                                icon: const Icon(Icons.pie_chart_rounded),
+                                label: const Text("月次円グラフ表示"),
                                 onPressed: (Provider.of<GraphData>(context,
                                             listen: true)
                                         .isModelExist())
                                     ? () {
                                         Navigator.of(context).pushNamed(
                                             "GraphDataPage",
+                                            arguments: Provider.of<GraphData>(
+                                                context,
+                                                listen: false));
+                                      }
+                                    : null,
+                              ))),
+                      SizedBox(
+                          height: 95,
+                          child: Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
+                              child: ElevatedButton.icon(
+                                style: ButtonStyle(
+                                    fixedSize: MaterialStateProperty.all(Size(
+                                        MediaQuery.of(context).size.width * 0.5,
+                                        60))),
+                                icon: const Icon(Icons.auto_graph_rounded),
+                                label: const Text("全期間折れ線グラフ表示"),
+                                onPressed: (Provider.of<GraphData>(context,
+                                            listen: true)
+                                        .isModelExist())
+                                    ? () {
+                                        Navigator.of(context).pushNamed(
+                                            "LineGraphDataPage",
                                             arguments: Provider.of<GraphData>(
                                                 context,
                                                 listen: false));

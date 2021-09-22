@@ -6,6 +6,7 @@ import 'Page/DataTablePage.dart';
 import 'Page/EStatInfoPage.dart';
 import 'Page/GraphDataPage.dart';
 import 'Page/LicenseInfoPage.dart';
+import 'Page/LineGraphDataPage.dart';
 import 'Page/MonthSelectPage.dart';
 import 'Page/RootPage.dart';
 import 'Page/VisaTypeSelectPage.dart';
@@ -76,6 +77,12 @@ class MyApp extends StatelessWidget {
                     },
                     "GraphDataPage": (context) {
                       return GraphDataPage(
+                        graphData: ModalRoute.of(context)?.settings.arguments
+                            as GraphData,
+                      );
+                    },
+                    "LineGraphDataPage": (context) {
+                      return LineGraphDataPage(
                         graphData: ModalRoute.of(context)?.settings.arguments
                             as GraphData,
                       );
