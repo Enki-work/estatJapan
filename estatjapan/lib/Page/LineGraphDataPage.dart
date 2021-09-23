@@ -48,7 +48,7 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
           ],
         ),
         body: FutureBuilder(
-            future: _dio.get(widget.graphData.url),
+            future: _dio.get(widget.graphData.urlWithoutMonth),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
@@ -65,14 +65,6 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
   }
 
   Widget _lineChart(ImmigrationStatisticsRoot rootModel) {
-    final models = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-        .firstWhere((element) => element.id == "cat02")
-        .CLASS
-        .where((element) => element.level == "1")
-        .toList();
-    final totalResult = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
-        .firstWhere((element) => element.cat02 == models.first.code);
-
     return ChangeNotifierProvider<BannerAdModel>(
         create: (_) => BannerAdModel()..loadBannerAd(),
         child: SafeArea(child: Builder(builder: (context) {
@@ -86,110 +78,80 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
                 height: 72.0,
                 alignment: Alignment.center,
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Text(
+                  "${widget.graphData.selectedCat01Mode!.name}許可率",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ),
               Container(
                 padding: const EdgeInsets.only(top: 20),
                 height: 250,
-                child: _LineChart(),
+                child: LineChart(
+                  passRateData(rootModel),
+                  swapAnimationDuration: const Duration(milliseconds: 250),
+                ),
               )
             ],
           );
         })));
   }
-}
 
-class _LineChart extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return LineChart(
-      sampleData2,
-      swapAnimationDuration: const Duration(milliseconds: 250),
-    );
-  }
-
-  LineChartData get sampleData2 => LineChartData(
-        lineTouchData: lineTouchData2,
-        gridData: gridData,
-        titlesData: titlesData2,
-        borderData: borderData,
-        lineBarsData: lineBarsData2,
-        minX: 0,
-        maxX: 14,
-        maxY: 6,
-        minY: 0,
-      );
-
-  LineTouchData get lineTouchData2 => LineTouchData(
-        enabled: true,
-      );
-
-  FlTitlesData get titlesData2 => FlTitlesData(
-        bottomTitles: bottomTitles,
+  LineChartData passRateData(ImmigrationStatisticsRoot rootModel) {
+    final timeModels = rootModel
+        .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+        .firstWhere((element) => element.id == "time")
+        .CLASS
+        .toList();
+    timeModels.sort((left, right) => left.code.compareTo(right.code));
+    return LineChartData(
+      lineTouchData: LineTouchData(enabled: true),
+      gridData: FlGridData(show: false),
+      titlesData: FlTitlesData(
+        bottomTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 50,
+          margin: 0,
+          interval: 1,
+          getTextStyles: (context, value) => const TextStyle(
+            color: Color(0xff72719b),
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+          getTitles: (value) {
+            return timeModels[value.toInt()].name.characters.join("\n");
+          },
+        ),
         rightTitles: SideTitles(showTitles: false),
-        topTitles: SideTitles(showTitles: true),
-        leftTitles: leftTitles(
+        topTitles: SideTitles(showTitles: false),
+        leftTitles: SideTitles(
           getTitles: (value) {
             switch (value.toInt()) {
-              case 1:
-                return '1m';
-              case 2:
-                return '2m';
-              case 3:
-                return '3m';
-              case 4:
-                return '5m';
-              case 5:
-                return '6m';
+              case 100:
+                return '100%';
+              case 75:
+                return '75%';
+              case 25:
+                return '25%';
+              case 50:
+                return '50%';
             }
             return '';
           },
+          showTitles: true,
+          margin: 0,
+          interval: 1,
+          reservedSize: 40,
+          getTextStyles: (context, value) => const TextStyle(
+            color: Color(0xff75729e),
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+          ),
         ),
-      );
-
-  List<LineChartBarData> get lineBarsData2 => [
-        lineChartBarData2_1,
-        // lineChartBarData2_2,
-        // lineChartBarData2_3,
-      ];
-
-  SideTitles leftTitles({required GetTitleFunction getTitles}) => SideTitles(
-        getTitles: getTitles,
-        showTitles: true,
-        margin: 8,
-        interval: 1,
-        reservedSize: 40,
-        getTextStyles: (context, value) => const TextStyle(
-          color: Color(0xff75729e),
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-        ),
-      );
-
-  SideTitles get bottomTitles => SideTitles(
-        showTitles: true,
-        reservedSize: 50,
-        margin: 10,
-        interval: 1,
-        getTextStyles: (context, value) => const TextStyle(
-          color: Color(0xff72719b),
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-        ),
-        getTitles: (value) {
-          switch (value.toInt()) {
-            case 2:
-              return 'SEPT';
-            case 7:
-              return 'OCT';
-            case 12:
-              return 'DEC';
-          }
-          return '';
-        },
-      );
-
-  FlGridData get gridData => FlGridData(show: false);
-
-  FlBorderData get borderData => FlBorderData(
+      ),
+      borderData: FlBorderData(
         show: true,
         border: const Border(
           bottom: BorderSide(color: Color(0xff4e4965), width: 4),
@@ -197,63 +159,43 @@ class _LineChart extends StatelessWidget {
           right: BorderSide(color: Colors.transparent),
           top: BorderSide(color: Colors.transparent),
         ),
-      );
-
-  LineChartBarData get lineChartBarData2_1 => LineChartBarData(
-        isCurved: true,
-        curveSmoothness: 0,
-        colors: const [Color(0xff4af699)],
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: [
-          FlSpot(1, 1),
-          FlSpot(3, 4),
-          FlSpot(5, 1.8),
-          FlSpot(7, 5),
-          FlSpot(10, 2),
-          FlSpot(12, 2.2),
-          FlSpot(13, 1.8),
-        ],
-      );
-
-  LineChartBarData get lineChartBarData2_2 => LineChartBarData(
-        isCurved: true,
-        colors: const [Color(0xffaa4cfc)],
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(
-          show: true,
-          colors: [
-            const Color(0x33aa4cfc),
-          ],
-        ),
-        spots: [
-          FlSpot(1, 1),
-          FlSpot(3, 2.8),
-          FlSpot(7, 1.2),
-          FlSpot(10, 2.8),
-          FlSpot(12, 2.6),
-          FlSpot(13, 3.9),
-        ],
-      );
-
-  LineChartBarData get lineChartBarData2_3 => LineChartBarData(
-        isCurved: true,
-        curveSmoothness: 0,
-        colors: const [Color(0xff27b6fc)],
-        barWidth: 2,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: true),
-        belowBarData: BarAreaData(show: false),
-        spots: [
-          FlSpot(1, 3.8),
-          FlSpot(3, 1.9),
-          FlSpot(6, 5),
-          FlSpot(10, 3.3),
-          FlSpot(13, 4.5),
-        ],
-      );
+      ),
+      lineBarsData: [
+        LineChartBarData(
+            isCurved: true,
+            curveSmoothness: 0,
+            colors: const [Color(0xff4af699)],
+            barWidth: 4,
+            isStrokeCapRound: true,
+            dotData: FlDotData(show: false),
+            belowBarData: BarAreaData(show: false),
+            spots: timeModels.map((e) {
+              final value = rootModel
+                  .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
+                  .where((element) => element.time == e.code);
+              if (value
+                      .firstWhere((element) => element.cat02 == "00200")
+                      .valueDouble ==
+                  0) {
+                return FlSpot(timeModels.indexOf(e).toDouble(), 0);
+              } else {
+                final rate = value
+                        .firstWhere((element) => element.cat02 == "00201")
+                        .valueDouble /
+                    value
+                        .firstWhere((element) => element.cat02 == "00200")
+                        .valueDouble;
+                return FlSpot(timeModels.indexOf(e).toDouble(),
+                    (rate * 1000).toInt() / 10.toDouble());
+              }
+            }).toList()),
+        // lineChartBarData2_2,
+        // lineChartBarData2_3,
+      ],
+      minX: 0,
+      maxX: timeModels.length.toDouble() - 1,
+      maxY: 100,
+      minY: 0,
+    );
+  }
 }

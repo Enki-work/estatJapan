@@ -33,8 +33,15 @@ class GraphData extends ChangeNotifier {
   }
 
   String get url {
-    // print(
-    //     "1111111${'http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=${AppConfig.shared.estatAppId}&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0&cdTime=${_selectedMonth!.code}&cdCat01=${_selectedCat01Mode!.code}&cdCat03=${_selectedCat03Mode!.code}'}");
-    return 'http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=${AppConfig.shared.estatAppId}&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0&cdTime=${_selectedMonth!.code}&cdCat01=${_selectedCat01Mode!.code}&cdCat03=${_selectedCat03Mode!.code}';
+    print(
+        "1111111${'http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=${AppConfig.shared.estatAppId}&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0&cdTime=${_selectedMonth!.code}&cdCat01=${_selectedCat01Mode!.code}&cdCat03=${_selectedCat03Mode!.code}'}");
+    return 'http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=${AppConfig.shared.estatAppId}&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0&cdCat01=${_selectedCat01Mode!.code}&cdCat03=${_selectedCat03Mode!.code}' +
+        (selectedMonth == null ? '' : "&cdTime=${_selectedMonth!.code}");
+  }
+
+  String get urlWithoutMonth {
+    print(
+        "1111111${'http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=${AppConfig.shared.estatAppId}&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0&cdCat01=${_selectedCat01Mode!.code}&cdCat03=${_selectedCat03Mode!.code}'}");
+    return 'http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=${AppConfig.shared.estatAppId}&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0&cdCat01=${_selectedCat01Mode!.code}&cdCat03=${_selectedCat03Mode!.code}';
   }
 }
