@@ -16,6 +16,9 @@ import 'model/ClassOBJ.dart';
 import 'model/GraphData.dart';
 import 'model/RouteModel.dart';
 
+const bool isRelease =
+    bool.fromEnvironment('dart.vm.product', defaultValue: false);
+
 void main() {
   runApp(const MyApp());
 }
