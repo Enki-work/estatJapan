@@ -4,6 +4,9 @@
 <dict>
 	<key>GADApplicationIdentifier</key>
 	<string>$(GAD_APP_ID)</string>
+    
+    <key>AD_UNIT_ID</key>
+    <string>$(AD_UNIT_ID)</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
