@@ -1,6 +1,8 @@
 import UIKit
 import Flutter
 import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate, GADFullScreenContentDelegate {
@@ -15,14 +17,19 @@ import GoogleMobileAds
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         GeneratedPluginRegistrant.register(with: self)
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
     override func applicationDidBecomeActive(_ application: UIApplication) {
         if let currentVC = application.keyWindow?.rootViewController {
-            // Show the ad (if available) when the app moves from the inactive to active state.
-            showAdIfAvailable(viewController: currentVC)
+            
+            if #available(iOS 14, *) {
+                ATTrackingManager.requestTrackingAuthorization(completionHandler: {   [weak self] status in
+                    self?.showAdIfAvailable(viewController: currentVC)
+                })
+            } else {
+                showAdIfAvailable(viewController: currentVC)
+            }
         }
     }
     
