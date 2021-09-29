@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
                 ConnectionState.done
             ? MaterialApp(
                 title: 'Flutter Demo',
+                debugShowCheckedModeBanner: false,
                 theme: ThemeData(
                     primarySwatch: Colors.orange,
                     iconTheme: IconThemeData(color: Colors.orangeAccent)),
