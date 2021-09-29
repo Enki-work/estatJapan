@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "402202697733",
+    "project_id": "estatjapan",
+    "storage_bucket": "estatjapan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402202697733:android:536d7b0d7090020757fc6c",
+        "android_client_info": {
+          "package_name": "com.estatjapan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "402202697733-npkru95ksgd6cg2f5dsm6831drckdjtr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHLY2g4n2uTRxk7HnmlrVp0X1SdisJOYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "402202697733-npkru95ksgd6cg2f5dsm6831drckdjtr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

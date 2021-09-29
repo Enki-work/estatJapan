@@ -24,7 +24,7 @@ class MainActivity: FlutterActivity() {
 //            })
 //            .show()
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            val TAG = "A"
+            val TAG = "AAAA"
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
