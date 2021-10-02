@@ -1,3 +1,6 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'Page/BureauSelectPage.dart';
@@ -20,16 +23,29 @@ const bool isRelease =
     bool.fromEnvironment('dart.vm.product', defaultValue: false);
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
   const MyApp({Key? key}) : super(key: key);
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Future<_MyAppStateData> _getMyAppStateData() async {
+    return _MyAppStateData(
+        await Firebase.initializeApp(), await AppConfig.forEnvironment());
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: AppConfig.forEnvironment(),
+        future: _getMyAppStateData(),
         builder: (context, snapshot) => snapshot.connectionState ==
                 ConnectionState.done
             ? MaterialApp(
@@ -41,6 +57,9 @@ class MyApp extends StatelessWidget {
                     primarySwatch: Colors.deepOrange,
                     iconTheme:
                         const IconThemeData(color: Colors.deepOrangeAccent)),
+                navigatorObservers: <NavigatorObserver>[
+                    MyApp.observer
+                  ],
                 routes: {
                     "MonthSelectPage": (context) {
                       if (ModalRoute.of(context)?.settings.arguments
@@ -99,4 +118,11 @@ class MyApp extends StatelessWidget {
                   })
             : const Center(child: CircularProgressIndicator()));
   }
+}
+
+class _MyAppStateData {
+  final FirebaseApp firebaseApp;
+  final AppConfig appConfig;
+
+  _MyAppStateData(this.firebaseApp, this.appConfig);
 }
