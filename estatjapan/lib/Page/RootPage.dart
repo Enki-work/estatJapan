@@ -164,7 +164,7 @@ class RootPage extends StatelessWidget {
               Provider.of<ImmigrationStatisticsModel>(context);
           return Column(
             children: [
-              if (orientation == Orientation.portrait)
+              if (orientation == Orientation.portrait && bAdModel.isAdLoaded())
                 Container(
                   child: AdWidget(ad: bAdModel.bannerAd()),
                   width: bAdModel.bannerAd().size.width.toDouble(),
