@@ -35,6 +35,7 @@ target 'Runner' do
   pod 'Google-Mobile-Ads-SDK'
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
+  pod 'Firebase/Crashlytics'
 end
 
 post_install do |installer|
