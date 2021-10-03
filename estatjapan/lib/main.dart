@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 
 import 'Page/BureauSelectPage.dart';
@@ -23,8 +26,14 @@ const bool isRelease =
     bool.fromEnvironment('dart.vm.product', defaultValue: false);
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    runApp(const MyApp());
+  }, (error, stackTrace) {
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -37,15 +46,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<_MyAppStateData> _getMyAppStateData() async {
-    return _MyAppStateData(
-        await Firebase.initializeApp(), await AppConfig.forEnvironment());
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _getMyAppStateData(),
+        future: AppConfig.forEnvironment(),
         builder: (context, snapshot) => snapshot.connectionState ==
                 ConnectionState.done
             ? MaterialApp(
@@ -118,11 +122,4 @@ class _MyAppState extends State<MyApp> {
                   })
             : const Center(child: CircularProgressIndicator()));
   }
-}
-
-class _MyAppStateData {
-  final FirebaseApp firebaseApp;
-  final AppConfig appConfig;
-
-  _MyAppStateData(this.firebaseApp, this.appConfig);
 }
