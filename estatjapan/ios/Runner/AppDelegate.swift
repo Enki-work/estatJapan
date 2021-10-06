@@ -3,6 +3,8 @@ import Flutter
 import GoogleMobileAds
 import Firebase
 import UserNotifications
+import AppTrackingTransparency
+import AdSupport
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate, GADFullScreenContentDelegate {
@@ -47,8 +49,13 @@ import UserNotifications
     
     override func applicationDidBecomeActive(_ application: UIApplication) {
         if let currentVC = application.keyWindow?.rootViewController {
-            // Show the ad (if available) when the app moves from the inactive to active state.
-            showAdIfAvailable(viewController: currentVC)
+            if #available(iOS 14, *) {
+                ATTrackingManager.requestTrackingAuthorization(completionHandler: {   [weak self] status in
+                    self?.showAdIfAvailable(viewController: currentVC)
+                })
+            } else {
+                showAdIfAvailable(viewController: currentVC)
+            }
         }
     }
     
@@ -58,9 +65,10 @@ import UserNotifications
             return
         }
         isLoadingAd = true
+        let AD_UNIT_ID = Bundle.main.infoDictionary?["AD_UNIT_ID"] as? String ?? ""
         print("Start loading ad.")
         GADAppOpenAd.load(
-            withAdUnitID: "ca-app-pub-3940256099942544/5662855259",
+            withAdUnitID: AD_UNIT_ID,
             request: GADRequest(),
             orientation: UIInterfaceOrientation.portrait
         ) { ad, error in

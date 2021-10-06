@@ -93,12 +93,13 @@ class _GraphDataPageState extends State<GraphDataPage> {
           return ListView(
             padding: const EdgeInsets.all(8),
             children: [
-              Container(
-                child: AdWidget(ad: bAdModel.bannerAd()),
-                width: bAdModel.bannerAd().size.width.toDouble(),
-                height: 72.0,
-                alignment: Alignment.center,
-              ),
+              if (bAdModel.isAdLoaded())
+                Container(
+                  child: AdWidget(ad: bAdModel.bannerAd()),
+                  width: bAdModel.bannerAd().size.width.toDouble(),
+                  height: 72.0,
+                  alignment: Alignment.center,
+                ),
               _getShowingSummaryPieChart(models, totalResult, rootModel),
               _getShowingReceivedPieChart(models, totalResult, rootModel),
               _getShowingSettledPieChart(models, rootModel)

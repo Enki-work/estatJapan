@@ -72,12 +72,13 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
           return ListView(
             padding: const EdgeInsets.all(8),
             children: [
-              Container(
-                child: AdWidget(ad: bAdModel.bannerAd()),
-                width: bAdModel.bannerAd().size.width.toDouble(),
-                height: 72.0,
-                alignment: Alignment.center,
-              ),
+              if (bAdModel.isAdLoaded())
+                Container(
+                  child: AdWidget(ad: bAdModel.bannerAd()),
+                  width: bAdModel.bannerAd().size.width.toDouble(),
+                  height: 72.0,
+                  alignment: Alignment.center,
+                ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: Text(

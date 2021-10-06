@@ -86,12 +86,13 @@ class _DataTablePageState extends State<DataTablePage> {
         child: OrientationBuilder(builder: (context, orientation) {
           BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
           return Column(children: [
-            if (orientation == Orientation.portrait) Container(
-              child: AdWidget(ad: bAdModel.bannerAd()),
-              width: bAdModel.bannerAd().size.width.toDouble(),
-              height: 72.0,
-              alignment: Alignment.center,
-            ),
+            if (orientation == Orientation.portrait && bAdModel.isAdLoaded())
+              Container(
+                child: AdWidget(ad: bAdModel.bannerAd()),
+                width: bAdModel.bannerAd().size.width.toDouble(),
+                height: 72.0,
+                alignment: Alignment.center,
+              ),
             Expanded(
               child: HorizontalDataTable(
                 leftHandSideColumnWidth: leftHandSideColumnWidth,

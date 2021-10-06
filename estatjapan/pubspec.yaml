@@ -33,6 +33,9 @@ dependencies:
   google_mobile_ads: ^0.13.4
   webview_flutter: ^2.0.0
   fl_chart: ^0.40.0
+  firebase_core: ^1.7.0
+  firebase_analytics: ^8.3.3
+  firebase_crashlytics: ^2.2.2
 
 dev_dependencies:
   flutter_test:
