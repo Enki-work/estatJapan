@@ -33,6 +33,10 @@ target 'Runner' do
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   pod 'Google-Mobile-Ads-SDK'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/Crashlytics'
+  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '8.6.0'
 end
 
 post_install do |installer|
