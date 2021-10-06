@@ -1,3 +1,9 @@
+import 'dart:async';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 
 import 'Page/BureauSelectPage.dart';
@@ -20,12 +26,26 @@ const bool isRelease =
     bool.fromEnvironment('dart.vm.product', defaultValue: false);
 
 void main() {
-  runApp(const MyApp());
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    runApp(const MyApp());
+  }, (error, stackTrace) {
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  });
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
   const MyApp({Key? key}) : super(key: key);
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -42,6 +62,9 @@ class MyApp extends StatelessWidget {
                     primarySwatch: Colors.deepOrange,
                     iconTheme:
                         const IconThemeData(color: Colors.deepOrangeAccent)),
+                navigatorObservers: <NavigatorObserver>[
+                    MyApp.observer
+                  ],
                 routes: {
                     "MonthSelectPage": (context) {
                       if (ModalRoute.of(context)?.settings.arguments
