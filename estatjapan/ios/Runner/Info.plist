@@ -4,8 +4,8 @@
 <dict>
     <key>GADApplicationIdentifier</key>
     <string>$(GAD_APP_ID)</string>
-	<key>AD_UNIT_ID</key>
-	<string>$(AD_UNIT_ID)</string>
+    <key>AD_UNIT_ID</key>
+    <string>$(AD_UNIT_ID)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
+	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
