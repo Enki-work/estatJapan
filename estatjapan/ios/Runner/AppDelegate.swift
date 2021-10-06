@@ -66,7 +66,7 @@ import AdSupport
         }
         isLoadingAd = true
         let AD_UNIT_ID = Bundle.main.infoDictionary?["AD_UNIT_ID"] as? String ?? ""
-        print("Start loading ad.")
+        debugPrint("Start loading ad.")
         GADAppOpenAd.load(
             withAdUnitID: AD_UNIT_ID,
             request: GADRequest(),
@@ -74,7 +74,7 @@ import AdSupport
         ) { ad, error in
             if let error = error {
                 self.isLoadingAd = false
-                print("App open ad failed to load with error: \(error.localizedDescription).")
+                debugPrint("App open ad failed to load with error: \(error.localizedDescription).")
                 return
             }
             
@@ -82,7 +82,7 @@ import AdSupport
             self.appOpenAd?.fullScreenContentDelegate = self
             self.isLoadingAd = false
             self.loadTime = Date()
-            print("Loading Succeeded.")
+            debugPrint("Loading Succeeded.")
         }
     }
     
@@ -105,17 +105,17 @@ import AdSupport
     func showAdIfAvailable(viewController: UIViewController) {
         // If the app open ad is already showing, do not show the ad again.
         if isShowingAd {
-            print("The app open ad is already showing.")
+            debugPrint("The app open ad is already showing.")
             return
         }
         // If the app open ad is not available yet, invoke the callback then load the ad.
         if !isAdAvailable() {
-            print("The app open ad is not ready yet.")
+            debugPrint("The app open ad is not ready yet.")
             loadAd()
             return
         }
         if let ad = appOpenAd {
-            print("Will show ad.")
+            debugPrint("Will show ad.")
             isShowingAd = true
             ad.present(fromRootViewController: viewController)
         }
@@ -123,13 +123,13 @@ import AdSupport
     
     // MARK: GADFullScreenContentDelegate
     func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-        print("App open ad presented.")
+        debugPrint("App open ad presented.")
     }
     
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         appOpenAd = nil
         isShowingAd = false
-        print("App open ad dismissed.")
+        debugPrint("App open ad dismissed.")
         loadAd()
     }
     
@@ -139,7 +139,7 @@ import AdSupport
     ) {
         appOpenAd = nil
         isShowingAd = false
-        print("App open ad failed to present with error: \(error.localizedDescription).")
+        debugPrint("App open ad failed to present with error: \(error.localizedDescription).")
         loadAd()
     }
     
@@ -152,11 +152,11 @@ import AdSupport
       // Messaging.messaging().appDidReceiveMessage(userInfo)
       // Print message ID.
       if let messageID = userInfo[gcmMessageIDKey] {
-        print("Message ID: \(messageID)")
+        debugPrint("Message ID: \(messageID)")
       }
 
       // Print full message.
-      print(userInfo)
+      debugPrint(userInfo)
     }
 
     // [START receive_message]
@@ -171,11 +171,11 @@ import AdSupport
       // Messaging.messaging().appDidReceiveMessage(userInfo)
       // Print message ID.
       if let messageID = userInfo[gcmMessageIDKey] {
-        print("Message ID: \(messageID)")
+        debugPrint("Message ID: \(messageID)")
       }
 
       // Print full message.
-      print(userInfo)
+      debugPrint(userInfo)
 
       completionHandler(UIBackgroundFetchResult.newData)
     }
@@ -183,7 +183,7 @@ import AdSupport
     // [END receive_message]
     override func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
-      print("Unable to register for remote notifications: \(error.localizedDescription)")
+      debugPrint("Unable to register for remote notifications: \(error.localizedDescription)")
     }
 
     // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
@@ -191,7 +191,7 @@ import AdSupport
     // the FCM registration token.
     override func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-      print("APNs token retrieved: \(deviceToken)")
+      debugPrint("APNs token retrieved: \(deviceToken)")
 
       // With swizzling disabled you must set the APNs token here.
       // Messaging.messaging().apnsToken = deviceToken
@@ -213,11 +213,11 @@ extension AppDelegate {
         // [START_EXCLUDE]
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
+            debugPrint("Message ID: \(messageID)")
         }
         // [END_EXCLUDE]
         // Print full message.
-        print(userInfo)
+        debugPrint(userInfo)
         
         // Change this to your preferred presentation option
         completionHandler([[.alert, .sound]])
@@ -231,13 +231,13 @@ extension AppDelegate {
         // [START_EXCLUDE]
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
+            debugPrint("Message ID: \(messageID)")
         }
         // [END_EXCLUDE]
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print full message.
-        print(userInfo)
+        debugPrint(userInfo)
         
         completionHandler()
     }
@@ -247,7 +247,7 @@ extension AppDelegate {
 extension AppDelegate: MessagingDelegate {
     // [START refresh_token]
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("Firebase registration token: \(String(describing: fcmToken))")
+        debugPrint("Firebase registration token: \(String(describing: fcmToken))")
         
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(
