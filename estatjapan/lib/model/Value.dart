@@ -18,6 +18,9 @@ class Value {
   final String? unit;
   @JsonKey(name: "\$")
   final String? value;
+
+  double get valueDouble => double.parse(value ?? "0");
+
   Value(
       {required this.tab,
       required this.cat01,

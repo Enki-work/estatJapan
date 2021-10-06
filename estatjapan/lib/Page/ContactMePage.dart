@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -33,8 +34,8 @@ class ContactMePage extends StatelessWidget {
                       style: ButtonStyle(
                           fixedSize: MaterialStateProperty.all(Size(
                               MediaQuery.of(context).size.width * 0.5, 60))),
-                      icon: Icon(Icons.send),
-                      label: Text("メール送信"),
+                      icon: const Icon(Icons.send),
+                      label: const Text("メール送信"),
                       onPressed: () async {
                         String? encodeQueryParameters(
                             Map<String, String> params) {
@@ -57,8 +58,8 @@ class ContactMePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 26),
                     TextButton.icon(
-                      icon: Icon(Icons.smart_display_rounded),
-                      label: Text("YouTube チャンネル"),
+                      icon: const Icon(Icons.smart_display_rounded),
+                      label: const Text("YouTube チャンネル"),
                       onPressed: () {
                         _launchURL(
                             "https://www.youtube.com/channel/UCGZZz9-uu4lEtTZgQxLXZrA");
@@ -66,16 +67,16 @@ class ContactMePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 26),
                     TextButton.icon(
-                      icon: Icon(Icons.featured_video_rounded),
-                      label: Text("哔哩哔哩 チャンネル"),
+                      icon: const Icon(Icons.featured_video_rounded),
+                      label: const Text("哔哩哔哩 チャンネル"),
                       onPressed: () {
                         _launchURL("https://space.bilibili.com/2025165032");
                       },
                     ),
                     const SizedBox(height: 26),
                     TextButton.icon(
-                      icon: Icon(Icons.play_circle_fill_rounded),
-                      label: Text("西瓜视频 チャンネル"),
+                      icon: const Icon(Icons.play_circle_fill_rounded),
+                      label: const Text("西瓜视频 チャンネル"),
                       onPressed: () {
                         _launchURL("https://www.ixigua.com/home/111243308299");
                       },

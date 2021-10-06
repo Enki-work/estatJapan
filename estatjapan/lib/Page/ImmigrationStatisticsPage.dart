@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:dio/dio.dart';
 import 'package:estatjapan/Util/AppConfig.dart';
 import 'package:estatjapan/model/BannerAdModel.dart';
@@ -26,6 +28,7 @@ class ImmigrationStatisticsPage extends StatefulWidget {
 class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
   ImmigrationStatisticsModel model = ImmigrationStatisticsModel();
 
+  @override
   void initState() {
     super.initState();
   }
@@ -52,15 +55,16 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             model.rootModel = rootModel;
             return FutureBuilder<InitializationStatus>(
                 future: _initGoogleMobileAds(),
-                builder: (context, snapshot) =>
-                    snapshot.connectionState == ConnectionState.done
-                        ? getPageWidget()
-                        : Scaffold(
-                            appBar: AppBar(
-                              //导航栏
-                              title: Text(widget.title),
-                            ),
-                            body: Center(child: CircularProgressIndicator())));
+                builder: (context, snapshot) => snapshot.connectionState ==
+                        ConnectionState.done
+                    ? getPageWidget()
+                    : Scaffold(
+                        appBar: AppBar(
+                          //导航栏
+                          title: Text(widget.title),
+                        ),
+                        body:
+                            const Center(child: CircularProgressIndicator())));
           } else {
 //请求未完成时弹出loading
             return Scaffold(
@@ -68,7 +72,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
                   //导航栏
                   title: Text(widget.title),
                 ),
-                body: Center(child: CircularProgressIndicator()));
+                body: const Center(child: CircularProgressIndicator()));
           }
         });
   }
@@ -79,7 +83,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
         .firstWhere((e) => e.id == "cat01");
     return Expanded(
         child: ListView.separated(
-      padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       itemCount:
           bAdModel.isAdLoaded() ? obj.CLASS.length + 1 : obj.CLASS.length,
       shrinkWrap: true,
@@ -119,7 +123,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
         .firstWhere((e) => e.id == "cat02");
     return Expanded(
         child: ListView.separated(
-      padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       itemCount:
           bAdModel.isAdLoaded() ? obj.CLASS.length + 1 : obj.CLASS.length,
       shrinkWrap: true,
@@ -159,7 +163,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
         .firstWhere((e) => e.id == "cat03");
     return Expanded(
         child: ListView.separated(
-      padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       itemCount:
           bAdModel.isAdLoaded() ? obj.CLASS.length + 1 : obj.CLASS.length,
       shrinkWrap: true,
@@ -205,16 +209,16 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
             appBar: AppBar(
               //导航栏
               title: Text(widget.title),
-              actions: <Widget>[
+              actions: const <Widget>[
                 //导航栏右侧菜单
                 // IconButton(icon: Icon(Icons.share), onPressed: () {}),
               ],
             ),
-            drawer: new MenuDrawer(), //抽屉
+            drawer: const MenuDrawer(), //抽屉
             bottomNavigationBar: Builder(builder: (context) {
               return BottomNavigationBar(
                 // 底部导航
-                items: <BottomNavigationBarItem>[
+                items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                       icon: Icon(Icons.add_chart_rounded), label: '在留資格審査'),
                   BottomNavigationBarItem(
@@ -238,7 +242,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       isModel.model == null
-                          ? Center(child: Text("予想外エラー"))
+                          ? const Center(child: Text("予想外エラー"))
                           : _cat01ListView(isModel.model!, bAdModel)
                     ],
                   );
@@ -247,7 +251,7 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       isModel.model == null
-                          ? Center(child: Text("予想外エラー"))
+                          ? const Center(child: Text("予想外エラー"))
                           : _cat02ListView(isModel.model!, bAdModel)
                     ],
                   );
@@ -256,12 +260,12 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       isModel.model == null
-                          ? Center(child: Text("予想外エラー"))
+                          ? const Center(child: Text("予想外エラー"))
                           : _cat03ListView(isModel.model!, bAdModel)
                     ],
                   );
                 default:
-                  return Center(child: Text("予想外エラー"));
+                  return const Center(child: Text("予想外エラー"));
               }
             })));
   }
@@ -271,5 +275,3 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
     return MobileAds.instance.initialize();
   }
 }
-
-class Bool {}

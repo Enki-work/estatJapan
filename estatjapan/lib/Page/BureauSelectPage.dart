@@ -1,46 +1,16 @@
 import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/ClassOBJ.dart';
-import 'package:estatjapan/model/RouteModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
-enum MonthSelectPageType { old, graph }
+class BureauSelectPage extends StatelessWidget {
+  final ClassOBJ obj;
 
-class MonthSelectPage extends StatelessWidget {
-  final MonthSelectPageType pageType;
-  final ClassOBJ? monthClassObj;
-  final RouteModel? routeModel;
-
-  const MonthSelectPage(
-      {Key? key, this.routeModel, required this.pageType, this.monthClassObj})
-      : super(key: key);
+  const BureauSelectPage({Key? key, required this.obj}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Null Function(int index) itemOnTap;
-    ClassOBJ obj;
-    if (pageType == MonthSelectPageType.old) {
-      ClassOBJ? classOBJ = routeModel!
-          .rootModel?.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-          .firstWhere((e) => e.id == "time");
-      if (classOBJ == null) return const Center(child: Text("予想外エラー"));
-      itemOnTap = (int index) {
-        routeModel!.selectedMonth = classOBJ.CLASS[index];
-        routeModel!.selectedMonth!.parentID = classOBJ.id;
-        Navigator.of(context).pushNamed("DataTablePage", arguments: routeModel);
-      };
-      obj = classOBJ;
-    } else {
-      ClassOBJ? classOBJ = monthClassObj;
-      if (classOBJ == null) return const Center(child: Text("予想外エラー"));
-      itemOnTap = (int index) {
-        final selectedClass = classOBJ.CLASS[index];
-        selectedClass.parentID = classOBJ.id;
-        Navigator.pop(context, selectedClass);
-      };
-      obj = classOBJ;
-    }
     return ChangeNotifierProvider<BannerAdModel>(
       create: (_) => BannerAdModel()..loadBannerAd(),
       child: Scaffold(
@@ -72,11 +42,27 @@ class MonthSelectPage extends StatelessWidget {
                           );
                         }
                         return ListTile(
-                          title: Text(obj.CLASS[index].name),
+                          title: Text(() {
+                            final model = obj.CLASS[index];
+                            switch (model.level) {
+                              case "1":
+                                return model.name;
+                              case "2":
+                                return " ┗" + model.name;
+                              case "3":
+                                return "    ┗" + model.name;
+                              default:
+                                return model.name;
+                            }
+                          }()),
                           minVerticalPadding: 25,
-                          onTap: () {
-                            itemOnTap(index);
-                          },
+                          onTap: obj.CLASS[index].level == "1"
+                              ? null
+                              : () {
+                                  final selectedClass = obj.CLASS[index];
+                                  selectedClass.parentID = obj.id;
+                                  Navigator.pop(context, selectedClass);
+                                },
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) =>

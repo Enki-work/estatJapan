@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class eStaInfoPage extends StatelessWidget {
-  const eStaInfoPage({Key? key}) : super(key: key);
+class EStaInfoPage extends StatelessWidget {
+  const EStaInfoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           //导航栏
-          title: Text("データ提供元"),
+          title: const Text("データ提供元"),
         ),
         body: Container(
-            padding: EdgeInsets.only(top: 26, left: 16, right: 16, bottom: 16),
+            padding:
+                const EdgeInsets.only(top: 26, left: 16, right: 16, bottom: 16),
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -21,8 +22,8 @@ class eStaInfoPage extends StatelessWidget {
                   'images/stat.svg',
                   width: MediaQuery.of(context).size.width * 0.6,
                 ),
-                SizedBox(height: 26),
-                Text(
+                const SizedBox(height: 26),
+                const Text(
                   "このサービスは、政府統計総合窓口(e-Stat)のAPI機能を使用していますが、サービスの内容は国によって保証されたものではありません。",
                   style: TextStyle(
                     fontSize: 16,

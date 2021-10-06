@@ -16,13 +16,13 @@ import AdSupport
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         GeneratedPluginRegistrant.register(with: self)
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
     override func applicationDidBecomeActive(_ application: UIApplication) {
         if let currentVC = application.keyWindow?.rootViewController {
-            
             if #available(iOS 14, *) {
                 ATTrackingManager.requestTrackingAuthorization(completionHandler: {   [weak self] status in
                     self?.showAdIfAvailable(viewController: currentVC)

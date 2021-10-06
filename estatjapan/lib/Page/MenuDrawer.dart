@@ -26,7 +26,7 @@ class MenuDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 38.0, bottom: 10),
                   child: Row(
-                    children: <Widget>[
+                    children: const <Widget>[
                       // Padding(
                       //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       //   child: ClipOval(
@@ -51,8 +51,8 @@ class MenuDrawer extends StatelessWidget {
                   child: ListView(
                     children: <Widget>[
                       const Divider(height: 0.5),
-                      ListTile(
-                        title: const Text("その他",
+                      const ListTile(
+                        title: Text("その他",
                             style: TextStyle(fontSize: 12, color: Colors.grey)),
                       ),
                       ListTile(
@@ -80,8 +80,8 @@ class MenuDrawer extends StatelessWidget {
                         },
                       ),
                       const Divider(height: 0.5),
-                      ListTile(
-                        title: const Text("アプリに関して",
+                      const ListTile(
+                        title: Text("アプリに関して",
                             style: TextStyle(fontSize: 12, color: Colors.grey)),
                       ),
                       ListTile(
@@ -98,7 +98,7 @@ class MenuDrawer extends StatelessWidget {
                                 return Text(snapshot.data?.version ?? "-");
                               }
                             } else {
-                              return Text("-");
+                              return const Text("-");
                             }
                           },
                         ),
