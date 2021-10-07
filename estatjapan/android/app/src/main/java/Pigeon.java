@@ -20,31 +20,31 @@ import java.util.HashMap;
 public class Pigeon {
 
   /** Generated class from Pigeon that represents data sent in messages. */
-  public static class Version {
-    private String string;
-    public String getString() { return string; }
-    public void setString(String setterArg) { this.string = setterArg; }
+  public static class PurchaseModel {
+    private Boolean isPurchase;
+    public Boolean getIsPurchase() { return isPurchase; }
+    public void setIsPurchase(Boolean setterArg) { this.isPurchase = setterArg; }
 
     Map<String, Object> toMap() {
       Map<String, Object> toMapResult = new HashMap<>();
-      toMapResult.put("string", string);
+      toMapResult.put("isPurchase", isPurchase);
       return toMapResult;
     }
-    static Version fromMap(Map<String, Object> map) {
-      Version fromMapResult = new Version();
-      Object string = map.get("string");
-      fromMapResult.string = (String)string;
+    static PurchaseModel fromMap(Map<String, Object> map) {
+      PurchaseModel fromMapResult = new PurchaseModel();
+      Object isPurchase = map.get("isPurchase");
+      fromMapResult.isPurchase = (Boolean)isPurchase;
       return fromMapResult;
     }
   }
-  private static class PlatformVersionApiCodec extends StandardMessageCodec {
-    public static final PlatformVersionApiCodec INSTANCE = new PlatformVersionApiCodec();
-    private PlatformVersionApiCodec() {}
+  private static class PurchaseModelApiCodec extends StandardMessageCodec {
+    public static final PurchaseModelApiCodec INSTANCE = new PurchaseModelApiCodec();
+    private PurchaseModelApiCodec() {}
     @Override
     protected Object readValueOfType(byte type, ByteBuffer buffer) {
       switch (type) {
         case (byte)128:         
-          return Version.fromMap((Map<String, Object>) readValue(buffer));
+          return PurchaseModel.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
           return super.readValueOfType(type, buffer);
@@ -53,9 +53,9 @@ public class Pigeon {
     }
     @Override
     protected void writeValue(ByteArrayOutputStream stream, Object value)     {
-      if (value instanceof Version) {
+      if (value instanceof PurchaseModel) {
         stream.write(128);
-        writeValue(stream, ((Version) value).toMap());
+        writeValue(stream, ((PurchaseModel) value).toMap());
       } else 
 {
         super.writeValue(stream, value);
@@ -64,24 +64,24 @@ public class Pigeon {
   }
 
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
-  public interface PlatformVersionApi {
-    Version getPlatformVersion();
+  public interface PurchaseModelApi {
+    PurchaseModel getPurchaseModel();
 
-    /** The codec used by PlatformVersionApi. */
+    /** The codec used by PurchaseModelApi. */
     static MessageCodec<Object> getCodec() {
-      return PlatformVersionApiCodec.INSTANCE;
+      return PurchaseModelApiCodec.INSTANCE;
     }
 
-    /** Sets up an instance of `PlatformVersionApi` to handle messages through the `binaryMessenger`. */
-    static void setup(BinaryMessenger binaryMessenger, PlatformVersionApi api) {
+    /** Sets up an instance of `PurchaseModelApi` to handle messages through the `binaryMessenger`. */
+    static void setup(BinaryMessenger binaryMessenger, PurchaseModelApi api) {
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.PlatformVersionApi.getPlatformVersion", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.PurchaseModelApi.getPurchaseModel", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
             try {
-              Version output = api.getPlatformVersion();
+              PurchaseModel output = api.getPurchaseModel();
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

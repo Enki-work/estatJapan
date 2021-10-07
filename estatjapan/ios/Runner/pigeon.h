@@ -8,19 +8,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class EJVersion;
+@class EJPurchaseModel;
 
-@interface EJVersion : NSObject
-@property(nonatomic, copy, nullable) NSString * string;
+@interface EJPurchaseModel : NSObject
+@property(nonatomic, strong, nullable) NSNumber * isPurchase;
 @end
 
-/// The codec used by EJPlatformVersionApi.
-NSObject<FlutterMessageCodec> *EJPlatformVersionApiGetCodec(void);
+/// The codec used by EJPurchaseModelApi.
+NSObject<FlutterMessageCodec> *EJPurchaseModelApiGetCodec(void);
 
-@protocol EJPlatformVersionApi
-- (nullable EJVersion *)getPlatformVersionWithError:(FlutterError *_Nullable *_Nonnull)error;
+@protocol EJPurchaseModelApi
+- (nullable EJPurchaseModel *)getPurchaseModelWithError:(FlutterError *_Nullable *_Nonnull)error;
 @end
 
-extern void EJPlatformVersionApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJPlatformVersionApi> *_Nullable api);
+extern void EJPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJPurchaseModelApi> *_Nullable api);
 
 NS_ASSUME_NONNULL_END

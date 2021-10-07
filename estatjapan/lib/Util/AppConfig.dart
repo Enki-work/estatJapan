@@ -2,6 +2,8 @@
 
 import 'dart:async' show Future;
 import 'dart:convert';
+
+import 'package:estatjapan/model/pigeonModel/PurchaseModelApi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -14,6 +16,7 @@ class AppConfig {
   final String ios_inline_native;
   final String ios_appid;
   final String estatAppId;
+  PurchaseModel? purchaseModel;
 
   static late final AppConfig shared;
 
@@ -21,9 +24,9 @@ class AppConfig {
       {required this.android_inline_banner,
       required this.android_inline_native,
       required this.android_appid,
-  required this.ios_inline_banner,
-  required this.ios_inline_native,
-  required this.ios_appid,
+      required this.ios_inline_banner,
+      required this.ios_inline_native,
+      required this.ios_appid,
       required this.estatAppId});
 
   static Future<AppConfig> forEnvironment() async {

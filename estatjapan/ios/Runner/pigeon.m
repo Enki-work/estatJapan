@@ -22,33 +22,33 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
       };
 }
 
-@interface EJVersion ()
-+ (EJVersion *)fromMap:(NSDictionary *)dict;
+@interface EJPurchaseModel ()
++ (EJPurchaseModel *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
 
-@implementation EJVersion
-+ (EJVersion *)fromMap:(NSDictionary *)dict {
-  EJVersion *result = [[EJVersion alloc] init];
-  result.string = dict[@"string"];
-  if ((NSNull *)result.string == [NSNull null]) {
-    result.string = nil;
+@implementation EJPurchaseModel
++ (EJPurchaseModel *)fromMap:(NSDictionary *)dict {
+  EJPurchaseModel *result = [[EJPurchaseModel alloc] init];
+  result.isPurchase = dict[@"isPurchase"];
+  if ((NSNull *)result.isPurchase == [NSNull null]) {
+    result.isPurchase = nil;
   }
   return result;
 }
 - (NSDictionary *)toMap {
-  return [NSDictionary dictionaryWithObjectsAndKeys:(self.string ? self.string : [NSNull null]), @"string", nil];
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.isPurchase ? self.isPurchase : [NSNull null]), @"isPurchase", nil];
 }
 @end
 
-@interface EJPlatformVersionApiCodecReader : FlutterStandardReader
+@interface EJPurchaseModelApiCodecReader : FlutterStandardReader
 @end
-@implementation EJPlatformVersionApiCodecReader
+@implementation EJPurchaseModelApiCodecReader
 - (nullable id)readValueOfType:(UInt8)type 
 {
   switch (type) {
     case 128:     
-      return [EJVersion fromMap:[self readValue]];
+      return [EJPurchaseModel fromMap:[self readValue]];
     
     default:    
       return [super readValueOfType:type];
@@ -57,12 +57,12 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 }
 @end
 
-@interface EJPlatformVersionApiCodecWriter : FlutterStandardWriter
+@interface EJPurchaseModelApiCodecWriter : FlutterStandardWriter
 @end
-@implementation EJPlatformVersionApiCodecWriter
+@implementation EJPurchaseModelApiCodecWriter
 - (void)writeValue:(id)value 
 {
-  if ([value isKindOfClass:[EJVersion class]]) {
+  if ([value isKindOfClass:[EJPurchaseModel class]]) {
     [self writeByte:128];
     [self writeValue:[value toMap]];
   } else 
@@ -72,40 +72,40 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 }
 @end
 
-@interface EJPlatformVersionApiCodecReaderWriter : FlutterStandardReaderWriter
+@interface EJPurchaseModelApiCodecReaderWriter : FlutterStandardReaderWriter
 @end
-@implementation EJPlatformVersionApiCodecReaderWriter
+@implementation EJPurchaseModelApiCodecReaderWriter
 - (FlutterStandardWriter *)writerWithData:(NSMutableData *)data {
-  return [[EJPlatformVersionApiCodecWriter alloc] initWithData:data];
+  return [[EJPurchaseModelApiCodecWriter alloc] initWithData:data];
 }
 - (FlutterStandardReader *)readerWithData:(NSData *)data {
-  return [[EJPlatformVersionApiCodecReader alloc] initWithData:data];
+  return [[EJPurchaseModelApiCodecReader alloc] initWithData:data];
 }
 @end
 
-NSObject<FlutterMessageCodec> *EJPlatformVersionApiGetCodec() {
+NSObject<FlutterMessageCodec> *EJPurchaseModelApiGetCodec() {
   static dispatch_once_t s_pred = 0;
   static FlutterStandardMessageCodec *s_sharedObject = nil;
   dispatch_once(&s_pred, ^{
-    EJPlatformVersionApiCodecReaderWriter *readerWriter = [[EJPlatformVersionApiCodecReaderWriter alloc] init];
+    EJPurchaseModelApiCodecReaderWriter *readerWriter = [[EJPurchaseModelApiCodecReaderWriter alloc] init];
     s_sharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
   });
   return s_sharedObject;
 }
 
 
-void EJPlatformVersionApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJPlatformVersionApi> *api) {
+void EJPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJPurchaseModelApi> *api) {
   {
     FlutterBasicMessageChannel *channel =
       [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.PlatformVersionApi.getPlatformVersion"
+        messageChannelWithName:@"dev.flutter.pigeon.PurchaseModelApi.getPurchaseModel"
         binaryMessenger:binaryMessenger
-        codec:EJPlatformVersionApiGetCodec()];
+        codec:EJPurchaseModelApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(getPlatformVersionWithError:)], @"EJPlatformVersionApi api (%@) doesn't respond to @selector(getPlatformVersionWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(getPurchaseModelWithError:)], @"EJPurchaseModelApi api (%@) doesn't respond to @selector(getPurchaseModelWithError:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         FlutterError *error;
-        EJVersion *output = [api getPlatformVersionWithError:&error];
+        EJPurchaseModel *output = [api getPurchaseModelWithError:&error];
         callback(wrapResult(output, error));
       }];
     }

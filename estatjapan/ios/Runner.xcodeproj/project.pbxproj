@@ -15,6 +15,7 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		A42215862707E28300049342 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A42215852707E28300049342 /* Storyboard.storyboard */; };
 		A43AF921270ED6E400CBEDE5 /* pigeon.m in Sources */ = {isa = PBXBuildFile; fileRef = A43AF920270ED6E400CBEDE5 /* pigeon.m */; };
+		A43AF923270EDCC500CBEDE5 /* FlutterApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43AF922270EDCC500CBEDE5 /* FlutterApi.swift */; };
 		A48335A92703E7990006ACEF /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A48335A82703E7990006ACEF /* AppTrackingTransparency.framework */; };
 		A48335AC27052E2B0006ACEF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A48335AB27052E2B0006ACEF /* GoogleService-Info.plist */; };
 		A48F7A232707E02A0097C812 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48F7A222707E02A0097C812 /* MainViewController.swift */; };
@@ -52,6 +53,7 @@
 		A42215852707E28300049342 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		A43AF91F270ED6E400CBEDE5 /* pigeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pigeon.h; path = Runner/pigeon.h; sourceTree = "<group>"; };
 		A43AF920270ED6E400CBEDE5 /* pigeon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = pigeon.m; path = Runner/pigeon.m; sourceTree = "<group>"; };
+		A43AF922270EDCC500CBEDE5 /* FlutterApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterApi.swift; sourceTree = "<group>"; };
 		A48335A82703E7990006ACEF /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		A48335AA270483A20006ACEF /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		A48335AB27052E2B0006ACEF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 			children = (
 				A43AF91F270ED6E400CBEDE5 /* pigeon.h */,
 				A43AF920270ED6E400CBEDE5 /* pigeon.m */,
+				A43AF922270EDCC500CBEDE5 /* FlutterApi.swift */,
 			);
 			name = Pigeon;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A43AF923270EDCC500CBEDE5 /* FlutterApi.swift in Sources */,
 				A48F7A232707E02A0097C812 /* MainViewController.swift in Sources */,
 				A43AF921270ED6E400CBEDE5 /* pigeon.m in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,

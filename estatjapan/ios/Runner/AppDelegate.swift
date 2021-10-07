@@ -42,7 +42,7 @@ import AdSupport
             UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-        
+        initFlutterApi()
         application.registerForRemoteNotifications()
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }

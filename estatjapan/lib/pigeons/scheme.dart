@@ -1,10 +1,10 @@
 import 'package:pigeon/pigeon.dart';
 
-class Version {
-  String? string;
+class PurchaseModel {
+  late bool isPurchase;
 }
 
 @HostApi()
-abstract class PlatformVersionApi {
-  Version getPlatformVersion();
+abstract class PurchaseModelApi {
+  PurchaseModel getPurchaseModel();
 }

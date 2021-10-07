@@ -8,26 +8,27 @@ import 'dart:typed_data' show Uint8List, Int32List, Int64List, Float64List;
 import 'package:flutter/foundation.dart' show WriteBuffer, ReadBuffer;
 import 'package:flutter/services.dart';
 
-class Version {
-  String? string;
+class PurchaseModel {
+  bool isPurchase = false;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
-    pigeonMap['string'] = string;
+    pigeonMap['isPurchase'] = isPurchase;
     return pigeonMap;
   }
 
-  static Version decode(Object message) {
+  static PurchaseModel decode(Object message) {
     final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
-    return Version()..string = pigeonMap['string'] as String?;
+    return PurchaseModel()
+      ..isPurchase = pigeonMap['isPurchase'] as bool? ?? false;
   }
 }
 
-class _ExampleApiCodec extends StandardMessageCodec {
-  const _ExampleApiCodec();
+class _PurchaseModelApiCodec extends StandardMessageCodec {
+  const _PurchaseModelApiCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is Version) {
+    if (value is PurchaseModel) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
     } else {
@@ -39,7 +40,7 @@ class _ExampleApiCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 128:
-        return Version.decode(readValue(buffer)!);
+        return PurchaseModel.decode(readValue(buffer)!);
 
       default:
         return super.readValueOfType(type, buffer);
@@ -47,20 +48,16 @@ class _ExampleApiCodec extends StandardMessageCodec {
   }
 }
 
-class PlatformVersionApi {
-  /// Constructor for [PlatformVersionApi].  The [binaryMessenger] named argument is
-  /// available for dependency injection.  If it is left null, the default
-  /// BinaryMessenger will be used which routes to the host platform.
-  PlatformVersionApi({BinaryMessenger? binaryMessenger})
+class PurchaseModelApi {
+  PurchaseModelApi({BinaryMessenger? binaryMessenger})
       : _binaryMessenger = binaryMessenger;
 
   final BinaryMessenger? _binaryMessenger;
 
-  static const MessageCodec<Object?> codec = _ExampleApiCodec();
-
-  Future<Version> getPlatformVersion() async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ExampleApi.getPlatformVersion', codec,
+  static const MessageCodec<Object?> codec = _PurchaseModelApiCodec();
+  Future<PurchaseModel> getPurchaseModel() async {
+    BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.PurchaseModelApi.getPurchaseModel', codec,
         binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
@@ -79,7 +76,7 @@ class PlatformVersionApi {
         details: error['details'],
       );
     } else {
-      return (replyMap['result'] as Version?)!;
+      return (replyMap['result'] as PurchaseModel?)!;
     }
   }
 }
