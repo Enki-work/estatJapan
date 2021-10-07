@@ -8,19 +8,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class BKVersion;
+@class EJVersion;
 
-@interface BKVersion : NSObject
+@interface EJVersion : NSObject
 @property(nonatomic, copy, nullable) NSString * string;
 @end
 
-/// The codec used by BKPlatformVersionApi.
-NSObject<FlutterMessageCodec> *BKPlatformVersionApiGetCodec(void);
+/// The codec used by EJPlatformVersionApi.
+NSObject<FlutterMessageCodec> *EJPlatformVersionApiGetCodec(void);
 
-@protocol BKPlatformVersionApi
-- (nullable BKVersion *)getPlatformVersionWithError:(FlutterError *_Nullable *_Nonnull)error;
+@protocol EJPlatformVersionApi
+- (nullable EJVersion *)getPlatformVersionWithError:(FlutterError *_Nullable *_Nonnull)error;
 @end
 
-extern void BKPlatformVersionApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<BKPlatformVersionApi> *_Nullable api);
+extern void EJPlatformVersionApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJPlatformVersionApi> *_Nullable api);
 
 NS_ASSUME_NONNULL_END

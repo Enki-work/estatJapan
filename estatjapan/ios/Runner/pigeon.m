@@ -22,14 +22,14 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
       };
 }
 
-@interface BKVersion ()
-+ (BKVersion *)fromMap:(NSDictionary *)dict;
+@interface EJVersion ()
++ (EJVersion *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
 
-@implementation BKVersion
-+ (BKVersion *)fromMap:(NSDictionary *)dict {
-  BKVersion *result = [[BKVersion alloc] init];
+@implementation EJVersion
++ (EJVersion *)fromMap:(NSDictionary *)dict {
+  EJVersion *result = [[EJVersion alloc] init];
   result.string = dict[@"string"];
   if ((NSNull *)result.string == [NSNull null]) {
     result.string = nil;
@@ -41,14 +41,14 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 }
 @end
 
-@interface BKPlatformVersionApiCodecReader : FlutterStandardReader
+@interface EJPlatformVersionApiCodecReader : FlutterStandardReader
 @end
-@implementation BKPlatformVersionApiCodecReader
+@implementation EJPlatformVersionApiCodecReader
 - (nullable id)readValueOfType:(UInt8)type 
 {
   switch (type) {
     case 128:     
-      return [BKVersion fromMap:[self readValue]];
+      return [EJVersion fromMap:[self readValue]];
     
     default:    
       return [super readValueOfType:type];
@@ -57,12 +57,12 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 }
 @end
 
-@interface BKPlatformVersionApiCodecWriter : FlutterStandardWriter
+@interface EJPlatformVersionApiCodecWriter : FlutterStandardWriter
 @end
-@implementation BKPlatformVersionApiCodecWriter
+@implementation EJPlatformVersionApiCodecWriter
 - (void)writeValue:(id)value 
 {
-  if ([value isKindOfClass:[BKVersion class]]) {
+  if ([value isKindOfClass:[EJVersion class]]) {
     [self writeByte:128];
     [self writeValue:[value toMap]];
   } else 
@@ -72,40 +72,40 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 }
 @end
 
-@interface BKPlatformVersionApiCodecReaderWriter : FlutterStandardReaderWriter
+@interface EJPlatformVersionApiCodecReaderWriter : FlutterStandardReaderWriter
 @end
-@implementation BKPlatformVersionApiCodecReaderWriter
+@implementation EJPlatformVersionApiCodecReaderWriter
 - (FlutterStandardWriter *)writerWithData:(NSMutableData *)data {
-  return [[BKPlatformVersionApiCodecWriter alloc] initWithData:data];
+  return [[EJPlatformVersionApiCodecWriter alloc] initWithData:data];
 }
 - (FlutterStandardReader *)readerWithData:(NSData *)data {
-  return [[BKPlatformVersionApiCodecReader alloc] initWithData:data];
+  return [[EJPlatformVersionApiCodecReader alloc] initWithData:data];
 }
 @end
 
-NSObject<FlutterMessageCodec> *BKPlatformVersionApiGetCodec() {
+NSObject<FlutterMessageCodec> *EJPlatformVersionApiGetCodec() {
   static dispatch_once_t s_pred = 0;
   static FlutterStandardMessageCodec *s_sharedObject = nil;
   dispatch_once(&s_pred, ^{
-    BKPlatformVersionApiCodecReaderWriter *readerWriter = [[BKPlatformVersionApiCodecReaderWriter alloc] init];
+    EJPlatformVersionApiCodecReaderWriter *readerWriter = [[EJPlatformVersionApiCodecReaderWriter alloc] init];
     s_sharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
   });
   return s_sharedObject;
 }
 
 
-void BKPlatformVersionApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<BKPlatformVersionApi> *api) {
+void EJPlatformVersionApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJPlatformVersionApi> *api) {
   {
     FlutterBasicMessageChannel *channel =
       [FlutterBasicMessageChannel
         messageChannelWithName:@"dev.flutter.pigeon.PlatformVersionApi.getPlatformVersion"
         binaryMessenger:binaryMessenger
-        codec:BKPlatformVersionApiGetCodec()];
+        codec:EJPlatformVersionApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(getPlatformVersionWithError:)], @"BKPlatformVersionApi api (%@) doesn't respond to @selector(getPlatformVersionWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(getPlatformVersionWithError:)], @"EJPlatformVersionApi api (%@) doesn't respond to @selector(getPlatformVersionWithError:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         FlutterError *error;
-        BKVersion *output = [api getPlatformVersionWithError:&error];
+        EJVersion *output = [api getPlatformVersionWithError:&error];
         callback(wrapResult(output, error));
       }];
     }
