@@ -13,7 +13,7 @@ class BannerAdModel extends ChangeNotifier {
 
   void loadBannerAd() {
     if (AppConfig.shared.purchaseModel == null) {
-      PurchaseModelApi().getPurchaseModel().then((value) {
+      HostPurchaseModelApi().getPurchaseModel().then((value) {
         AppConfig.shared.purchaseModel = value;
         loadBannerAd();
       });

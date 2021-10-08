@@ -7,7 +7,7 @@
 
 import Foundation
 import Flutter
-extension AppDelegate: EJPurchaseModelApi {
+extension AppDelegate: EJHostPurchaseModelApi {
     
     var flutterVC: FlutterViewController? {
         window.rootViewController as? FlutterViewController
@@ -15,12 +15,12 @@ extension AppDelegate: EJPurchaseModelApi {
     
     func initFlutterApi() {
         guard let flutterVC = self.flutterVC else {return}
-        EJPurchaseModelApiSetup(flutterVC.binaryMessenger, self)
+        EJHostPurchaseModelApiSetup(flutterVC.binaryMessenger, self)
     }
     
     public func getPurchaseModelWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) -> EJPurchaseModel? {
         let purchaseModel = EJPurchaseModel()
-        purchaseModel.isPurchase = true
+        purchaseModel.isPurchase = false
         return purchaseModel
     }
 }

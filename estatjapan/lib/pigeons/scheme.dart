@@ -5,6 +5,6 @@ class PurchaseModel {
 }
 
 @HostApi()
-abstract class PurchaseModelApi {
+abstract class HostPurchaseModelApi {
   PurchaseModel getPurchaseModel();
 }

@@ -24,8 +24,8 @@ class PurchaseModel {
   }
 }
 
-class _PurchaseModelApiCodec extends StandardMessageCodec {
-  const _PurchaseModelApiCodec();
+class _HostPurchaseModelApiCodec extends StandardMessageCodec {
+  const _HostPurchaseModelApiCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is PurchaseModel) {
@@ -49,19 +49,19 @@ class _PurchaseModelApiCodec extends StandardMessageCodec {
   }
 }
 
-class PurchaseModelApi {
-  /// Constructor for [PurchaseModelApi].  The [binaryMessenger] named argument is
+class HostPurchaseModelApi {
+  /// Constructor for [HostPurchaseModelApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  PurchaseModelApi({BinaryMessenger? binaryMessenger}) : _binaryMessenger = binaryMessenger;
+  HostPurchaseModelApi({BinaryMessenger? binaryMessenger}) : _binaryMessenger = binaryMessenger;
 
   final BinaryMessenger? _binaryMessenger;
 
-  static const MessageCodec<Object?> codec = _PurchaseModelApiCodec();
+  static const MessageCodec<Object?> codec = _HostPurchaseModelApiCodec();
 
   Future<PurchaseModel> getPurchaseModel() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.PurchaseModelApi.getPurchaseModel', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.HostPurchaseModelApi.getPurchaseModel', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {

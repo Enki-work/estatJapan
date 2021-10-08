@@ -1,17 +1,13 @@
 package com.estatjapan
 
-import android.app.AlertDialog
-import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
-import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import pigeon.Pigeon
 
-class MainActivity: FlutterActivity(), Pigeon.PurchaseModelApi {
+class MainActivity: FlutterActivity(), Pigeon.HostPurchaseModelApi {
 
     override fun onStart() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -35,7 +31,7 @@ class MainActivity: FlutterActivity(), Pigeon.PurchaseModelApi {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
-        Pigeon.PurchaseModelApi.setup(flutterEngine.dartExecutor, this)
+        Pigeon.HostPurchaseModelApi.setup(flutterEngine.dartExecutor, this)
     }
 
     override fun getPurchaseModel(): Pigeon.PurchaseModel {

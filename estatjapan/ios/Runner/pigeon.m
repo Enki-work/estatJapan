@@ -41,9 +41,9 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 }
 @end
 
-@interface EJPurchaseModelApiCodecReader : FlutterStandardReader
+@interface EJHostPurchaseModelApiCodecReader : FlutterStandardReader
 @end
-@implementation EJPurchaseModelApiCodecReader
+@implementation EJHostPurchaseModelApiCodecReader
 - (nullable id)readValueOfType:(UInt8)type 
 {
   switch (type) {
@@ -57,9 +57,9 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 }
 @end
 
-@interface EJPurchaseModelApiCodecWriter : FlutterStandardWriter
+@interface EJHostPurchaseModelApiCodecWriter : FlutterStandardWriter
 @end
-@implementation EJPurchaseModelApiCodecWriter
+@implementation EJHostPurchaseModelApiCodecWriter
 - (void)writeValue:(id)value 
 {
   if ([value isKindOfClass:[EJPurchaseModel class]]) {
@@ -72,37 +72,37 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 }
 @end
 
-@interface EJPurchaseModelApiCodecReaderWriter : FlutterStandardReaderWriter
+@interface EJHostPurchaseModelApiCodecReaderWriter : FlutterStandardReaderWriter
 @end
-@implementation EJPurchaseModelApiCodecReaderWriter
+@implementation EJHostPurchaseModelApiCodecReaderWriter
 - (FlutterStandardWriter *)writerWithData:(NSMutableData *)data {
-  return [[EJPurchaseModelApiCodecWriter alloc] initWithData:data];
+  return [[EJHostPurchaseModelApiCodecWriter alloc] initWithData:data];
 }
 - (FlutterStandardReader *)readerWithData:(NSData *)data {
-  return [[EJPurchaseModelApiCodecReader alloc] initWithData:data];
+  return [[EJHostPurchaseModelApiCodecReader alloc] initWithData:data];
 }
 @end
 
-NSObject<FlutterMessageCodec> *EJPurchaseModelApiGetCodec() {
+NSObject<FlutterMessageCodec> *EJHostPurchaseModelApiGetCodec() {
   static dispatch_once_t s_pred = 0;
   static FlutterStandardMessageCodec *s_sharedObject = nil;
   dispatch_once(&s_pred, ^{
-    EJPurchaseModelApiCodecReaderWriter *readerWriter = [[EJPurchaseModelApiCodecReaderWriter alloc] init];
+    EJHostPurchaseModelApiCodecReaderWriter *readerWriter = [[EJHostPurchaseModelApiCodecReaderWriter alloc] init];
     s_sharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
   });
   return s_sharedObject;
 }
 
 
-void EJPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJPurchaseModelApi> *api) {
+void EJHostPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJHostPurchaseModelApi> *api) {
   {
     FlutterBasicMessageChannel *channel =
       [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.PurchaseModelApi.getPurchaseModel"
+        messageChannelWithName:@"dev.flutter.pigeon.HostPurchaseModelApi.getPurchaseModel"
         binaryMessenger:binaryMessenger
-        codec:EJPurchaseModelApiGetCodec()];
+        codec:EJHostPurchaseModelApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(getPurchaseModelWithError:)], @"EJPurchaseModelApi api (%@) doesn't respond to @selector(getPurchaseModelWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(getPurchaseModelWithError:)], @"EJHostPurchaseModelApi api (%@) doesn't respond to @selector(getPurchaseModelWithError:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         FlutterError *error;
         EJPurchaseModel *output = [api getPurchaseModelWithError:&error];

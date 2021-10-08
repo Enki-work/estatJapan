@@ -4,5 +4,5 @@ flutter pub run pigeon \
   --objc_header_out ios/Runner/pigeon.h \
   --objc_source_out ios/Runner/pigeon.m \
   --objc_prefix EJ \
-  --java_out ./android/app/src/main/java/Pigeon.java \
+  --java_out ./android/app/src/main/java/pigeon/Pigeon.java \
   --java_package "pigeon"

@@ -24,8 +24,8 @@ class PurchaseModel {
   }
 }
 
-class _PurchaseModelApiCodec extends StandardMessageCodec {
-  const _PurchaseModelApiCodec();
+class _HostPurchaseModelApiCodec extends StandardMessageCodec {
+  const _HostPurchaseModelApiCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is PurchaseModel) {
@@ -48,16 +48,16 @@ class _PurchaseModelApiCodec extends StandardMessageCodec {
   }
 }
 
-class PurchaseModelApi {
-  PurchaseModelApi({BinaryMessenger? binaryMessenger})
+class HostPurchaseModelApi {
+  HostPurchaseModelApi({BinaryMessenger? binaryMessenger})
       : _binaryMessenger = binaryMessenger;
 
   final BinaryMessenger? _binaryMessenger;
 
-  static const MessageCodec<Object?> codec = _PurchaseModelApiCodec();
+  static const MessageCodec<Object?> codec = _HostPurchaseModelApiCodec();
   Future<PurchaseModel> getPurchaseModel() async {
     BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.PurchaseModelApi.getPurchaseModel', codec,
+        'dev.flutter.pigeon.HostPurchaseModelApi.getPurchaseModel', codec,
         binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;

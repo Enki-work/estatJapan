@@ -37,9 +37,9 @@ public class Pigeon {
       return fromMapResult;
     }
   }
-  private static class PurchaseModelApiCodec extends StandardMessageCodec {
-    public static final PurchaseModelApiCodec INSTANCE = new PurchaseModelApiCodec();
-    private PurchaseModelApiCodec() {}
+  private static class HostPurchaseModelApiCodec extends StandardMessageCodec {
+    public static final HostPurchaseModelApiCodec INSTANCE = new HostPurchaseModelApiCodec();
+    private HostPurchaseModelApiCodec() {}
     @Override
     protected Object readValueOfType(byte type, ByteBuffer buffer) {
       switch (type) {
@@ -64,19 +64,19 @@ public class Pigeon {
   }
 
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
-  public interface PurchaseModelApi {
+  public interface HostPurchaseModelApi {
     PurchaseModel getPurchaseModel();
 
-    /** The codec used by PurchaseModelApi. */
+    /** The codec used by HostPurchaseModelApi. */
     static MessageCodec<Object> getCodec() {
-      return PurchaseModelApiCodec.INSTANCE;
+      return HostPurchaseModelApiCodec.INSTANCE;
     }
 
-    /** Sets up an instance of `PurchaseModelApi` to handle messages through the `binaryMessenger`. */
-    static void setup(BinaryMessenger binaryMessenger, PurchaseModelApi api) {
+    /** Sets up an instance of `HostPurchaseModelApi` to handle messages through the `binaryMessenger`. */
+    static void setup(BinaryMessenger binaryMessenger, HostPurchaseModelApi api) {
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.PurchaseModelApi.getPurchaseModel", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.HostPurchaseModelApi.getPurchaseModel", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();

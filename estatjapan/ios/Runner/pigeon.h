@@ -14,13 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber * isPurchase;
 @end
 
-/// The codec used by EJPurchaseModelApi.
-NSObject<FlutterMessageCodec> *EJPurchaseModelApiGetCodec(void);
+/// The codec used by EJHostPurchaseModelApi.
+NSObject<FlutterMessageCodec> *EJHostPurchaseModelApiGetCodec(void);
 
-@protocol EJPurchaseModelApi
+@protocol EJHostPurchaseModelApi
 - (nullable EJPurchaseModel *)getPurchaseModelWithError:(FlutterError *_Nullable *_Nonnull)error;
 @end
 
-extern void EJPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJPurchaseModelApi> *_Nullable api);
+extern void EJHostPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJHostPurchaseModelApi> *_Nullable api);
 
 NS_ASSUME_NONNULL_END

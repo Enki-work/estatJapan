@@ -17,9 +17,6 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
-import io.flutter.embedding.android.FlutterActivity
-import io.flutter.embedding.engine.dart.DartExecutor
-import pigeon.Pigeon
 import java.util.Date
 
 private const val LOG_TAG = "AppOpenAdManager"
