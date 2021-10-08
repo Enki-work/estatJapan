@@ -5,4 +5,4 @@ flutter pub run pigeon \
   --objc_source_out ios/Runner/pigeon.m \
   --objc_prefix EJ \
   --java_out ./android/app/src/main/java/Pigeon.java \
-  --java_package "com.estatjapan"
+  --java_package "pigeon"

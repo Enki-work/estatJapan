@@ -9,20 +9,11 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
+import pigeon.Pigeon
 
-class MainActivity: FlutterActivity() {
+class MainActivity: FlutterActivity(), Pigeon.PurchaseModelApi {
 
     override fun onStart() {
-//        print("bbbbbbb")
-//        print(BuildConfig.DEBUG)
-//        print(BuildConfig.BUILD_TYPE)
-//        AlertDialog.Builder(this) // FragmentではActivityを取得して生成
-//            .setTitle(BuildConfig.DEBUG.toString())
-//            .setMessage(BuildConfig.AD_UNIT_ID)
-//            .setPositiveButton("bOK", { dialog, which ->
-//                // TODO:Yesが押された時の挙動
-//            })
-//            .show()
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             val TAG = "AAAA"
             if (!task.isSuccessful) {
@@ -39,5 +30,17 @@ class MainActivity: FlutterActivity() {
             }
         })
         super.onStart()
+    }
+
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        super.configureFlutterEngine(flutterEngine)
+
+        Pigeon.PurchaseModelApi.setup(flutterEngine.dartExecutor, this)
+    }
+
+    override fun getPurchaseModel(): Pigeon.PurchaseModel {
+        val purchaseModel = Pigeon.PurchaseModel()
+        purchaseModel.isPurchase = false
+        return purchaseModel
     }
 }
