@@ -1,14 +1,19 @@
 import 'package:estatjapan/model/BannerAdModel.dart';
+import 'package:estatjapan/model/pigeonModel/PurchaseModelApi.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
-class MenuDrawer extends StatelessWidget {
+class MenuDrawer extends StatefulWidget {
   const MenuDrawer({
     Key? key,
   }) : super(key: key);
+  @override
+  _MenuDrawerState createState() => _MenuDrawerState();
+}
 
+class _MenuDrawerState extends State<MenuDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -47,9 +52,44 @@ class MenuDrawer extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                    flex:1,
+                  flex: 1,
                   child: ListView(
                     children: <Widget>[
+                      const Divider(height: 0.5),
+                      const ListTile(
+                        title: Text('課金',
+                            style: TextStyle(fontSize: 12, color: Colors.grey)),
+                      ),
+                      bAdModel.isPurchase()
+                          ? ListTile(
+                              leading: const Icon(Icons.check_circle_rounded),
+                              title: const Text('広告削除済み'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.of(context)
+                                    .pushNamed("ContactMePage");
+                              },
+                            )
+                          : Column(
+                              children: [
+                                ListTile(
+                                  leading: const Icon(
+                                      Icons.account_balance_wallet_rounded),
+                                  title: const Text('広告を削除する'),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    HostPurchaseModelApi()
+                                        .requestPurchaseModel();
+                                  },
+                                ),
+                                ListTile(
+                                  leading:
+                                      const Icon(Icons.monetization_on_rounded),
+                                  title: const Text('支払い済'),
+                                  onTap: () {},
+                                ),
+                              ],
+                            ),
                       const Divider(height: 0.5),
                       const ListTile(
                         title: Text("その他",
@@ -106,12 +146,13 @@ class MenuDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-            Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-            child:SizedBox(
-                    height: bAdModel.bannerAd().size.height.toDouble(),
-                    width: bAdModel.bannerAd().size.width.toDouble(),
-                    child: AdWidget(ad: bAdModel.bannerAd()))),
+                if (bAdModel.isAdLoaded())
+                  Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                      child: SizedBox(
+                          height: bAdModel.bannerAd().size.height.toDouble(),
+                          width: bAdModel.bannerAd().size.width.toDouble(),
+                          child: AdWidget(ad: bAdModel.bannerAd()))),
               ],
             );
           })),

@@ -9,9 +9,9 @@ import pigeon.Pigeon
 
 class MainActivity: FlutterActivity(), Pigeon.HostPurchaseModelApi {
 
+    private val TAG = "MainActivity"
     override fun onStart() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            val TAG = "AAAA"
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
@@ -38,5 +38,14 @@ class MainActivity: FlutterActivity(), Pigeon.HostPurchaseModelApi {
         val purchaseModel = Pigeon.PurchaseModel()
         purchaseModel.isPurchase = false
         return purchaseModel
+    }
+
+    override fun requestPurchaseModel(): Boolean? {
+        val purchaseModel = Pigeon.PurchaseModel()
+        purchaseModel.isPurchase = true
+        Pigeon.FlutterPurchaseModelApi(flutterEngine?.dartExecutor).sendPurchaseModel(purchaseModel) {
+            Log.d(TAG, "FlutterPurchaseModelApi sendPurchaseModel")
+        }
+        return true
     }
 }

@@ -10,6 +10,8 @@ class BannerAdModel extends ChangeNotifier {
   BannerAd bannerAd() => _bannerAd;
   bool _isAdLoaded = false;
   bool isAdLoaded() => _isAdLoaded;
+  bool _isPurchase = false;
+  bool isPurchase() => _isPurchase;
 
   void loadBannerAd() {
     if (AppConfig.shared.purchaseModel == null) {
@@ -20,7 +22,9 @@ class BannerAdModel extends ChangeNotifier {
       return;
     }
     if (AppConfig.shared.purchaseModel?.isPurchase == true) {
+      _isPurchase = true;
       _isAdLoaded = false;
+      _bannerAd = BannerAd();
       notifyListeners();
       return;
     }
