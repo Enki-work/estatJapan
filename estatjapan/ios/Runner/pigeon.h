@@ -19,6 +19,7 @@ NSObject<FlutterMessageCodec> *EJHostPurchaseModelApiGetCodec(void);
 
 @protocol EJHostPurchaseModelApi
 - (nullable EJPurchaseModel *)getPurchaseModelWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (nullable NSNumber *)requestPurchaseModelWithError:(FlutterError *_Nullable *_Nonnull)error;
 @end
 
 extern void EJHostPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJHostPurchaseModelApi> *_Nullable api);

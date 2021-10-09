@@ -66,6 +66,7 @@ public class Pigeon {
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface HostPurchaseModelApi {
     PurchaseModel getPurchaseModel();
+    Boolean requestPurchaseModel();
 
     /** The codec used by HostPurchaseModelApi. */
     static MessageCodec<Object> getCodec() {
@@ -82,6 +83,25 @@ public class Pigeon {
             Map<String, Object> wrapped = new HashMap<>();
             try {
               PurchaseModel output = api.getPurchaseModel();
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.HostPurchaseModelApi.requestPurchaseModel", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              Boolean output = api.requestPurchaseModel();
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
