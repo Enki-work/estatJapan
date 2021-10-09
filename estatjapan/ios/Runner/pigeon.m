@@ -114,3 +114,80 @@ void EJHostPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSO
     }
   }
 }
+@interface EJFlutterPurchaseModelApiCodecReader : FlutterStandardReader
+@end
+@implementation EJFlutterPurchaseModelApiCodecReader
+- (nullable id)readValueOfType:(UInt8)type 
+{
+  switch (type) {
+    case 128:     
+      return [EJPurchaseModel fromMap:[self readValue]];
+    
+    default:    
+      return [super readValueOfType:type];
+    
+  }
+}
+@end
+
+@interface EJFlutterPurchaseModelApiCodecWriter : FlutterStandardWriter
+@end
+@implementation EJFlutterPurchaseModelApiCodecWriter
+- (void)writeValue:(id)value 
+{
+  if ([value isKindOfClass:[EJPurchaseModel class]]) {
+    [self writeByte:128];
+    [self writeValue:[value toMap]];
+  } else 
+{
+    [super writeValue:value];
+  }
+}
+@end
+
+@interface EJFlutterPurchaseModelApiCodecReaderWriter : FlutterStandardReaderWriter
+@end
+@implementation EJFlutterPurchaseModelApiCodecReaderWriter
+- (FlutterStandardWriter *)writerWithData:(NSMutableData *)data {
+  return [[EJFlutterPurchaseModelApiCodecWriter alloc] initWithData:data];
+}
+- (FlutterStandardReader *)readerWithData:(NSData *)data {
+  return [[EJFlutterPurchaseModelApiCodecReader alloc] initWithData:data];
+}
+@end
+
+NSObject<FlutterMessageCodec> *EJFlutterPurchaseModelApiGetCodec() {
+  static dispatch_once_t s_pred = 0;
+  static FlutterStandardMessageCodec *s_sharedObject = nil;
+  dispatch_once(&s_pred, ^{
+    EJFlutterPurchaseModelApiCodecReaderWriter *readerWriter = [[EJFlutterPurchaseModelApiCodecReaderWriter alloc] init];
+    s_sharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
+  });
+  return s_sharedObject;
+}
+
+
+@interface EJFlutterPurchaseModelApi ()
+@property (nonatomic, strong) NSObject<FlutterBinaryMessenger> *binaryMessenger;
+@end
+
+@implementation EJFlutterPurchaseModelApi
+- (instancetype)initWithBinaryMessenger:(NSObject<FlutterBinaryMessenger> *)binaryMessenger {
+  self = [super init];
+  if (self) {
+    _binaryMessenger = binaryMessenger;
+  }
+  return self;
+}
+
+- (void)sendPurchaseModelPurchaseModel:(EJPurchaseModel *)arg_purchaseModel completion:(void(^)(NSError *_Nullable))completion {
+  FlutterBasicMessageChannel *channel =
+    [FlutterBasicMessageChannel
+      messageChannelWithName:@"dev.flutter.pigeon.FlutterPurchaseModelApi.sendPurchaseModel"
+      binaryMessenger:self.binaryMessenger
+      codec:EJFlutterPurchaseModelApiGetCodec()];
+  [channel sendMessage:@[arg_purchaseModel] reply:^(id reply) {
+    completion(nil);
+  }];
+}
+@end

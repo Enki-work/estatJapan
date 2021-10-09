@@ -82,3 +82,51 @@ class HostPurchaseModelApi {
     }
   }
 }
+
+class _FlutterPurchaseModelApiCodec extends StandardMessageCodec {
+  const _FlutterPurchaseModelApiCodec();
+  @override
+  void writeValue(WriteBuffer buffer, Object? value) {
+    if (value is PurchaseModel) {
+      buffer.putUint8(128);
+      writeValue(buffer, value.encode());
+    } else 
+{
+      super.writeValue(buffer, value);
+    }
+  }
+  @override
+  Object? readValueOfType(int type, ReadBuffer buffer) {
+    switch (type) {
+      case 128:       
+        return PurchaseModel.decode(readValue(buffer)!);
+      
+      default:      
+        return super.readValueOfType(type, buffer);
+      
+    }
+  }
+}
+abstract class FlutterPurchaseModelApi {
+  static const MessageCodec<Object?> codec = _FlutterPurchaseModelApiCodec();
+
+  void sendPurchaseModel(PurchaseModel purchaseModel);
+  static void setup(FlutterPurchaseModelApi? api) {
+    {
+      const BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.FlutterPurchaseModelApi.sendPurchaseModel', codec);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null, 'Argument for dev.flutter.pigeon.FlutterPurchaseModelApi.sendPurchaseModel was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final PurchaseModel? arg_purchaseModel = args[0] as PurchaseModel?;
+          assert(arg_purchaseModel != null, 'Argument for dev.flutter.pigeon.FlutterPurchaseModelApi.sendPurchaseModel was null, expected non-null PurchaseModel.');
+          api.sendPurchaseModel(arg_purchaseModel!);
+          return;
+        });
+      }
+    }
+  }
+}

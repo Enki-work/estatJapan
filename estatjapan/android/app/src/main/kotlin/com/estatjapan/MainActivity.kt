@@ -30,7 +30,7 @@ class MainActivity: FlutterActivity(), Pigeon.HostPurchaseModelApi {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-
+//        Pigeon.FlutterPurchaseModelApi(flutterEngine.dartExecutor)
         Pigeon.HostPurchaseModelApi.setup(flutterEngine.dartExecutor, this)
     }
 

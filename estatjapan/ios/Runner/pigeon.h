@@ -23,4 +23,11 @@ NSObject<FlutterMessageCodec> *EJHostPurchaseModelApiGetCodec(void);
 
 extern void EJHostPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<EJHostPurchaseModelApi> *_Nullable api);
 
+/// The codec used by EJFlutterPurchaseModelApi.
+NSObject<FlutterMessageCodec> *EJFlutterPurchaseModelApiGetCodec(void);
+
+@interface EJFlutterPurchaseModelApi : NSObject
+- (instancetype)initWithBinaryMessenger:(id<FlutterBinaryMessenger>)binaryMessenger;
+- (void)sendPurchaseModelPurchaseModel:(EJPurchaseModel *)purchaseModel completion:(void(^)(NSError *_Nullable))completion;
+@end
 NS_ASSUME_NONNULL_END

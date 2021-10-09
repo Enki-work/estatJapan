@@ -95,6 +95,53 @@ public class Pigeon {
       }
     }
   }
+  private static class FlutterPurchaseModelApiCodec extends StandardMessageCodec {
+    public static final FlutterPurchaseModelApiCodec INSTANCE = new FlutterPurchaseModelApiCodec();
+    private FlutterPurchaseModelApiCodec() {}
+    @Override
+    protected Object readValueOfType(byte type, ByteBuffer buffer) {
+      switch (type) {
+        case (byte)128:         
+          return PurchaseModel.fromMap((Map<String, Object>) readValue(buffer));
+        
+        default:        
+          return super.readValueOfType(type, buffer);
+        
+      }
+    }
+    @Override
+    protected void writeValue(ByteArrayOutputStream stream, Object value)     {
+      if (value instanceof PurchaseModel) {
+        stream.write(128);
+        writeValue(stream, ((PurchaseModel) value).toMap());
+      } else 
+{
+        super.writeValue(stream, value);
+      }
+    }
+  }
+
+  /** Generated class from Pigeon that represents Flutter messages that can be called from Java.*/
+  public static class FlutterPurchaseModelApi {
+    private final BinaryMessenger binaryMessenger;
+    public FlutterPurchaseModelApi(BinaryMessenger argBinaryMessenger){
+      this.binaryMessenger = argBinaryMessenger;
+    }
+    public interface Reply<T> {
+      void reply(T reply);
+    }
+    static MessageCodec<Object> getCodec() {
+      return FlutterPurchaseModelApiCodec.INSTANCE;
+    }
+
+    public void sendPurchaseModel(PurchaseModel purchaseModelArg, Reply<Void> callback) {
+      BasicMessageChannel<Object> channel =
+          new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FlutterPurchaseModelApi.sendPurchaseModel", getCodec());
+      channel.send(new ArrayList<Object>(Arrays.asList(purchaseModelArg)), channelReply -> {
+        callback.reply(null);
+      });
+    }
+  }
   private static Map<String, Object> wrapError(Throwable exception) {
     Map<String, Object> errorMap = new HashMap<>();
     errorMap.put("message", exception.toString());
