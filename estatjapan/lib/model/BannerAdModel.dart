@@ -21,21 +21,16 @@ class BannerAdModel extends ChangeNotifier {
       });
       return;
     }
-    if (AppConfig.shared.purchaseModel?.isPurchase == true) {
-      _isPurchase = true;
-      _isAdLoaded = false;
-      _bannerAd = BannerAd();
-      notifyListeners();
-      return;
-    }
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) {
-          _isAdLoaded = true;
-          notifyListeners();
+          if (!_isPurchase) {
+            _isAdLoaded = true;
+            notifyListeners();
+          }
         },
         onAdFailedToLoad: (ad, error) {
           // Releases an ad resource when it fails to load
@@ -43,6 +38,13 @@ class BannerAdModel extends ChangeNotifier {
         },
       ),
     );
+    if (AppConfig.shared.purchaseModel?.isPurchase == true) {
+      _isPurchase = true;
+      _isAdLoaded = false;
+      _bannerAd.dispose();
+      notifyListeners();
+      return;
+    }
 
     _bannerAd.load();
   }

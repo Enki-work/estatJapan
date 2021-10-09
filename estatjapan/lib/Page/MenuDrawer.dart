@@ -64,11 +64,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                           ? ListTile(
                               leading: const Icon(Icons.check_circle_rounded),
                               title: const Text('広告削除済み'),
-                              onTap: () {
-                                Navigator.pop(context);
-                                Navigator.of(context)
-                                    .pushNamed("ContactMePage");
-                              },
+                              onTap: null,
                             )
                           : Column(
                               children: [
