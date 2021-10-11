@@ -23,4 +23,14 @@ extension AppDelegate: EJHostPurchaseModelApi {
         purchaseModel.isPurchase = false
         return purchaseModel
     }
+    
+    func requestPurchaseModelWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) -> NSNumber? {
+        guard let flutterVC = self.flutterVC else {return NSNumber(booleanLiteral: false)}
+        let purchaseModel = EJPurchaseModel()
+        purchaseModel.isPurchase = true
+        EJFlutterPurchaseModelApi(binaryMessenger: flutterVC.binaryMessenger).sendPurchaseModelPurchaseModel(purchaseModel) { error in
+            debugPrint(error)
+        }
+        return NSNumber(booleanLiteral: true)
+    }
 }
