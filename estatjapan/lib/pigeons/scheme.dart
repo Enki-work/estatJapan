@@ -8,6 +8,7 @@ class PurchaseModel {
 abstract class HostPurchaseModelApi {
   PurchaseModel getPurchaseModel();
   bool requestPurchaseModel();
+  bool restorePurchaseModel();
 }
 
 @FlutterApi()

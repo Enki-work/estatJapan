@@ -67,6 +67,7 @@ public class Pigeon {
   public interface HostPurchaseModelApi {
     PurchaseModel getPurchaseModel();
     Boolean requestPurchaseModel();
+    Boolean restorePurchaseModel();
 
     /** The codec used by HostPurchaseModelApi. */
     static MessageCodec<Object> getCodec() {
@@ -102,6 +103,25 @@ public class Pigeon {
             Map<String, Object> wrapped = new HashMap<>();
             try {
               Boolean output = api.requestPurchaseModel();
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.HostPurchaseModelApi.restorePurchaseModel", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              Boolean output = api.restorePurchaseModel();
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

@@ -28,4 +28,11 @@ extension AppDelegate: EJHostPurchaseModelApi {
         PurchaseManager.sharedInstance.deleteAds()
         return NSNumber(booleanLiteral: true)
     }
+    
+    func restorePurchaseModelWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) -> NSNumber? {
+        PurchaseManager.sharedInstance.restoreTransactions()
+        return NSNumber(booleanLiteral: true)
+    }
+    
+    
 }

@@ -131,6 +131,24 @@ void EJHostPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSO
       [channel setMessageHandler:nil];
     }
   }
+  {
+    FlutterBasicMessageChannel *channel =
+      [FlutterBasicMessageChannel
+        messageChannelWithName:@"dev.flutter.pigeon.HostPurchaseModelApi.restorePurchaseModel"
+        binaryMessenger:binaryMessenger
+        codec:EJHostPurchaseModelApiGetCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(restorePurchaseModelWithError:)], @"EJHostPurchaseModelApi api (%@) doesn't respond to @selector(restorePurchaseModelWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        NSNumber *output = [api restorePurchaseModelWithError:&error];
+        callback(wrapResult(output, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
 }
 @interface EJFlutterPurchaseModelApiCodecReader : FlutterStandardReader
 @end

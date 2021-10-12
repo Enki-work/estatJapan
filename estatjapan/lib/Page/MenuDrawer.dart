@@ -61,9 +61,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
                             style: TextStyle(fontSize: 12, color: Colors.grey)),
                       ),
                       bAdModel.isPurchase()
-                          ? ListTile(
-                              leading: const Icon(Icons.check_circle_rounded),
-                              title: const Text('広告削除済み'),
+                          ? const ListTile(
+                              leading: Icon(Icons.check_circle_rounded),
+                              title: Text('広告削除済み'),
                               onTap: null,
                             )
                           : Column(
@@ -82,7 +82,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
                                   leading:
                                       const Icon(Icons.monetization_on_rounded),
                                   title: const Text('支払い済'),
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    HostPurchaseModelApi()
+                                        .restorePurchaseModel();
+                                  },
                                 ),
                               ],
                             ),
