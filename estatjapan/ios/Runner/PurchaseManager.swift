@@ -29,6 +29,14 @@ class PurchaseManager: NSObject {
     fileprivate let deleteAdsProductId = "com.estatjapan.purchase.ads"
     fileprivate let productIdentifierKey = "productIdentifierKey"
     
+    var isPurchaseDeleteAds: Bool {
+        guard let productIdentifier = UserDefaults.standard.string(forKey: productIdentifierKey),
+              !productIdentifier.isEmpty else {
+                  return false
+              }
+        return true
+    }
+    
     override init() {
         super.init()
         SKPaymentQueue.default().add(self)
@@ -55,34 +63,50 @@ class PurchaseManager: NSObject {
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
     
-    func purchaseError(payingProductIdentifier: String? = nil) {
+    fileprivate func purchaseError(payingProductIdentifier: String? = nil) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         
         let alertView = UIAlertController.init(title: "課金失敗しました", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction.init(title: "OK", style: .destructive) { (_) in
+        let action = UIAlertAction.init(title: "OK", style: .default) { (_) in
         }
         alertView.addAction(action)
         appDelegate.window.rootViewController?.present(alertView, animated: true, completion: nil)
     }
     
-    func savePurchasedProductIdentifier(productIdentifier: String) {
+    fileprivate func savePurchasedProductIdentifier(productIdentifier: String) {
         UserDefaults.standard.set(productIdentifier, forKey: productIdentifierKey)
         UserDefaults.standard.synchronize()
+        deleleFlutterAds()
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         
         let alertView = UIAlertController.init(title: "課金成功しました", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction.init(title: "OK", style: .destructive) { (_) in
+        let action = UIAlertAction.init(title: "OK", style: .default) { (_) in
         }
         alertView.addAction(action)
         appDelegate.window.rootViewController?.present(alertView, animated: true, completion: nil)
     }
     
-    func completePay(transaction: SKPaymentTransaction) {
-        
+    fileprivate func deleleFlutterAds() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        guard let flutterVC = appDelegate.flutterVC else {return}
+        let purchaseModel = EJPurchaseModel()
+        purchaseModel.isPurchase = true
+        EJFlutterPurchaseModelApi(binaryMessenger: flutterVC.binaryMessenger).sendPurchaseModelPurchaseModel(purchaseModel) { error in
+            guard let error = error else {return}
+            debugPrint(error)
+        }
+    }
+    
+    fileprivate func completePay(transaction: SKPaymentTransaction) {
+        defer {
+            SKPaymentQueue.default().finishTransaction(transaction)
+        }
         guard let recepitUrl = Bundle.main.appStoreReceiptURL,
               let data = try? Data.init(contentsOf: recepitUrl) else {
                   purchaseError()
@@ -90,10 +114,9 @@ class PurchaseManager: NSObject {
               }
         
         verify(data: data,transaction: transaction)
-        SKPaymentQueue.default().finishTransaction(transaction)
     }
     
-    func verify(data: Data, transaction: SKPaymentTransaction) {
+    fileprivate func verify(data: Data, transaction: SKPaymentTransaction) {
         let base64Str = data.base64EncodedString(options: .endLineWithLineFeed)
         let params = NSMutableDictionary()
         params["receipt-data"] = base64Str
