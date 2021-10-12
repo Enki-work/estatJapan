@@ -63,19 +63,19 @@ class PurchaseManager: NSObject {
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
     
-    fileprivate func purchaseError(payingProductIdentifier: String? = nil) {
+    fileprivate func purchaseError(payingProductIdentifier: String? = nil, msg: String? = nil) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         
-        let alertView = UIAlertController.init(title: "課金失敗しました", message: nil, preferredStyle: .alert)
+        let alertView = UIAlertController.init(title: msg ?? "課金失敗しました", message: nil, preferredStyle: .alert)
         let action = UIAlertAction.init(title: "OK", style: .default) { (_) in
         }
         alertView.addAction(action)
         appDelegate.window.rootViewController?.present(alertView, animated: true, completion: nil)
     }
     
-    fileprivate func savePurchasedProductIdentifier(productIdentifier: String) {
+    fileprivate func savePurchasedProductIdentifier(productIdentifier: String, msg: String? = nil) {
         UserDefaults.standard.set(productIdentifier, forKey: productIdentifierKey)
         UserDefaults.standard.synchronize()
         deleleFlutterAds()
@@ -83,7 +83,7 @@ class PurchaseManager: NSObject {
             return
         }
         
-        let alertView = UIAlertController.init(title: "課金成功しました", message: nil, preferredStyle: .alert)
+        let alertView = UIAlertController.init(title: msg ?? "課金成功しました", message: nil, preferredStyle: .alert)
         let action = UIAlertAction.init(title: "OK", style: .default) { (_) in
         }
         alertView.addAction(action)
@@ -195,6 +195,15 @@ extension PurchaseManager: SKPaymentTransactionObserver {
         }
     }
     
+    func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
+        purchaseError(msg: "課金復元失敗しました")
+    }
     
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        guard queue.transactions.count > 0 else {
+            purchaseError(msg: "課金復元失敗しました")
+            return
+        }
+    }
 }
 

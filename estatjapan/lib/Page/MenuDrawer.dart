@@ -81,7 +81,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                                 ListTile(
                                   leading:
                                       const Icon(Icons.monetization_on_rounded),
-                                  title: const Text('支払い済'),
+                                  title: const Text('支払い済課金復元'),
                                   onTap: () {
                                     Navigator.pop(context);
                                     HostPurchaseModelApi()
