@@ -30,7 +30,6 @@ class MainActivity: FlutterActivity(), Pigeon.HostPurchaseModelApi {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-//        Pigeon.FlutterPurchaseModelApi(flutterEngine.dartExecutor)
         Pigeon.HostPurchaseModelApi.setup(flutterEngine.dartExecutor, this)
     }
 
@@ -40,12 +39,11 @@ class MainActivity: FlutterActivity(), Pigeon.HostPurchaseModelApi {
         return purchaseModel
     }
 
-    override fun requestPurchaseModel(): Boolean? {
-        val purchaseModel = Pigeon.PurchaseModel()
-        purchaseModel.isPurchase = true
-        Pigeon.FlutterPurchaseModelApi(flutterEngine?.dartExecutor).sendPurchaseModel(purchaseModel) {
-            Log.d(TAG, "FlutterPurchaseModelApi sendPurchaseModel")
-        }
+    override fun requestPurchaseModel(): Boolean {
+        return true
+    }
+
+    override fun restorePurchaseModel(): Boolean {
         return true
     }
 }
