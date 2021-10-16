@@ -8,6 +8,8 @@
     <string>$(AD_UNIT_ID)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>DELETE_ADS_PRODUCT_ID</key>
+    <string>$(DELETE_ADS_PRODUCT_ID)</string>
 	<key>CFBundleDisplayName</key>
 	<string>在留資格統計</string>
 	<key>CFBundleExecutable</key>

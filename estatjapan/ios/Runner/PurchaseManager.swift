@@ -26,7 +26,9 @@ class PurchaseManager: NSObject {
     fileprivate let verifyReceiptURL = "https://buy.itunes.apple.com/verifyReceipt"
 #endif
     
-    fileprivate let deleteAdsProductId = "com.estatjapan.purchase.ads"
+    fileprivate var deleteAdsProductId: String? {
+        Bundle.main.infoDictionary?["DELETE_ADS_PRODUCT_ID"] as? String
+    }
     fileprivate let productIdentifierKey = "productIdentifierKey"
     
     var isPurchaseDeleteAds: Bool {
@@ -47,7 +49,10 @@ class PurchaseManager: NSObject {
     }
     
     func deleteAds() {
-        let productIdentifier = deleteAdsProductId
+        guard let productIdentifier = deleteAdsProductId else {
+            purchaseError()
+            return
+        }
         if SKPaymentQueue.canMakePayments() {
             let productID: NSSet = NSSet(object: productIdentifier)
             let productsRequest: SKProductsRequest = SKProductsRequest(productIdentifiers: productID as! Set<String>)
