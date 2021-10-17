@@ -10,6 +10,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.estatjapan.purchase.AppExecutors
+import com.estatjapan.purchase.Constants
+import com.estatjapan.purchase.billing.BillingClientLifecycle
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -25,6 +28,11 @@ private const val LOG_TAG = "AppOpenAdManager"
 class MyApplication : Application(), Application.ActivityLifecycleCallbacks, LifecycleObserver {
     private lateinit var appOpenAdManager: AppOpenAdManager
     private var currentActivity: Activity? = null
+
+    private val executors = AppExecutors()
+
+    val billingClientLifecycle: BillingClientLifecycle
+        get() = BillingClientLifecycle.getInstance(this)
 
     override fun onCreate() {
         super.onCreate()
