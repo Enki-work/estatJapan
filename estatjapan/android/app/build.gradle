@@ -105,10 +105,24 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
+    // Firebase libraries.
+    implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
+    implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
+    implementation "com.google.firebase:firebase-functions:$firebaseFunctionsVersion"
+
+    // FirebaseUI Auth library.
+    implementation "com.firebaseui:firebase-ui-auth:$firebaseUiVersion"
+    implementation 'androidx.leanback:leanback:1.0.0'
+
     def lifecycle_version = '2.3.1'
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
     implementation "com.android.billingclient:billing:$billingVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
+
+    // ViewModel and LiveData extensions.
+    implementation "android.arch.lifecycle:extensions:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 }
