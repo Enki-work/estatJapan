@@ -138,7 +138,7 @@ class BillingClientLifecycle private constructor(
     fun querySkuDetails() {
         Log.d(TAG, "querySkuDetails")
         val params = SkuDetailsParams.newBuilder()
-                .setType(BillingClient.SkuType.INAPP)
+                .setType(BillingClient.SkuType.SUBS)
                 .setSkusList(LIST_OF_SKUS)
                 .build()
         params.let { skuDetailsParams ->

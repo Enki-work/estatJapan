@@ -104,6 +104,7 @@ class MainActivity: FlutterFragmentActivity(), Pigeon.HostPurchaseModelApi {
 
     override fun restorePurchaseModel(): Boolean {
         billingClientLifecycle.reStartConnection()
+        billingClientLifecycle.queryPurchases()
         return true
     }
 
