@@ -16,6 +16,8 @@
 
 package com.estatjapan.purchase
 
+import com.estatjapan.BuildConfig
+
 class Constants {
 
     companion object {
@@ -24,8 +26,8 @@ class Constants {
         var USE_FAKE_SERVER = false
         const val PURCHASE_KEY = "PURCHASE_KEY"
 
-        const val BASIC_SKU = "com.estatjapan.purchase.ads"
-        const val PREMIUM_SKU = "premium_subscription"
+        const val BASIC_SKU: String = BuildConfig.PURCHASE_SUBSCRIPTION_ADS
+        const val PREMIUM_SKU: String = BuildConfig.PURCHASE_ADS
         const val PLAY_STORE_SUBSCRIPTION_URL
                 = "https://play.google.com/store/account/subscriptions"
         const val PLAY_STORE_SUBSCRIPTION_DEEPLINK_URL

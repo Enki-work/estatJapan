@@ -77,9 +77,13 @@ android {
             } else {
                 buildConfigField "String", "AD_UNIT_ID", keystoreProperties['AD_UNIT_ID_RELEASE']
             }
+            buildConfigField "String", "PURCHASE_SUBSCRIPTION_ADS", keystoreProperties['PURCHASE_SUBSCRIPTION_ADS']
+            buildConfigField "String", "PURCHASE_ADS", keystoreProperties['PURCHASE_ADS']
         }
         release {
             buildConfigField "String", "AD_UNIT_ID", keystoreProperties['AD_UNIT_ID_RELEASE']
+            buildConfigField "String", "PURCHASE_SUBSCRIPTION_ADS", keystoreProperties['PURCHASE_SUBSCRIPTION_ADS']
+            buildConfigField "String", "PURCHASE_ADS", keystoreProperties['PURCHASE_ADS']
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release

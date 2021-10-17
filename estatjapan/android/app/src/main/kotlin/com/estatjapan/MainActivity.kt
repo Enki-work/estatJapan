@@ -112,6 +112,18 @@ class MainActivity: FlutterFragmentActivity(), Pigeon.HostPurchaseModelApi {
      * Register SKUs and purchase tokens with the server.
      */
     private fun registerPurchases(purchaseList: List<Purchase>) {
+        if (purchaseList.isEmpty()) {
+            val purchaseModel = Pigeon.PurchaseModel()
+            purchaseModel.isPurchase = false
+            Pigeon.FlutterPurchaseModelApi(flutterEngine?.dartExecutor).sendPurchaseModel(purchaseModel) {
+                Log.d(TAG, "FlutterPurchaseModelApi sendPurchaseModel")
+                val sharedPreferences = getSharedPreferences(Constants.PURCHASE_KEY, MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.clear()
+                editor.apply()
+            }
+            return
+        }
         for (purchase in purchaseList) {
             val sku = purchase.skus[0]
             val purchaseToken = purchase.purchaseToken
