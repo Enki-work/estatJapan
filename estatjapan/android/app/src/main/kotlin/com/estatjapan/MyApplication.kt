@@ -34,10 +34,14 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks, Lif
     val billingClientLifecycle: BillingClientLifecycle
         get() = BillingClientLifecycle.getInstance(this)
 
+    val isBasePurchase: Boolean get() = (getSharedPreferences(Constants.PURCHASE_KEY, MODE_PRIVATE).getString(Constants.BASIC_SKU, "") ?: "").isNotEmpty()
+
     override fun onCreate() {
         super.onCreate()
         registerActivityLifecycleCallbacks(this)
-        MobileAds.initialize(this) {}
+        if (isBasePurchase) {
+            MobileAds.initialize(this) {}
+        }
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         appOpenAdManager = AppOpenAdManager()
     }
@@ -114,7 +118,7 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks, Lif
          */
         fun loadAd(context: Context) {
             // Do not load ad if there is an unused ad or one is already loading.
-            if (isLoadingAd || isAdAvailable()) {
+            if (isLoadingAd || isAdAvailable() || isBasePurchase) {
                 return
             }
 
