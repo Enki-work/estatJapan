@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:estatjapan/page/VisaInfoPage.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,6 +22,7 @@ import 'Util/AppConfig.dart';
 import 'model/ClassOBJ.dart';
 import 'model/GraphData.dart';
 import 'model/RouteModel.dart';
+import 'model/VisaInfoPageData.dart';
 
 const bool isRelease =
     bool.fromEnvironment('dart.vm.product', defaultValue: false);
@@ -118,6 +120,13 @@ class _MyAppState extends State<MyApp> {
                       return WebViewPage(
                           loadUrl: ModalRoute.of(context)?.settings.arguments
                               as String?);
+                    },
+                    "VisaInfoPage": (context) {
+                      return VisaInfoPage(
+                        visaInfoPageData: ModalRoute.of(context)
+                            ?.settings
+                            .arguments as VisaInfoPageData?,
+                      );
                     },
                     "/": (context) => const RootPage(title: '在留資格取得の受理・処理'),
                   })

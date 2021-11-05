@@ -2,9 +2,53 @@ import 'package:estatjapan/model/VisaInfoPageData.dart';
 import 'package:flutter/material.dart';
 
 class VisaInfoPage extends StatelessWidget {
-  const VisaInfoPage({Key? key}) : super(key: key);
+  const VisaInfoPage({Key? key, this.visaInfoPageData}) : super(key: key);
+  final VisaInfoPageData? visaInfoPageData;
 
-  static const visaData = [
+  @override
+  Widget build(BuildContext context) {
+    if (visaInfoPageData == null) {
+      return VisaInfoColumn(
+        visaInfoPageData: visaInfoPageData,
+      );
+    } else {
+      return Scaffold(
+          appBar: AppBar(
+            //导航栏
+            title: Text(visaInfoPageData!.title),
+          ),
+          body: VisaInfoColumn(
+            visaInfoPageData: visaInfoPageData,
+          ));
+    }
+  }
+}
+
+class VisaInfoColumn extends StatelessWidget {
+  const VisaInfoColumn({Key? key, this.visaInfoPageData}) : super(key: key);
+  final VisaInfoPageData? visaInfoPageData;
+  List get visaData => visaInfoPageData?.pageData ?? defaultVisaData;
+  static const List defaultVisaData = [
+    VisaInfoPageData(title: "永住許可に関する", pageData: [
+      VisaInfoData(
+          title: "永住許可申請",
+          pageUrlStr:
+              "https://www.moj.go.jp/isa/applications/procedures/16-4.html"),
+      VisaInfoData(
+          title: "永住許可申請書の様式の記入例・書き方の見本・サンプル",
+          pageUrlStr: "http://work-visa.jp/how-to-write/permanent-residence"),
+      VisaInfoData(
+          title: "高度人材ポイント制とは",
+          pageUrlStr:
+              "https://www.moj.go.jp/isa/publications/materials/newimmiact_3_system_index.html"),
+      VisaInfoData(
+          title: "高度人材ポイント制評価仕組み",
+          pageUrlStr: "https://www.moj.go.jp/isa/content/930001655.pdf"),
+      VisaInfoData(
+          title: "高度専門職ビザから永住申請書類リスト（中国語）",
+          pageUrlStr:
+              "https://docs.google.com/spreadsheets/d/1CEHenEdRqznMaVJnG4JbaVce3EMQkQqZYhAGqFNCUQU/edit?usp=sharing"),
+    ]),
     VisaInfoData(
         title: "在留資格認定証明書交付申請",
         pageUrlStr:
@@ -21,10 +65,6 @@ class VisaInfoPage extends StatelessWidget {
         title: "在留資格取得許可申請",
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-10.html"),
-    VisaInfoData(
-        title: "永住許可申請",
-        pageUrlStr:
-            "https://www.moj.go.jp/isa/applications/procedures/16-4.html"),
     VisaInfoData(
         title: "再入国許可申請",
         pageUrlStr:
@@ -50,7 +90,6 @@ class VisaInfoPage extends StatelessWidget {
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-6.html"),
   ];
-
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -60,13 +99,26 @@ class VisaInfoPage extends StatelessWidget {
         itemCount: visaData.length,
         shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-              title: Text(visaData[index].title),
-              minVerticalPadding: 25,
-              onTap: () {
-                Navigator.of(context).pushNamed("WebViewPage",
-                    arguments: visaData[index].pageUrlStr);
-              });
+          final data = visaData[index];
+          if (data is VisaInfoPageData) {
+            return ListTile(
+                title: Text(data.title),
+                minVerticalPadding: 25,
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed("VisaInfoPage", arguments: data);
+                });
+          } else if (data is VisaInfoData) {
+            return ListTile(
+                title: Text(data.title),
+                minVerticalPadding: 25,
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed("WebViewPage", arguments: data.pageUrlStr);
+                });
+          } else {
+            return const ListTile();
+          }
         },
         separatorBuilder: (BuildContext context, int index) => Divider(
           height: 0.5,
