@@ -19,8 +19,8 @@ class AppConfig {
   final String ios_inline_native;
   final String ios_appid;
   final String estatAppId;
-  final bool isThemeFollowSystem;
-  final bool isThemeDarkMode;
+  bool isThemeFollowSystem;
+  bool isThemeDarkMode;
 
   static late final AppConfig shared;
 
@@ -59,12 +59,16 @@ class AppConfig {
   }
 
   void setThemeFollowSystem(bool isThemeFollowSystem) {
-    SharedPreferences.getInstance().then(
-        (value) => value.setBool(isThemeFollowSystemKey, isThemeFollowSystem));
+    this.isThemeFollowSystem = isThemeFollowSystem;
+    SharedPreferences.getInstance().then((value) {
+      value.setBool(isThemeFollowSystemKey, isThemeFollowSystem);
+    });
   }
 
   void setThemeDarkModeKey(bool isThemeDarkMode) {
-    SharedPreferences.getInstance()
-        .then((value) => value.setBool(isThemeDarkModeKey, isThemeDarkMode));
+    this.isThemeDarkMode = isThemeDarkMode;
+    SharedPreferences.getInstance().then((value) {
+      value.setBool(isThemeDarkModeKey, isThemeDarkMode);
+    });
   }
 }

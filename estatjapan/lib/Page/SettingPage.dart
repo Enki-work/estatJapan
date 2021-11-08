@@ -1,10 +1,10 @@
+import 'package:estatjapan/Util/AppConfig.dart';
 import 'package:estatjapan/model/BannerAdModel.dart';
-import 'package:estatjapan/util/AppConfig.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
-enum SettingPageItemType { darkMode }
+enum SettingPageItemType { themeFollowSystem, themeDarkMode }
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   static const List listItemTitles = [
-    SettingPageItemType.darkMode,
+    SettingPageItemType.themeDarkMode,
   ];
 
   @override
@@ -50,35 +50,76 @@ class _SettingPageState extends State<SettingPage> {
                           );
                         }
                         final itemType = listItemTitles[index];
-                        ListTile listTile = const ListTile();
                         switch (itemType) {
-                          case SettingPageItemType.darkMode:
-                            listTile = ListTile(
-                              title: const Text("ダークモード"),
-                              minVerticalPadding: 25,
-                              // trailing: const Text(
-                              //   "システム設定に従う",
-                              // ),
-                              subtitle: const Text(
-                                "システム設定に従う",
-                              ),
-                              trailing: Switch(
-                                value: AppConfig.shared.isThemeDarkMode,
-                                onChanged: (value) {
-                                  //重新构建页面
-                                  setState(() {
-                                    AppConfig.shared.setThemeDarkModeKey(value);
-                                  });
-                                },
-                              ),
-                              onTap: () {
-                                // itemOnTap(index);
-                              },
+                          case SettingPageItemType.themeDarkMode:
+                            final isThemeFollowSystem =
+                                AppConfig.shared.isThemeFollowSystem;
+                            final isThemeDarkMode =
+                                AppConfig.shared.isThemeDarkMode;
+                            return Column(
+                              children: [
+                                const Divider(height: 0.5),
+                                const ListTile(
+                                  title: Text("ダークモード",
+                                      style: TextStyle(
+                                          fontSize: 12, color: Colors.grey)),
+                                ),
+                                ListTile(
+                                  title: const Text("システム設定に従う"),
+                                  minVerticalPadding: 25,
+                                  trailing: Switch(
+                                    value: isThemeFollowSystem,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        AppConfig.shared
+                                            .setThemeFollowSystem(value);
+                                      });
+                                    },
+                                  ),
+                                  onTap: null,
+                                ),
+                                isThemeFollowSystem
+                                    ? const SizedBox()
+                                    : Column(
+                                        children: [
+                                          ListTile(
+                                            title: const Text("ライトモード"),
+                                            minVerticalPadding: 25,
+                                            trailing: Checkbox(
+                                              value: !isThemeDarkMode,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  AppConfig.shared
+                                                      .setThemeDarkModeKey(
+                                                          !(value ?? true));
+                                                  MaterialApp
+                                                });
+                                              },
+                                            ),
+                                            onTap: null,
+                                          ),
+                                          ListTile(
+                                            title: const Text("ダークモード"),
+                                            minVerticalPadding: 25,
+                                            trailing: Checkbox(
+                                              value: isThemeDarkMode,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  AppConfig.shared
+                                                      .setThemeDarkModeKey(
+                                                      value ?? false);
+                                                });
+                                              },
+                                            ),
+                                            onTap: null,
+                                          ),
+                                        ],
+                                      ),
+                              ],
                             );
-                            break;
                         }
 
-                        return listTile;
+                        return const ListTile();
                       },
                       separatorBuilder: (BuildContext context, int index) =>
                           Divider(
