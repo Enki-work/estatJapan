@@ -2,9 +2,14 @@
 
 import 'dart:async' show Future;
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
+
+const isThemeFollowSystemKey = "isThemeFollowSystemKey";
+const isThemeDarkModeKey = "isThemeDarkModeKey";
 
 class AppConfig {
   final String android_inline_banner;
@@ -14,6 +19,8 @@ class AppConfig {
   final String ios_inline_native;
   final String ios_appid;
   final String estatAppId;
+  final bool isThemeFollowSystem;
+  final bool isThemeDarkMode;
 
   static late final AppConfig shared;
 
@@ -21,16 +28,21 @@ class AppConfig {
       {required this.android_inline_banner,
       required this.android_inline_native,
       required this.android_appid,
-  required this.ios_inline_banner,
-  required this.ios_inline_native,
-  required this.ios_appid,
-      required this.estatAppId});
+      required this.ios_inline_banner,
+      required this.ios_inline_native,
+      required this.ios_appid,
+      required this.estatAppId,
+      required this.isThemeFollowSystem,
+      required this.isThemeDarkMode});
 
   static Future<AppConfig> forEnvironment() async {
     final env = kReleaseMode ? 'prod' : 'dev';
     final contents = await rootBundle.loadString(
       'lib/config/$env.json',
     );
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final isThemeFollowSystem = pref.getBool(isThemeFollowSystemKey) ?? true;
+    final isThemeDarkMode = pref.getBool(isThemeDarkModeKey) ?? false;
     // decode our json
     final json = jsonDecode(contents);
     shared = AppConfig._internal(
@@ -40,7 +52,19 @@ class AppConfig {
         ios_inline_banner: json['ios_inline_banner'],
         ios_inline_native: json['ios_inline_native'],
         ios_appid: json['ios_appid'],
-        estatAppId: json['estatAppId']);
+        estatAppId: json['estatAppId'],
+        isThemeFollowSystem: isThemeFollowSystem,
+        isThemeDarkMode: isThemeDarkMode);
     return shared;
+  }
+
+  void setThemeFollowSystem(bool isThemeFollowSystem) {
+    SharedPreferences.getInstance().then(
+        (value) => value.setBool(isThemeFollowSystemKey, isThemeFollowSystem));
+  }
+
+  void setThemeDarkModeKey(bool isThemeDarkMode) {
+    SharedPreferences.getInstance()
+        .then((value) => value.setBool(isThemeDarkModeKey, isThemeDarkMode));
   }
 }

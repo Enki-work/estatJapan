@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:estatjapan/page/SettingPage.dart';
 import 'package:estatjapan/page/VisaInfoPage.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -64,6 +65,7 @@ class _MyAppState extends State<MyApp> {
                     primarySwatch: Colors.deepOrange,
                     iconTheme:
                         const IconThemeData(color: Colors.deepOrangeAccent)),
+                themeMode: ThemeMode.system,
                 navigatorObservers: <NavigatorObserver>[
                     MyApp.observer
                   ],
@@ -127,6 +129,9 @@ class _MyAppState extends State<MyApp> {
                             ?.settings
                             .arguments as VisaInfoPageData?,
                       );
+                    },
+                    "SettingPage": (context) {
+                      return const SettingPage();
                     },
                     "/": (context) => const RootPage(title: '在留資格取得の受理・処理'),
                   })
