@@ -92,7 +92,6 @@ class _SettingPageState extends State<SettingPage> {
                                                   AppConfig.shared
                                                       .setThemeDarkModeKey(
                                                           !(value ?? true));
-                                                  MaterialApp
                                                 });
                                               },
                                             ),
@@ -107,7 +106,7 @@ class _SettingPageState extends State<SettingPage> {
                                                 setState(() {
                                                   AppConfig.shared
                                                       .setThemeDarkModeKey(
-                                                      value ?? false);
+                                                          value ?? false);
                                                 });
                                               },
                                             ),

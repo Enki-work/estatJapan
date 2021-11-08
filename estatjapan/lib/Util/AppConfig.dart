@@ -4,6 +4,7 @@ import 'dart:async' show Future;
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 const isThemeFollowSystemKey = "isThemeFollowSystemKey";
 const isThemeDarkModeKey = "isThemeDarkModeKey";
 
-class AppConfig {
+class AppConfig extends ChangeNotifier {
   final String android_inline_banner;
   final String android_inline_native;
   final String android_appid;
@@ -62,6 +63,7 @@ class AppConfig {
     this.isThemeFollowSystem = isThemeFollowSystem;
     SharedPreferences.getInstance().then((value) {
       value.setBool(isThemeFollowSystemKey, isThemeFollowSystem);
+      notifyListeners();
     });
   }
 
@@ -69,6 +71,17 @@ class AppConfig {
     this.isThemeDarkMode = isThemeDarkMode;
     SharedPreferences.getInstance().then((value) {
       value.setBool(isThemeDarkModeKey, isThemeDarkMode);
+      notifyListeners();
     });
+  }
+
+  ThemeMode getThemeMode() {
+    if (isThemeFollowSystem) {
+      return ThemeMode.system;
+    } else if (isThemeDarkMode) {
+      return ThemeMode.dark;
+    } else {
+      return ThemeMode.light;
+    }
   }
 }
