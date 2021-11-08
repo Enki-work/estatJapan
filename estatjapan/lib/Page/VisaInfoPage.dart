@@ -48,6 +48,8 @@ class VisaInfoColumn extends StatelessWidget {
           title: "高度専門職ビザから永住申請書類リスト（中国語）",
           pageUrlStr:
               "https://docs.google.com/spreadsheets/d/1CEHenEdRqznMaVJnG4JbaVce3EMQkQqZYhAGqFNCUQU/edit?usp=sharing"),
+      VisaInfoData(
+          title: "永住理由書書き方サンプル（中国語）", pageUrlStr: "http://xhslink.com/Ns5kFe"),
     ]),
     VisaInfoData(
         title: "在留資格認定証明書交付申請",
