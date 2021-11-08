@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, snapshot) => snapshot.connectionState ==
                 ConnectionState.done
             ? MaterialApp(
-                title: 'Flutter Demo',
+                title: '在留資格統計',
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
                     primarySwatch: Colors.orange,
