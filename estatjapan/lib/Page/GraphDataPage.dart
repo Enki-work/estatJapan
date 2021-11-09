@@ -161,31 +161,41 @@ class _GraphDataPageState extends State<GraphDataPage> {
                     value: touchedIndex,
                     child: AspectRatio(
                       aspectRatio: 1,
-                      child: Builder(
-                          builder: (context) => PieChart(
-                                PieChartData(
-                                    pieTouchData: PieTouchData(touchCallback:
-                                        (FlTouchEvent event, pieTouchResponse) {
-                                      if (!event.isInterestedForInteractions ||
-                                          pieTouchResponse == null ||
-                                          pieTouchResponse.touchedSection ==
-                                              null) {
-                                        touchedIndex.value = -1;
-                                        return;
-                                      }
-                                      touchedIndex.value = pieTouchResponse
-                                          .touchedSection!.touchedSectionIndex;
-                                    }),
-                                    borderData: FlBorderData(
-                                      show: false,
-                                    ),
-                                    sectionsSpace: 0,
-                                    centerSpaceRadius: 50,
-                                    sections: _showingSummarySections(
-                                        Provider.of<int>(context),
-                                        rootModel,
-                                        models,
-                                        totalResult)),
+                      child: totalResult.valueDouble > 0
+                          ? Builder(
+                              builder: (context) => PieChart(
+                                    PieChartData(
+                                        pieTouchData: PieTouchData(
+                                            touchCallback: (FlTouchEvent event,
+                                                pieTouchResponse) {
+                                          if (!event
+                                                  .isInterestedForInteractions ||
+                                              pieTouchResponse == null ||
+                                              pieTouchResponse.touchedSection ==
+                                                  null) {
+                                            touchedIndex.value = -1;
+                                            return;
+                                          }
+                                          touchedIndex.value = pieTouchResponse
+                                              .touchedSection!
+                                              .touchedSectionIndex;
+                                        }),
+                                        borderData: FlBorderData(
+                                          show: false,
+                                        ),
+                                        sectionsSpace: 0,
+                                        centerSpaceRadius: 50,
+                                        sections: _showingSummarySections(
+                                            Provider.of<int>(context),
+                                            rootModel,
+                                            models,
+                                            totalResult)),
+                                  ))
+                          : Container(
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "データなし",
+                                textAlign: TextAlign.center,
                               )),
                     )),
               ),
@@ -277,31 +287,41 @@ class _GraphDataPageState extends State<GraphDataPage> {
                     value: touchedIndex,
                     child: AspectRatio(
                       aspectRatio: 1,
-                      child: Builder(
-                          builder: (context) => PieChart(
-                                PieChartData(
-                                    pieTouchData: PieTouchData(touchCallback:
-                                        (FlTouchEvent event, pieTouchResponse) {
-                                      if (!event.isInterestedForInteractions ||
-                                          pieTouchResponse == null ||
-                                          pieTouchResponse.touchedSection ==
-                                              null) {
-                                        touchedIndex.value = -1;
-                                        return;
-                                      }
-                                      touchedIndex.value = pieTouchResponse
-                                          .touchedSection!.touchedSectionIndex;
-                                    }),
-                                    borderData: FlBorderData(
-                                      show: false,
-                                    ),
-                                    sectionsSpace: 0,
-                                    centerSpaceRadius: 50,
-                                    sections: _showingReceivedSections(
-                                        Provider.of<int>(context),
-                                        rootModel,
-                                        models,
-                                        totalResult)),
+                      child: totalResult.valueDouble > 0
+                          ? Builder(
+                              builder: (context) => PieChart(
+                                    PieChartData(
+                                        pieTouchData: PieTouchData(
+                                            touchCallback: (FlTouchEvent event,
+                                                pieTouchResponse) {
+                                          if (!event
+                                                  .isInterestedForInteractions ||
+                                              pieTouchResponse == null ||
+                                              pieTouchResponse.touchedSection ==
+                                                  null) {
+                                            touchedIndex.value = -1;
+                                            return;
+                                          }
+                                          touchedIndex.value = pieTouchResponse
+                                              .touchedSection!
+                                              .touchedSectionIndex;
+                                        }),
+                                        borderData: FlBorderData(
+                                          show: false,
+                                        ),
+                                        sectionsSpace: 0,
+                                        centerSpaceRadius: 50,
+                                        sections: _showingReceivedSections(
+                                            Provider.of<int>(context),
+                                            rootModel,
+                                            models,
+                                            totalResult)),
+                                  ))
+                          : Container(
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "データなし",
+                                textAlign: TextAlign.center,
                               )),
                     )),
               ),
@@ -395,31 +415,41 @@ class _GraphDataPageState extends State<GraphDataPage> {
                     value: touchedIndex,
                     child: AspectRatio(
                       aspectRatio: 1,
-                      child: Builder(
-                          builder: (context) => PieChart(
-                                PieChartData(
-                                    pieTouchData: PieTouchData(touchCallback:
-                                        (FlTouchEvent event, pieTouchResponse) {
-                                      if (!event.isInterestedForInteractions ||
-                                          pieTouchResponse == null ||
-                                          pieTouchResponse.touchedSection ==
-                                              null) {
-                                        touchedIndex.value = -1;
-                                        return;
-                                      }
-                                      touchedIndex.value = pieTouchResponse
-                                          .touchedSection!.touchedSectionIndex;
-                                    }),
-                                    borderData: FlBorderData(
-                                      show: false,
-                                    ),
-                                    sectionsSpace: 0,
-                                    centerSpaceRadius: 50,
-                                    sections: _showingSettledSections(
-                                        Provider.of<int>(context),
-                                        rootModel,
-                                        models,
-                                        resultData)),
+                      child: resultData.valueDouble > 0
+                          ? Builder(
+                              builder: (context) => PieChart(
+                                    PieChartData(
+                                        pieTouchData: PieTouchData(
+                                            touchCallback: (FlTouchEvent event,
+                                                pieTouchResponse) {
+                                          if (!event
+                                                  .isInterestedForInteractions ||
+                                              pieTouchResponse == null ||
+                                              pieTouchResponse.touchedSection ==
+                                                  null) {
+                                            touchedIndex.value = -1;
+                                            return;
+                                          }
+                                          touchedIndex.value = pieTouchResponse
+                                              .touchedSection!
+                                              .touchedSectionIndex;
+                                        }),
+                                        borderData: FlBorderData(
+                                          show: false,
+                                        ),
+                                        sectionsSpace: 0,
+                                        centerSpaceRadius: 50,
+                                        sections: _showingSettledSections(
+                                            Provider.of<int>(context),
+                                            rootModel,
+                                            models,
+                                            resultData)),
+                                  ))
+                          : Container(
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "データなし",
+                                textAlign: TextAlign.center,
                               )),
                     )),
               ),
