@@ -57,7 +57,8 @@ class _MyAppState extends State<MyApp> {
         future: AppConfig.forEnvironment(),
         builder: (context, snapshot) {
           // ChangeNotifierProvider
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
             final config = snapshot.data as AppConfig;
             return ChangeNotifierProvider.value(
               value: config,
