@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/GraphData.dart';
 import 'package:estatjapan/model/ImmigrationStatisticsRoot.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
@@ -61,7 +64,35 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
-            }));
+            }),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            SystemChrome.setPreferredOrientations(
+                    MediaQuery.of(context).orientation == Orientation.landscape
+                        ? [DeviceOrientation.portraitUp]
+                        : [DeviceOrientation.landscapeRight])
+                .then((value) {
+              if (Platform.isIOS) {
+                SystemChrome.setPreferredOrientations([
+                  DeviceOrientation.portraitUp,
+                  DeviceOrientation.landscapeLeft,
+                  DeviceOrientation.landscapeRight
+                ]);
+              }
+            });
+          },
+          child: const Icon(Icons.screen_rotation_rounded),
+        ));
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
+    super.dispose();
   }
 
   Widget _lineChart(ImmigrationStatisticsRoot rootModel) {

@@ -30,6 +30,7 @@ const bool isRelease =
     bool.fromEnvironment('dart.vm.product', defaultValue: false);
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
