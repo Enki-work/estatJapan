@@ -512,6 +512,3 @@ class _GraphDataPageState extends State<GraphDataPage> {
     });
   }
 }
-
-// removeDummy()
-// 'var eee = document.getElementById('\(elementID)'); eee.parentElement.removeChild(element);'
