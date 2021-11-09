@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:estatjapan/model/VisaInfoPageData.dart';
 import 'package:flutter/material.dart';
 
@@ -28,66 +30,67 @@ class VisaInfoColumn extends StatelessWidget {
   const VisaInfoColumn({Key? key, this.visaInfoPageData}) : super(key: key);
   final VisaInfoPageData? visaInfoPageData;
   List get visaData => visaInfoPageData?.pageData ?? defaultVisaData;
-  static const List defaultVisaData = [
+  static List defaultVisaData = [
     VisaInfoPageData(title: "永住許可に関する", pageData: [
-      VisaInfoData(
+      const VisaInfoData(
           title: "永住許可申請",
           pageUrlStr:
               "https://www.moj.go.jp/isa/applications/procedures/16-4.html"),
-      VisaInfoData(
+      const VisaInfoData(
           title: "永住許可申請書の様式の記入例・書き方の見本・サンプル",
           pageUrlStr: "http://work-visa.jp/how-to-write/permanent-residence"),
-      VisaInfoData(
+      const VisaInfoData(
           title: "高度人材ポイント制とは",
           pageUrlStr:
               "https://www.moj.go.jp/isa/publications/materials/newimmiact_3_system_index.html"),
-      VisaInfoData(
-          title: "高度人材ポイント制評価仕組み",
-          pageUrlStr: "https://www.moj.go.jp/isa/content/930001655.pdf"),
-      VisaInfoData(
+      if (Platform.isIOS)
+        const VisaInfoData(
+            title: "高度人材ポイント制評価仕組み",
+            pageUrlStr: "https://www.moj.go.jp/isa/content/930001655.pdf"),
+      const VisaInfoData(
           title: "高度専門職ビザから永住申請書類リスト（中国語）",
           pageUrlStr:
               "https://docs.google.com/spreadsheets/d/1CEHenEdRqznMaVJnG4JbaVce3EMQkQqZYhAGqFNCUQU/edit?usp=sharing"),
-      VisaInfoData(
+      const VisaInfoData(
           title: "永住理由書書き方サンプル（中国語）", pageUrlStr: "http://xhslink.com/Ns5kFe"),
     ]),
-    VisaInfoData(
+    const VisaInfoData(
         title: "在留資格認定証明書交付申請",
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-1.html"),
-    VisaInfoData(
+    const VisaInfoData(
         title: "在留資格変更許可申請",
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-2.html"),
-    VisaInfoData(
+    const VisaInfoData(
         title: "在留期間更新許可申請",
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-3.html"),
-    VisaInfoData(
+    const VisaInfoData(
         title: "在留資格取得許可申請",
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-10.html"),
-    VisaInfoData(
+    const VisaInfoData(
         title: "再入国許可申請",
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-5.html"),
-    VisaInfoData(
+    const VisaInfoData(
         title: "難民旅行証明書交付申請",
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-7.html"),
-    VisaInfoData(
+    const VisaInfoData(
         title: "資格外活動許可申請",
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-8.html"),
-    VisaInfoData(
+    const VisaInfoData(
         title: "就労資格証明書交付申請",
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-9.html"),
-    VisaInfoData(
+    const VisaInfoData(
         title: "仮放免許可申請",
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-11.html"),
-    VisaInfoData(
+    const VisaInfoData(
         title: "難民認定申請",
         pageUrlStr:
             "https://www.moj.go.jp/isa/applications/procedures/16-6.html"),
