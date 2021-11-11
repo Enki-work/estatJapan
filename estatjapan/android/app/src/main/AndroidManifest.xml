@@ -21,7 +21,8 @@
        android:taskAffinity=""
        android:allowBackup="true"
         android:label="在留取得統計"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+       android:usesCleartextTraffic="true">
        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
      See README(https://goo.gl/l4GJaQ) for more. -->
        <meta-data

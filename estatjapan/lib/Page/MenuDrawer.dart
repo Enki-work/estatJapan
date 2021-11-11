@@ -90,6 +90,18 @@ class _MenuDrawerState extends State<MenuDrawer> {
                                 ),
                               ],
                             ),
+                      const ListTile(
+                        title: Text("設定",
+                            style: TextStyle(fontSize: 12, color: Colors.grey)),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.settings),
+                        title: const Text('設定'),
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.of(context).pushNamed("SettingPage");
+                        },
+                      ),
                       const Divider(height: 0.5),
                       const ListTile(
                         title: Text("その他",

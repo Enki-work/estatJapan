@@ -149,7 +149,7 @@ class RootPage extends StatelessWidget {
                   icon: Icon(Icons.align_horizontal_left_rounded),
                   label: 'グラフ'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.all_inbox_rounded), label: 'ビザに関す情報'),
+                  icon: Icon(Icons.all_inbox_rounded), label: 'ビザに関する情報'),
             ],
             currentIndex:
                 Provider.of<ImmigrationStatisticsModel>(context).selectedIndex,
