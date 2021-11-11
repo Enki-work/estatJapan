@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:estatjapan/Util/AppConfig.dart';
 import 'package:estatjapan/model/BannerAdModel.dart';
@@ -6,6 +8,7 @@ import 'package:estatjapan/model/ImmigrationStatisticsRoot.dart';
 import 'package:estatjapan/model/RouteModel.dart';
 import 'package:estatjapan/model/Value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
 import 'package:horizontal_data_table/scroll/scroll_bar_style.dart';
@@ -64,7 +67,35 @@ class _DataTablePageState extends State<DataTablePage> {
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
-            }));
+            }),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            SystemChrome.setPreferredOrientations(
+                    MediaQuery.of(context).orientation == Orientation.landscape
+                        ? [DeviceOrientation.portraitUp]
+                        : [DeviceOrientation.landscapeRight])
+                .then((value) {
+              if (Platform.isIOS) {
+                SystemChrome.setPreferredOrientations([
+                  DeviceOrientation.portraitUp,
+                  DeviceOrientation.landscapeLeft,
+                  DeviceOrientation.landscapeRight
+                ]);
+              }
+            });
+          },
+          child: const Icon(Icons.screen_rotation_rounded),
+        ));
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
+    super.dispose();
   }
 
   Widget _getBodyWidget() {

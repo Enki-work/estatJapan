@@ -47,9 +47,22 @@ class MenuDrawer extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                    flex:1,
+                  flex: 1,
                   child: ListView(
                     children: <Widget>[
+                      const Divider(height: 0.5),
+                      const ListTile(
+                        title: Text("設定",
+                            style: TextStyle(fontSize: 12, color: Colors.grey)),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.settings),
+                        title: const Text('設定'),
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.of(context).pushNamed("SettingPage");
+                        },
+                      ),
                       const Divider(height: 0.5),
                       const ListTile(
                         title: Text("その他",
@@ -106,12 +119,12 @@ class MenuDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-            Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-            child:SizedBox(
-                    height: bAdModel.bannerAd().size.height.toDouble(),
-                    width: bAdModel.bannerAd().size.width.toDouble(),
-                    child: AdWidget(ad: bAdModel.bannerAd()))),
+                Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    child: SizedBox(
+                        height: bAdModel.bannerAd().size.height.toDouble(),
+                        width: bAdModel.bannerAd().size.width.toDouble(),
+                        child: AdWidget(ad: bAdModel.bannerAd()))),
               ],
             );
           })),
