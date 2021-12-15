@@ -74,8 +74,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
                                   title: const Text('広告を削除する'),
                                   onTap: () {
                                     Navigator.pop(context);
-                                    HostPurchaseModelApi()
-                                        .requestPurchaseModel();
+
+                                    Navigator.of(context)
+                                        .pushNamed("PurchaseInfoPage");
                                   },
                                 ),
                                 ListTile(
