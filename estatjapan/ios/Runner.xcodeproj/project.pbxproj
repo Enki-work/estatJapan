@@ -19,6 +19,7 @@
 		A48335A92703E7990006ACEF /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A48335A82703E7990006ACEF /* AppTrackingTransparency.framework */; };
 		A48335AC27052E2B0006ACEF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A48335AB27052E2B0006ACEF /* GoogleService-Info.plist */; };
 		A48F7A232707E02A0097C812 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48F7A222707E02A0097C812 /* MainViewController.swift */; };
+		A4A3ED25276983FB00AC8021 /* ProductRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A3ED24276983FB00AC8021 /* ProductRequester.swift */; };
 		A4F69BB627144731004FAFCF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4F69BB527144731004FAFCF /* StoreKit.framework */; };
 		A4F69BB827146F0A004FAFCF /* PurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F69BB727146F0A004FAFCF /* PurchaseManager.swift */; };
 /* End PBXBuildFile section */
@@ -60,6 +61,7 @@
 		A48335AA270483A20006ACEF /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		A48335AB27052E2B0006ACEF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A48F7A222707E02A0097C812 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		A4A3ED24276983FB00AC8021 /* ProductRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRequester.swift; sourceTree = "<group>"; };
 		A4F69BB527144731004FAFCF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A4F69BB727146F0A004FAFCF /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
 		DF14AF60D5FE432D257F2EAA /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				A4A3ED232769833500AC8021 /* Purchase */,
 				A48335AB27052E2B0006ACEF /* GoogleService-Info.plist */,
 				A48335AA270483A20006ACEF /* Runner.entitlements */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -134,7 +137,6 @@
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 				A48F7A222707E02A0097C812 /* MainViewController.swift */,
 				A42215852707E28300049342 /* Storyboard.storyboard */,
-				A4F69BB727146F0A004FAFCF /* PurchaseManager.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -147,6 +149,15 @@
 				A43AF922270EDCC500CBEDE5 /* FlutterApi.swift */,
 			);
 			name = Pigeon;
+			sourceTree = "<group>";
+		};
+		A4A3ED232769833500AC8021 /* Purchase */ = {
+			isa = PBXGroup;
+			children = (
+				A4F69BB727146F0A004FAFCF /* PurchaseManager.swift */,
+				A4A3ED24276983FB00AC8021 /* ProductRequester.swift */,
+			);
+			path = Purchase;
 			sourceTree = "<group>";
 		};
 		FD327C83B812D9A8717EA135 /* Frameworks */ = {
@@ -347,6 +358,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A43AF923270EDCC500CBEDE5 /* FlutterApi.swift in Sources */,
+				A4A3ED25276983FB00AC8021 /* ProductRequester.swift in Sources */,
 				A48F7A232707E02A0097C812 /* MainViewController.swift in Sources */,
 				A43AF921270ED6E400CBEDE5 /* pigeon.m in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,

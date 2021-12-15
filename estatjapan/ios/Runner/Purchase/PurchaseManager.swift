@@ -29,6 +29,11 @@ class PurchaseManager: NSObject {
     fileprivate var deleteAdsProductId: String? {
         Bundle.main.infoDictionary?["DELETE_ADS_PRODUCT_ID"] as? String
     }
+    
+    fileprivate var sharedSecret: String? {
+        Bundle.main.infoDictionary?["SHARED_SECRET"] as? String
+    }
+    
     fileprivate let productIdentifierKey = "productIdentifierKey"
     
     var isPurchaseDeleteAds: Bool {
@@ -56,10 +61,21 @@ class PurchaseManager: NSObject {
             return
         }
         if SKPaymentQueue.canMakePayments() {
-            let productID: NSSet = NSSet(object: productIdentifier)
-            let productsRequest: SKProductsRequest = SKProductsRequest(productIdentifiers: productID as! Set<String>)
-            productsRequest.delegate = self
-            productsRequest.start()
+            let productRequester = ProductRequester()
+            productRequester.requestProducts(productIds: [productIdentifier]) { [weak self] result in
+                switch result {
+                case .success(let products):
+                    guard let product = products.first else {
+                        self?.purchaseError()
+                        return
+                    }
+                    let payment = SKPayment(product: product)
+                    SKPaymentQueue.default().add(payment)
+                case .failure:
+                    self?.purchaseError()
+                }
+                productRequester.completion = nil
+            }
         }
         else {
             purchaseError(payingProductIdentifier: productIdentifier)
@@ -110,23 +126,31 @@ class PurchaseManager: NSObject {
         }
     }
     
-    fileprivate func completePay(transaction: SKPaymentTransaction) {
-        defer {
-            SKPaymentQueue.default().finishTransaction(transaction)
+    fileprivate func completePay(transactions: [SKPaymentTransaction]) {
+        let transaction: SKPaymentTransaction
+        if transactions.count > 1 {
+            transaction = transactions.max(by: {($0.transactionDate ?? Date()) <= ($1.transactionDate ?? Date())}) ?? transactions.last!
+            transactions.filter({$0.transactionIdentifier != transaction.transactionIdentifier}).forEach({SKPaymentQueue.default().finishTransaction($0)})
+        } else {
+            transaction = transactions[0]
         }
+        
         guard let recepitUrl = Bundle.main.appStoreReceiptURL,
-              let data = try? Data.init(contentsOf: recepitUrl) else {
+              FileManager.default.fileExists(atPath: recepitUrl.path),
+              let data = try? Data(contentsOf: recepitUrl, options: .alwaysMapped) else {
                   purchaseError()
                   return
               }
         debugPrint("\(String(describing: String.init(data: data, encoding: .utf8)))")
-        verify(data: data,transaction: transaction)
+        verify(data: data, transaction: transaction)
     }
     
     fileprivate func verify(data: Data, transaction: SKPaymentTransaction) {
-        let base64Str = data.base64EncodedString(options: .endLineWithLineFeed)
+        
+        let base64Str = data.base64EncodedString(options: [])
         let params = NSMutableDictionary()
         params["receipt-data"] = base64Str
+        params["password"] = sharedSecret ?? ""
         let body = try! JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
         var request = URLRequest.init(url: URL.init(string: verifyReceiptURL)!, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 20)
         request.httpMethod = "POST"
@@ -147,7 +171,7 @@ class PurchaseManager: NSObject {
                     self.savePurchasedProductIdentifier(productIdentifier: transaction.payment.productIdentifier)
                     break
                 default:
-//                    self.purchaseError(payingProductIdentifier: transaction.payment.productIdentifier)
+                    self.purchaseError(payingProductIdentifier: transaction.payment.productIdentifier)
                     break
                 }
             }
@@ -156,57 +180,33 @@ class PurchaseManager: NSObject {
     }
 }
 
-extension PurchaseManager: SKProductsRequestDelegate {
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        let count: Int = response.products.count
-        if count > 0 {
-            let validProduct = response.products.first!
-            let payment = SKPayment(product: validProduct)
-            SKPaymentQueue.default().add(payment)
-        }
-        else {
-            purchaseError(payingProductIdentifier: response.invalidProductIdentifiers.first ?? "")
-        }
-    }
-    
-    func request(_ request: SKRequest, didFailWithError error: Error) {
-        purchaseError()
-    }
-    
-    func requestDidFinish(_ request: SKRequest) {
-        debugPrint(request)
-    }
-}
-
 extension PurchaseManager: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        var paymentTransactions: [SKPaymentTransaction] = []
         for transaction: AnyObject in transactions {
             if let trans: SKPaymentTransaction = transaction as? SKPaymentTransaction {
                 switch trans.transactionState {
-                case .purchased:
-                    completePay(transaction: trans)
-                    break
-                    
+                case .purchased, .restored:
+                    debugPrint("課金済み")
                 case .failed:
-                    purchaseError(payingProductIdentifier: trans.payment.productIdentifier)
-                    SKPaymentQueue.default().finishTransaction(trans)
                     UserDefaults.standard.removeObject(forKey: productIdentifierKey)
                     UserDefaults.standard.synchronize()
-                    break
-                    
-                case .restored:
-                    savePurchasedProductIdentifier(productIdentifier: trans.payment.productIdentifier)
                     SKPaymentQueue.default().finishTransaction(trans)
-                    break
+                    purchaseError(payingProductIdentifier: trans.payment.productIdentifier)
+                    continue
                     
                 default:
-                    break
+                    continue
                 }
-                
-            } else {
-                UserDefaults.standard.removeObject(forKey: productIdentifierKey)
-                UserDefaults.standard.synchronize()
+                paymentTransactions.append(trans)
             }
+        }
+        
+        if paymentTransactions.count > 0 {
+            completePay(transactions: paymentTransactions)
+        } else {
+            UserDefaults.standard.removeObject(forKey: productIdentifierKey)
+            UserDefaults.standard.synchronize()
         }
     }
     

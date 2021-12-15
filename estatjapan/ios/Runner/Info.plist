@@ -2,14 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>GADApplicationIdentifier</key>
-    <string>$(GAD_APP_ID)</string>
-    <key>AD_UNIT_ID</key>
-    <string>$(AD_UNIT_ID)</string>
+	<key>SHARED_SECRET</key>
+	<string>$(SHARED_SECRET)</string>
+	<key>GADApplicationIdentifier</key>
+	<string>$(GAD_APP_ID)</string>
+	<key>AD_UNIT_ID</key>
+	<string>$(AD_UNIT_ID)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-    <key>DELETE_ADS_PRODUCT_ID</key>
-    <string>$(DELETE_ADS_PRODUCT_ID)</string>
+	<key>DELETE_ADS_PRODUCT_ID</key>
+	<string>$(DELETE_ADS_PRODUCT_ID)</string>
 	<key>CFBundleDisplayName</key>
 	<string>在留資格統計</string>
 	<key>CFBundleExecutable</key>
@@ -28,8 +30,6 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>GADApplicationIdentifier</key>
-	<string>$(GAD_APP_ID)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>https</string>
@@ -214,7 +214,7 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-    <key>NSUserTrackingUsageDescription</key>
-    <string>「許可」するとお客様に最適化された広告が表示されます</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>「許可」するとお客様に最適化された広告が表示されます</string>
 </dict>
 </plist>

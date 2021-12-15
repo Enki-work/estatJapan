@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class PurchaseInfoPage extends StatelessWidget {
   const PurchaseInfoPage({Key? key}) : super(key: key);
-  static const price = '100';
+  static const price = '¥100';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
