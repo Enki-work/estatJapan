@@ -39,6 +39,8 @@ class PurchaseManager: NSObject {
         return true
     }
     
+    fileprivate var task: URLSessionDataTask?
+    
     override init() {
         super.init()
         SKPaymentQueue.default().add(self)
@@ -117,7 +119,7 @@ class PurchaseManager: NSObject {
                   purchaseError()
                   return
               }
-        
+        debugPrint("\(String(describing: String.init(data: data, encoding: .utf8)))")
         verify(data: data,transaction: transaction)
     }
     
@@ -130,8 +132,13 @@ class PurchaseManager: NSObject {
         request.httpMethod = "POST"
         request.httpBody = body
         let session = URLSession.shared
-        let task = session.dataTask(with: request) { (data, response, error) in
-            let dict = try! JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! NSDictionary
+        task?.cancel()
+        task = session.dataTask(with: request) { (data, response, error) in
+            guard error == nil,
+                    let data = data,
+                  let dict = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary else {
+                      return
+                  }
             SKPaymentQueue.default().finishTransaction(transaction)
             let status = dict["status"] as! Int
             DispatchQueue.main.async {
@@ -140,12 +147,12 @@ class PurchaseManager: NSObject {
                     self.savePurchasedProductIdentifier(productIdentifier: transaction.payment.productIdentifier)
                     break
                 default:
-                    self.purchaseError(payingProductIdentifier: transaction.payment.productIdentifier)
+//                    self.purchaseError(payingProductIdentifier: transaction.payment.productIdentifier)
                     break
                 }
             }
         }
-        task.resume()
+        task?.resume()
     }
 }
 
@@ -167,7 +174,7 @@ extension PurchaseManager: SKProductsRequestDelegate {
     }
     
     func requestDidFinish(_ request: SKRequest) {
-        
+        debugPrint(request)
     }
 }
 
@@ -183,6 +190,8 @@ extension PurchaseManager: SKPaymentTransactionObserver {
                 case .failed:
                     purchaseError(payingProductIdentifier: trans.payment.productIdentifier)
                     SKPaymentQueue.default().finishTransaction(trans)
+                    UserDefaults.standard.removeObject(forKey: productIdentifierKey)
+                    UserDefaults.standard.synchronize()
                     break
                     
                 case .restored:
@@ -195,7 +204,8 @@ extension PurchaseManager: SKPaymentTransactionObserver {
                 }
                 
             } else {
-                
+                UserDefaults.standard.removeObject(forKey: productIdentifierKey)
+                UserDefaults.standard.synchronize()
             }
         }
     }
