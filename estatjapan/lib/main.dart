@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:estatjapan/model/pigeonModel/FlutterPurchaseModelApiHandler.dart';
+import 'package:estatjapan/page/PurchaseInfoPage.dart';
 import 'package:estatjapan/page/SettingPage.dart';
 import 'package:estatjapan/page/VisaInfoPage.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -53,6 +54,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool isinitialized = false;
+
   @override
   void initState() {
     super.initState();
@@ -67,11 +70,14 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: AppConfig.forEnvironment(),
+        future: isinitialized
+            ? Future<AppConfig>.value(AppConfig.shared)
+            : AppConfig.forEnvironment(),
         builder: (context, snapshot) {
           // ChangeNotifierProvider
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
+            isinitialized = true;
             final config = snapshot.data as AppConfig;
             return ChangeNotifierProvider.value(
               value: config,
@@ -156,6 +162,9 @@ class _MyAppState extends State<MyApp> {
                       },
                       "SettingPage": (context) {
                         return const SettingPage();
+                      },
+                      "PurchaseInfoPage": (context) {
+                        return const PurchaseInfoPage();
                       },
                       "/": (context) => const RootPage(title: '在留資格取得の受理・処理'),
                     });
