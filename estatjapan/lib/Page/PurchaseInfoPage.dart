@@ -1,4 +1,5 @@
-// ignore: file_names
+import 'dart:io';
+
 import 'package:estatjapan/model/pigeonModel/PurchaseModelApi.dart';
 import 'package:flutter/material.dart';
 
@@ -97,8 +98,16 @@ class PurchaseInfoPage extends StatelessWidget {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       const SizedBox(height: 8),
-                                      const Text(
-                                        "設定＞Apple ID＞サブスクリプション＞アプリ名＞サブスクリプションからクアンセルで解約ができます。",
+                                      Text(
+                                        () {
+                                          if (Platform.isIOS) {
+                                            return "設定＞Apple ID＞サブスクリプション＞アプリ名＞サブスクリプションからクアンセルで解約ができます。";
+                                          } else if (Platform.isAndroid) {
+                                            return "Playストアアプリ＞設定＞定期購入＞アプリ名から解約ができます。";
+                                          } else {
+                                            return "";
+                                          }
+                                        }(),
                                         style: TextStyle(fontSize: 13),
                                       ),
                                       const SizedBox(height: 12),
@@ -136,8 +145,16 @@ class PurchaseInfoPage extends StatelessWidget {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       const SizedBox(height: 8),
-                                      const Text(
-                                        "当月分のキャンセルはお受けておりません。App Store経由で課金されます。",
+                                      Text(
+                                        () {
+                                          if (Platform.isIOS) {
+                                            return "当月分のキャンセルはお受けておりません。App Store経由で課金されます。";
+                                          } else if (Platform.isAndroid) {
+                                            return "当月分のキャンセルはお受けておりません。Google Play経由で課金されます。";
+                                          } else {
+                                            return "";
+                                          }
+                                        }(),
                                         style: TextStyle(fontSize: 13),
                                       ),
                                       const SizedBox(height: 30),

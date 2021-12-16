@@ -99,6 +99,7 @@ class PurchaseManager: NSObject {
     }
     
     fileprivate func savePurchasedProductIdentifier(productIdentifier: String, msg: String? = nil) {
+        guard !isPurchaseDeleteAds else {return}
         UserDefaults.standard.set(productIdentifier, forKey: productIdentifierKey)
         UserDefaults.standard.synchronize()
         deleleFlutterAds()
@@ -171,7 +172,9 @@ class PurchaseManager: NSObject {
                     self.savePurchasedProductIdentifier(productIdentifier: transaction.payment.productIdentifier)
                     break
                 default:
-                    self.purchaseError(payingProductIdentifier: transaction.payment.productIdentifier)
+                    //                    self.purchaseError(payingProductIdentifier: transaction.payment.productIdentifier)
+                    UserDefaults.standard.removeObject(forKey: self.productIdentifierKey)
+                    UserDefaults.standard.synchronize()
                     break
                 }
             }
