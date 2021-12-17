@@ -8,6 +8,7 @@ class PurchaseModel {
 @HostApi()
 abstract class HostPurchaseModelApi {
   PurchaseModel getPurchaseModel();
+  bool getIsUsedTrial();
   bool requestPurchaseModel();
   bool restorePurchaseModel();
 }

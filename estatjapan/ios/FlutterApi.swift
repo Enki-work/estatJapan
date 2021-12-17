@@ -36,5 +36,15 @@ extension AppDelegate: EJHostPurchaseModelApi {
         return NSNumber(booleanLiteral: true)
     }
     
-    
+    func getIsUsedTrialWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) -> NSNumber? {
+        var isEnable = false
+        let group = DispatchGroup()
+        group.enter()
+        PurchaseManager.sharedInstance.isTrialEnabled { result in
+            group.leave()
+            isEnable = result
+        }
+        group.wait()
+        return NSNumber(value: isEnable)
+    }
 }

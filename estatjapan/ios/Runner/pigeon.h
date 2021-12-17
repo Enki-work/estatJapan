@@ -20,6 +20,7 @@ NSObject<FlutterMessageCodec> *EJHostPurchaseModelApiGetCodec(void);
 
 @protocol EJHostPurchaseModelApi
 - (nullable EJPurchaseModel *)getPurchaseModelWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (nullable NSNumber *)getIsUsedTrialWithError:(FlutterError *_Nullable *_Nonnull)error;
 - (nullable NSNumber *)requestPurchaseModelWithError:(FlutterError *_Nullable *_Nonnull)error;
 - (nullable NSNumber *)restorePurchaseModelWithError:(FlutterError *_Nullable *_Nonnull)error;
 @end

@@ -53,9 +53,6 @@ public class Pigeon {
         case (byte)128:         
           return PurchaseModel.fromMap((Map<String, Object>) readValue(buffer));
         
-        case (byte)129:         
-          return PurchaseModel.fromMap((Map<String, Object>) readValue(buffer));
-        
         default:        
           return super.readValueOfType(type, buffer);
         
@@ -67,10 +64,6 @@ public class Pigeon {
         stream.write(128);
         writeValue(stream, ((PurchaseModel) value).toMap());
       } else 
-      if (value instanceof PurchaseModel) {
-        stream.write(129);
-        writeValue(stream, ((PurchaseModel) value).toMap());
-      } else 
 {
         super.writeValue(stream, value);
       }
@@ -80,7 +73,7 @@ public class Pigeon {
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface HostPurchaseModelApi {
     PurchaseModel getPurchaseModel();
-    PurchaseModel getIsUsedTrial();
+    Boolean getIsUsedTrial();
     Boolean requestPurchaseModel();
     Boolean restorePurchaseModel();
 
@@ -117,7 +110,7 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
             try {
-              PurchaseModel output = api.getIsUsedTrial();
+              Boolean output = api.getIsUsedTrial();
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

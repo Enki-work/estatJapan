@@ -232,7 +232,20 @@ class PurchaseInfoPage extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: 12),
-                    const Text("無料期間終了後$price/月")
+                    FutureBuilder(
+                        future: HostPurchaseModelApi().getIsUsedTrial(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                              snapshot.hasData) {
+                            bool isUsedTrial = snapshot.data;
+                            return Text(
+                                isUsedTrial ? "無料期間終了後$price/月" : "$price/月");
+                          } else {
+                            return const Text("");
+                          }
+                        }),
                   ],
                 ))));
   }

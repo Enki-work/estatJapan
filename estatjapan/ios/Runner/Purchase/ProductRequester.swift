@@ -13,10 +13,12 @@ final class ProductRequester: NSObject {
     typealias Completion = ((Result<[SKProduct], Error>) -> Void)
     var completion: Completion?
     private var productIds: [String]?
+    private var stongSelf: ProductRequester?
     
     func requestProducts(productIds: [String],
                          completion: @escaping Completion) {
         guard self.completion == nil else {return}
+        self.stongSelf = self
         self.completion = completion
         self.productIds = productIds
         let productReq = SKProductsRequest(productIdentifiers: Set(productIds))
@@ -31,5 +33,6 @@ extension ProductRequester: SKProductsRequestDelegate {
             return
         }
         completion?(.success(response.products))
+        self.stongSelf = nil
     }
 }

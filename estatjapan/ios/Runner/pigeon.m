@@ -54,9 +54,6 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
     case 128:     
       return [EJPurchaseModel fromMap:[self readValue]];
     
-    case 129:     
-      return [EJPurchaseModel fromMap:[self readValue]];
-    
     default:    
       return [super readValueOfType:type];
     
@@ -71,10 +68,6 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 {
   if ([value isKindOfClass:[EJPurchaseModel class]]) {
     [self writeByte:128];
-    [self writeValue:[value toMap]];
-  } else 
-  if ([value isKindOfClass:[EJPurchaseModel class]]) {
-    [self writeByte:129];
     [self writeValue:[value toMap]];
   } else 
 {
@@ -132,11 +125,15 @@ void EJHostPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSO
         codec:EJHostPurchaseModelApiGetCodec()];
     if (api) {
       NSCAssert([api respondsToSelector:@selector(getIsUsedTrialWithError:)], @"EJHostPurchaseModelApi api (%@) doesn't respond to @selector(getIsUsedTrialWithError:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FlutterError *error;
-        EJPurchaseModel *output = [api getIsUsedTrialWithError:&error];
-        callback(wrapResult(output, error));
-      }];
+        [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                FlutterError *error;
+                NSNumber *output = [api getIsUsedTrialWithError:&error];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    callback(wrapResult(output, error));
+                });
+            });
+        }];
     }
     else {
       [channel setMessageHandler:nil];
