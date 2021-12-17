@@ -21,6 +21,8 @@ extension AppDelegate: EJHostPurchaseModelApi {
     public func getPurchaseModelWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) -> EJPurchaseModel? {
         let purchaseModel = EJPurchaseModel()
         purchaseModel.isPurchase = NSNumber(booleanLiteral: PurchaseManager.sharedInstance.isPurchaseDeleteAds)
+        purchaseModel.isUsedTrialKey = NSNumber(booleanLiteral: PurchaseManager.sharedInstance.isUsedTrialKey)
+        
         return purchaseModel
     }
     

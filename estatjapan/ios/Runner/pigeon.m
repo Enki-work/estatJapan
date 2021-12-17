@@ -34,10 +34,14 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
   if ((NSNull *)result.isPurchase == [NSNull null]) {
     result.isPurchase = nil;
   }
+  result.isUsedTrialKey = dict[@"isUsedTrialKey"];
+  if ((NSNull *)result.isUsedTrialKey == [NSNull null]) {
+    result.isUsedTrialKey = nil;
+  }
   return result;
 }
 - (NSDictionary *)toMap {
-  return [NSDictionary dictionaryWithObjectsAndKeys:(self.isPurchase ? self.isPurchase : [NSNull null]), @"isPurchase", nil];
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.isPurchase ? self.isPurchase : [NSNull null]), @"isPurchase", (self.isUsedTrialKey ? self.isUsedTrialKey : [NSNull null]), @"isUsedTrialKey", nil];
 }
 @end
 

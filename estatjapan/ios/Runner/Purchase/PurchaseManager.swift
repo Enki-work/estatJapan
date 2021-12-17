@@ -35,6 +35,7 @@ class PurchaseManager: NSObject {
     }
     
     fileprivate let productIdentifierKey = "productIdentifierKey"
+    fileprivate let productIdentifierUsedTrialKey = "productIdentifierUsedTrialKey"
     
     var isPurchaseDeleteAds: Bool {
         guard let productIdentifier = UserDefaults.standard.string(forKey: productIdentifierKey),
@@ -42,6 +43,10 @@ class PurchaseManager: NSObject {
                   return false
               }
         return true
+    }
+    
+    var isUsedTrialKey: Bool {
+        return UserDefaults.standard.bool(forKey: productIdentifierUsedTrialKey)
     }
     
     fileprivate var task: URLSessionDataTask?
@@ -101,6 +106,7 @@ class PurchaseManager: NSObject {
     fileprivate func savePurchasedProductIdentifier(productIdentifier: String, msg: String? = nil) {
         guard !isPurchaseDeleteAds else {return}
         UserDefaults.standard.set(productIdentifier, forKey: productIdentifierKey)
+        UserDefaults.standard.set(true, forKey: self.productIdentifierUsedTrialKey)
         UserDefaults.standard.synchronize()
         deleleFlutterAds()
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -181,6 +187,32 @@ class PurchaseManager: NSObject {
         }
         task?.resume()
     }
+    
+    func isTrialEnabled(completion: @escaping (Bool) -> Void) {
+        guard !isUsedTrialKey else {
+            completion(false)
+            return
+        }
+        
+#if DEBUG
+    completion(true)
+#else
+        if let deleteAdsProductId = deleteAdsProductId, !deleteAdsProductId.isEmpty {
+           let productRequester = ProductRequester()
+            productRequester.requestProducts(productIds: [deleteAdsProductId]) { result in
+                switch result {
+                case .success(let products):
+                    let isTrialTarget = products.contains(where: {$0.introductoryPrice != nil})
+                    completion(isTrialTarget)
+                case .failure:
+                    completion(false)
+                }
+            }
+        } else {
+            completion(false)
+        }
+#endif
+    }
 }
 
 extension PurchaseManager: SKPaymentTransactionObserver {
@@ -221,6 +253,16 @@ extension PurchaseManager: SKPaymentTransactionObserver {
         guard queue.transactions.count > 0 else {
             purchaseError(msg: "課金復元失敗しました")
             return
+        }
+    }
+    
+    func paymentQueue(_ queue: SKPaymentQueue, didRevokeEntitlementsForProductIdentifiers productIdentifiers: [String]) {
+        
+        UserDefaults.standard.removeObject(forKey: self.productIdentifierKey)
+        UserDefaults.standard.removeObject(forKey: self.productIdentifierUsedTrialKey)
+        isTrialEnabled { isEnabled in
+            UserDefaults.standard.set(isEnabled, forKey: self.productIdentifierUsedTrialKey)
+            UserDefaults.standard.synchronize()
         }
     }
 }

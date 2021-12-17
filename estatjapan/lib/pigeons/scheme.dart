@@ -2,6 +2,7 @@ import 'package:pigeon/pigeon.dart';
 
 class PurchaseModel {
   late bool isPurchase;
+  late bool isUsedTrialKey;
 }
 
 @HostApi()

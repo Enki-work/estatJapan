@@ -25,15 +25,22 @@ public class Pigeon {
     public Boolean getIsPurchase() { return isPurchase; }
     public void setIsPurchase(Boolean setterArg) { this.isPurchase = setterArg; }
 
+    private Boolean isUsedTrialKey;
+    public Boolean getIsUsedTrialKey() { return isUsedTrialKey; }
+    public void setIsUsedTrialKey(Boolean setterArg) { this.isUsedTrialKey = setterArg; }
+
     Map<String, Object> toMap() {
       Map<String, Object> toMapResult = new HashMap<>();
       toMapResult.put("isPurchase", isPurchase);
+      toMapResult.put("isUsedTrialKey", isUsedTrialKey);
       return toMapResult;
     }
     static PurchaseModel fromMap(Map<String, Object> map) {
       PurchaseModel fromMapResult = new PurchaseModel();
       Object isPurchase = map.get("isPurchase");
       fromMapResult.isPurchase = (Boolean)isPurchase;
+      Object isUsedTrialKey = map.get("isUsedTrialKey");
+      fromMapResult.isUsedTrialKey = (Boolean)isUsedTrialKey;
       return fromMapResult;
     }
   }

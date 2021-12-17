@@ -10,17 +10,20 @@ import 'package:flutter/services.dart';
 
 class PurchaseModel {
   bool? isPurchase;
+  bool? isUsedTrialKey;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
     pigeonMap['isPurchase'] = isPurchase;
+    pigeonMap['isUsedTrialKey'] = isUsedTrialKey;
     return pigeonMap;
   }
 
   static PurchaseModel decode(Object message) {
     final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
     return PurchaseModel()
-      ..isPurchase = pigeonMap['isPurchase'] as bool?;
+      ..isPurchase = pigeonMap['isPurchase'] as bool?
+      ..isUsedTrialKey = pigeonMap['isUsedTrialKey'] as bool?;
   }
 }
 
