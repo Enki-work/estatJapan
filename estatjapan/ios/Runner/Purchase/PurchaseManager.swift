@@ -20,12 +20,6 @@ class PurchaseManager: NSObject {
     
     static let sharedInstance = PurchaseManager()
     
-#if DEBUG
-    fileprivate let verifyReceiptURL = "https://sandbox.itunes.apple.com/verifyReceipt"
-#else
-    fileprivate let verifyReceiptURL = "https://buy.itunes.apple.com/verifyReceipt"
-#endif
-    
     fileprivate var deleteAdsProductId: String? {
         Bundle.main.infoDictionary?["DELETE_ADS_PRODUCT_ID"] as? String
     }
@@ -109,24 +103,24 @@ class PurchaseManager: NSObject {
         UserDefaults.standard.set(true, forKey: self.productIdentifierUsedTrialKey)
         UserDefaults.standard.synchronize()
         deleleFlutterAds()
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let alertView = UIAlertController.init(title: msg ?? "課金成功しました", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction.init(title: "OK", style: .default) { (_) in
-        }
-        alertView.addAction(action)
-        appDelegate.window.rootViewController?.present(alertView, animated: true, completion: nil)
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+//            return
+//        }
+//
+//        let alertView = UIAlertController.init(title: msg ?? "課金成功しました", message: nil, preferredStyle: .alert)
+//        let action = UIAlertAction.init(title: "OK", style: .default) { (_) in
+//        }
+//        alertView.addAction(action)
+//        appDelegate.window.rootViewController?.present(alertView, animated: true, completion: nil)
     }
     
-    fileprivate func deleleFlutterAds() {
+    fileprivate func deleleFlutterAds(isPurchase: Bool = true) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         guard let flutterVC = appDelegate.flutterVC else {return}
         let purchaseModel = EJPurchaseModel()
-        purchaseModel.isPurchase = NSNumber.init(value: true)
+        purchaseModel.isPurchase = NSNumber.init(value: isPurchase)
         purchaseModel.isUsedTrial = NSNumber.init(value: self.isUsedTrial)
         EJFlutterPurchaseModelApi(binaryMessenger: flutterVC.binaryMessenger).sendPurchaseModelPurchaseModel(purchaseModel) { error in
             guard let error = error else {return}
@@ -142,6 +136,10 @@ class PurchaseManager: NSObject {
         } else {
             transaction = transactions[0]
         }
+        verify(transaction: transaction)
+    }
+    
+    func verify(transaction: SKPaymentTransaction? = nil, isProdEnv: Bool = true) {
         
         guard let recepitUrl = Bundle.main.appStoreReceiptURL,
               FileManager.default.fileExists(atPath: recepitUrl.path),
@@ -150,17 +148,16 @@ class PurchaseManager: NSObject {
                   return
               }
         debugPrint("\(String(describing: String.init(data: data, encoding: .utf8)))")
-        verify(data: data, transaction: transaction)
-    }
-    
-    fileprivate func verify(data: Data, transaction: SKPaymentTransaction) {
+        
+        let debugVerifyReceiptURL = "https://sandbox.itunes.apple.com/verifyReceipt"
+        let prodVerifyReceiptURL = "https://buy.itunes.apple.com/verifyReceipt"
         
         let base64Str = data.base64EncodedString(options: [])
         let params = NSMutableDictionary()
         params["receipt-data"] = base64Str
         params["password"] = sharedSecret ?? ""
         let body = try! JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-        var request = URLRequest.init(url: URL.init(string: verifyReceiptURL)!, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 20)
+        var request = URLRequest.init(url: URL.init(string: isProdEnv ? prodVerifyReceiptURL : debugVerifyReceiptURL)!, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 20)
         request.httpMethod = "POST"
         request.httpBody = body
         let session = URLSession.shared
@@ -171,17 +168,22 @@ class PurchaseManager: NSObject {
                   let dict = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary else {
                       return
                   }
-            SKPaymentQueue.default().finishTransaction(transaction)
+            if let transaction = transaction {
+                SKPaymentQueue.default().finishTransaction(transaction)
+            }
             let status = dict["status"] as! Int
             DispatchQueue.main.async {
                 switch(status){
                 case 0:
-                    self.savePurchasedProductIdentifier(productIdentifier: transaction.payment.productIdentifier)
+                    self.savePurchasedProductIdentifier(productIdentifier: transaction?.payment.productIdentifier ?? self.deleteAdsProductId ?? "")
                     break
+                case 21007:
+                    self.verify(isProdEnv: false)
                 default:
                     //                    self.purchaseError(payingProductIdentifier: transaction.payment.productIdentifier)
                     UserDefaults.standard.removeObject(forKey: self.productIdentifierKey)
                     UserDefaults.standard.synchronize()
+                    self.deleleFlutterAds(isPurchase: false)
                     break
                 }
             }
@@ -228,7 +230,7 @@ extension PurchaseManager: SKPaymentTransactionObserver {
                     UserDefaults.standard.removeObject(forKey: productIdentifierKey)
                     UserDefaults.standard.synchronize()
                     SKPaymentQueue.default().finishTransaction(trans)
-                    purchaseError(payingProductIdentifier: trans.payment.productIdentifier)
+//                    purchaseError(payingProductIdentifier: trans.payment.productIdentifier)
                     continue
                     
                 default:

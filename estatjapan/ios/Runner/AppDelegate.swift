@@ -46,6 +46,7 @@ import AdSupport
         }
         initFlutterApi()
         application.registerForRemoteNotifications()
+        PurchaseManager.sharedInstance.verify()
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
