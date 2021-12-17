@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:estatjapan/model/pigeonModel/PurchaseModelApi.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PurchaseInfoPage extends StatelessWidget {
   const PurchaseInfoPage({Key? key}) : super(key: key);
@@ -155,7 +156,7 @@ class PurchaseInfoPage extends StatelessWidget {
                                             return "";
                                           }
                                         }(),
-                                        style: TextStyle(fontSize: 13),
+                                        style: const TextStyle(fontSize: 13),
                                       ),
                                       const SizedBox(height: 30),
                                       const Text(
@@ -175,6 +176,37 @@ class PurchaseInfoPage extends StatelessWidget {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       const SizedBox(height: 8),
+                                      Container(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          verticalDirection:
+                                              VerticalDirection.down,
+                                          children: [
+                                            TextButton.icon(
+                                              icon: const Icon(
+                                                  Icons.supervised_user_circle),
+                                              label: const Text("利用規約"),
+                                              onPressed: () {
+                                                _launchURL(
+                                                    "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/");
+                                              },
+                                            ),
+                                            TextButton.icon(
+                                              icon:
+                                                  const Icon(Icons.privacy_tip),
+                                              label: const Text("プライバシー"),
+                                              onPressed: () {
+                                                _launchURL(
+                                                    "http://zairyu.maoxiaoqiang.net/privacypolicy.html");
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        alignment: Alignment.topCenter,
+                                      ),
                                       const Text(
                                         "第三者に個人を特定できる情報を提供することはできません。",
                                         style: TextStyle(fontSize: 13),
@@ -249,4 +281,8 @@ class PurchaseInfoPage extends StatelessWidget {
                   ],
                 ))));
   }
+
+  void _launchURL(String _url) async => await canLaunch(_url)
+      ? await launch(_url)
+      : throw 'Could not launch $_url';
 }
