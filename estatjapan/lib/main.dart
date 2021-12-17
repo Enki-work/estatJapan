@@ -64,8 +64,8 @@ class _MyAppState extends State<MyApp> {
       if (AppConfig.shared.purchaseModel != null &&
           AppConfig.shared.purchaseModel?.isPurchase ==
               purchaseModel.isPurchase &&
-          AppConfig.shared.purchaseModel?.isUsedTrialKey ==
-              purchaseModel.isUsedTrialKey) return;
+          AppConfig.shared.purchaseModel?.isUsedTrial ==
+              purchaseModel.isUsedTrial) return;
       setState(() {
         AppConfig.shared.purchaseModel = purchaseModel;
       });

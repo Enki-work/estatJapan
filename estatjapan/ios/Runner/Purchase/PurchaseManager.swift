@@ -45,7 +45,7 @@ class PurchaseManager: NSObject {
         return true
     }
     
-    var isUsedTrialKey: Bool {
+    var isUsedTrial: Bool {
         return UserDefaults.standard.bool(forKey: productIdentifierUsedTrialKey)
     }
     
@@ -126,7 +126,8 @@ class PurchaseManager: NSObject {
         }
         guard let flutterVC = appDelegate.flutterVC else {return}
         let purchaseModel = EJPurchaseModel()
-        purchaseModel.isPurchase = true
+        purchaseModel.isPurchase = NSNumber.init(value: true)
+        purchaseModel.isUsedTrial = NSNumber.init(value: self.isUsedTrial)
         EJFlutterPurchaseModelApi(binaryMessenger: flutterVC.binaryMessenger).sendPurchaseModelPurchaseModel(purchaseModel) { error in
             guard let error = error else {return}
             debugPrint(error)
@@ -189,7 +190,7 @@ class PurchaseManager: NSObject {
     }
     
     func isTrialEnabled(completion: @escaping (Bool) -> Void) {
-        guard !isUsedTrialKey else {
+        guard !isUsedTrial else {
             completion(false)
             return
         }

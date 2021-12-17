@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EJPurchaseModel : NSObject
 @property(nonatomic, strong, nullable) NSNumber * isPurchase;
-@property(nonatomic, strong, nullable) NSNumber * isUsedTrialKey;
+@property(nonatomic, strong, nullable) NSNumber * isUsedTrial;
 @end
 
 /// The codec used by EJHostPurchaseModelApi.

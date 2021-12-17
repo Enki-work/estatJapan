@@ -10,12 +10,12 @@ import 'package:flutter/services.dart';
 
 class PurchaseModel {
   bool isPurchase = false;
-  bool isUsedTrialKey = false;
+  bool isUsedTrial = false;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
     pigeonMap['isPurchase'] = isPurchase;
-    pigeonMap['isUsedTrialKey'] = isUsedTrialKey;
+    pigeonMap['isUsedTrial'] = isUsedTrial;
     return pigeonMap;
   }
 
@@ -23,7 +23,7 @@ class PurchaseModel {
     final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
     return PurchaseModel()
       ..isPurchase = pigeonMap['isPurchase'] as bool? ?? false
-      ..isUsedTrialKey = pigeonMap['isUsedTrialKey'] as bool? ?? false;
+      ..isUsedTrial = pigeonMap['isUsedTrial'] as bool? ?? false;
   }
 }
 

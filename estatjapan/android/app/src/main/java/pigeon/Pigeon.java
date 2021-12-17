@@ -25,22 +25,22 @@ public class Pigeon {
     public Boolean getIsPurchase() { return isPurchase; }
     public void setIsPurchase(Boolean setterArg) { this.isPurchase = setterArg; }
 
-    private Boolean isUsedTrialKey;
-    public Boolean getIsUsedTrialKey() { return isUsedTrialKey; }
-    public void setIsUsedTrialKey(Boolean setterArg) { this.isUsedTrialKey = setterArg; }
+    private Boolean isUsedTrial;
+    public Boolean getIsUsedTrial() { return isUsedTrial; }
+    public void setIsUsedTrial(Boolean setterArg) { this.isUsedTrial = setterArg; }
 
     Map<String, Object> toMap() {
       Map<String, Object> toMapResult = new HashMap<>();
       toMapResult.put("isPurchase", isPurchase);
-      toMapResult.put("isUsedTrialKey", isUsedTrialKey);
+      toMapResult.put("isUsedTrial", isUsedTrial);
       return toMapResult;
     }
     static PurchaseModel fromMap(Map<String, Object> map) {
       PurchaseModel fromMapResult = new PurchaseModel();
       Object isPurchase = map.get("isPurchase");
       fromMapResult.isPurchase = (Boolean)isPurchase;
-      Object isUsedTrialKey = map.get("isUsedTrialKey");
-      fromMapResult.isUsedTrialKey = (Boolean)isUsedTrialKey;
+      Object isUsedTrial = map.get("isUsedTrial");
+      fromMapResult.isUsedTrial = (Boolean)isUsedTrial;
       return fromMapResult;
     }
   }
@@ -51,6 +51,9 @@ public class Pigeon {
     protected Object readValueOfType(byte type, ByteBuffer buffer) {
       switch (type) {
         case (byte)128:         
+          return PurchaseModel.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)129:         
           return PurchaseModel.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
@@ -64,6 +67,10 @@ public class Pigeon {
         stream.write(128);
         writeValue(stream, ((PurchaseModel) value).toMap());
       } else 
+      if (value instanceof PurchaseModel) {
+        stream.write(129);
+        writeValue(stream, ((PurchaseModel) value).toMap());
+      } else 
 {
         super.writeValue(stream, value);
       }
@@ -73,6 +80,7 @@ public class Pigeon {
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface HostPurchaseModelApi {
     PurchaseModel getPurchaseModel();
+    PurchaseModel getIsUsedTrial();
     Boolean requestPurchaseModel();
     Boolean restorePurchaseModel();
 
@@ -91,6 +99,25 @@ public class Pigeon {
             Map<String, Object> wrapped = new HashMap<>();
             try {
               PurchaseModel output = api.getPurchaseModel();
+              wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.HostPurchaseModelApi.getIsUsedTrial", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              PurchaseModel output = api.getIsUsedTrial();
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

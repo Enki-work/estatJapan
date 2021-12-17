@@ -34,14 +34,14 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
   if ((NSNull *)result.isPurchase == [NSNull null]) {
     result.isPurchase = nil;
   }
-  result.isUsedTrialKey = dict[@"isUsedTrialKey"];
-  if ((NSNull *)result.isUsedTrialKey == [NSNull null]) {
-    result.isUsedTrialKey = nil;
+  result.isUsedTrial = dict[@"isUsedTrial"];
+  if ((NSNull *)result.isUsedTrial == [NSNull null]) {
+    result.isUsedTrial = nil;
   }
   return result;
 }
 - (NSDictionary *)toMap {
-  return [NSDictionary dictionaryWithObjectsAndKeys:(self.isPurchase ? self.isPurchase : [NSNull null]), @"isPurchase", (self.isUsedTrialKey ? self.isUsedTrialKey : [NSNull null]), @"isUsedTrialKey", nil];
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.isPurchase ? self.isPurchase : [NSNull null]), @"isPurchase", (self.isUsedTrial ? self.isUsedTrial : [NSNull null]), @"isUsedTrial", nil];
 }
 @end
 
@@ -52,6 +52,9 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 {
   switch (type) {
     case 128:     
+      return [EJPurchaseModel fromMap:[self readValue]];
+    
+    case 129:     
       return [EJPurchaseModel fromMap:[self readValue]];
     
     default:    
@@ -68,6 +71,10 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 {
   if ([value isKindOfClass:[EJPurchaseModel class]]) {
     [self writeByte:128];
+    [self writeValue:[value toMap]];
+  } else 
+  if ([value isKindOfClass:[EJPurchaseModel class]]) {
+    [self writeByte:129];
     [self writeValue:[value toMap]];
   } else 
 {
@@ -110,6 +117,24 @@ void EJHostPurchaseModelApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSO
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         FlutterError *error;
         EJPurchaseModel *output = [api getPurchaseModelWithError:&error];
+        callback(wrapResult(output, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [FlutterBasicMessageChannel
+        messageChannelWithName:@"dev.flutter.pigeon.HostPurchaseModelApi.getIsUsedTrial"
+        binaryMessenger:binaryMessenger
+        codec:EJHostPurchaseModelApiGetCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(getIsUsedTrialWithError:)], @"EJHostPurchaseModelApi api (%@) doesn't respond to @selector(getIsUsedTrialWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        EJPurchaseModel *output = [api getIsUsedTrialWithError:&error];
         callback(wrapResult(output, error));
       }];
     }
