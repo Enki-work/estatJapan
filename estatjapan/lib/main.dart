@@ -61,11 +61,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     FlutterPurchaseModelApi.setup(
         FlutterPurchaseModelApiHandler((purchaseModel) {
-      if (AppConfig.shared.purchaseModel != null &&
-          AppConfig.shared.purchaseModel?.isPurchase ==
-              purchaseModel.isPurchase &&
-          AppConfig.shared.purchaseModel?.isUsedTrial ==
-              purchaseModel.isUsedTrial) return;
       setState(() {
         AppConfig.shared.purchaseModel = purchaseModel;
       });
