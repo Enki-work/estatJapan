@@ -96,6 +96,10 @@ class MainActivity: FlutterFragmentActivity(), Pigeon.HostPurchaseModelApi {
         return purchaseModel
     }
 
+    override fun getIsUsedTrial(): Boolean {
+        return false
+    }
+
     override fun requestPurchaseModel(): Boolean {
         billingClientLifecycle.reStartConnection()
         billingViewModel.buyBasic()
