@@ -97,7 +97,7 @@ class MainActivity: FlutterFragmentActivity(), Pigeon.HostPurchaseModelApi {
     }
 
     override fun getIsUsedTrial(): Boolean {
-        return false
+        return true
     }
 
     override fun requestPurchaseModel(): Boolean {
