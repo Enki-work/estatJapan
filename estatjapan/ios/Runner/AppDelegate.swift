@@ -19,7 +19,9 @@ import AdSupport
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        if !PurchaseManager.sharedInstance.isPurchaseDeleteAds {
+            GADMobileAds.sharedInstance().start(completionHandler: nil)
+        }
         FirebaseApp.configure()
         GeneratedPluginRegistrant.register(with: self)
         
@@ -42,7 +44,7 @@ import AdSupport
             UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-        
+        initFlutterApi()
         application.registerForRemoteNotifications()
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
@@ -103,6 +105,7 @@ import AdSupport
     }
     
     func showAdIfAvailable(viewController: UIViewController) {
+        guard !PurchaseManager.sharedInstance.isPurchaseDeleteAds else { return }
         // If the app open ad is already showing, do not show the ad again.
         if isShowingAd {
             debugPrint("The app open ad is already showing.")

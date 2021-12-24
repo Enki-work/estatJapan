@@ -14,9 +14,14 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		A42215862707E28300049342 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A42215852707E28300049342 /* Storyboard.storyboard */; };
+		A43AF921270ED6E400CBEDE5 /* pigeon.m in Sources */ = {isa = PBXBuildFile; fileRef = A43AF920270ED6E400CBEDE5 /* pigeon.m */; };
+		A43AF923270EDCC500CBEDE5 /* FlutterApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43AF922270EDCC500CBEDE5 /* FlutterApi.swift */; };
 		A48335A92703E7990006ACEF /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A48335A82703E7990006ACEF /* AppTrackingTransparency.framework */; };
 		A48335AC27052E2B0006ACEF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A48335AB27052E2B0006ACEF /* GoogleService-Info.plist */; };
 		A48F7A232707E02A0097C812 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48F7A222707E02A0097C812 /* MainViewController.swift */; };
+		A4A3ED25276983FB00AC8021 /* ProductRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A3ED24276983FB00AC8021 /* ProductRequester.swift */; };
+		A4F69BB627144731004FAFCF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4F69BB527144731004FAFCF /* StoreKit.framework */; };
+		A4F69BB827146F0A004FAFCF /* PurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F69BB727146F0A004FAFCF /* PurchaseManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,10 +54,16 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A42215852707E28300049342 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		A43AF91F270ED6E400CBEDE5 /* pigeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pigeon.h; path = Runner/pigeon.h; sourceTree = "<group>"; };
+		A43AF920270ED6E400CBEDE5 /* pigeon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = pigeon.m; path = Runner/pigeon.m; sourceTree = "<group>"; };
+		A43AF922270EDCC500CBEDE5 /* FlutterApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterApi.swift; sourceTree = "<group>"; };
 		A48335A82703E7990006ACEF /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		A48335AA270483A20006ACEF /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		A48335AB27052E2B0006ACEF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A48F7A222707E02A0097C812 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		A4A3ED24276983FB00AC8021 /* ProductRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRequester.swift; sourceTree = "<group>"; };
+		A4F69BB527144731004FAFCF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		A4F69BB727146F0A004FAFCF /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
 		DF14AF60D5FE432D257F2EAA /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4F69BB627144731004FAFCF /* StoreKit.framework in Frameworks */,
 				59625A6FA6288F836F8944EE /* Pods_Runner.framework in Frameworks */,
 				A48335A92703E7990006ACEF /* AppTrackingTransparency.framework in Frameworks */,
 			);
@@ -82,6 +94,7 @@
 		9740EEB11CF90186004384FC /* Flutter */ = {
 			isa = PBXGroup;
 			children = (
+				A43AF91E270ED6B000CBEDE5 /* Pigeon */,
 				3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */,
 				9740EEB21CF90195004384FC /* Debug.xcconfig */,
 				7AFA3C8E1D35360C0083082E /* Release.xcconfig */,
@@ -112,6 +125,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				A4A3ED232769833500AC8021 /* Purchase */,
 				A48335AB27052E2B0006ACEF /* GoogleService-Info.plist */,
 				A48335AA270483A20006ACEF /* Runner.entitlements */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -127,9 +141,29 @@
 			path = Runner;
 			sourceTree = "<group>";
 		};
+		A43AF91E270ED6B000CBEDE5 /* Pigeon */ = {
+			isa = PBXGroup;
+			children = (
+				A43AF91F270ED6E400CBEDE5 /* pigeon.h */,
+				A43AF920270ED6E400CBEDE5 /* pigeon.m */,
+				A43AF922270EDCC500CBEDE5 /* FlutterApi.swift */,
+			);
+			name = Pigeon;
+			sourceTree = "<group>";
+		};
+		A4A3ED232769833500AC8021 /* Purchase */ = {
+			isa = PBXGroup;
+			children = (
+				A4F69BB727146F0A004FAFCF /* PurchaseManager.swift */,
+				A4A3ED24276983FB00AC8021 /* ProductRequester.swift */,
+			);
+			path = Purchase;
+			sourceTree = "<group>";
+		};
 		FD327C83B812D9A8717EA135 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A4F69BB527144731004FAFCF /* StoreKit.framework */,
 				A48335A82703E7990006ACEF /* AppTrackingTransparency.framework */,
 				2ADF79CC143BD740B11CE1B7 /* Pods_Runner.framework */,
 			);
@@ -323,8 +357,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A43AF923270EDCC500CBEDE5 /* FlutterApi.swift in Sources */,
+				A4A3ED25276983FB00AC8021 /* ProductRequester.swift in Sources */,
 				A48F7A232707E02A0097C812 /* MainViewController.swift in Sources */,
+				A43AF921270ED6E400CBEDE5 /* pigeon.m in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+				A4F69BB827146F0A004FAFCF /* PurchaseManager.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -540,14 +578,23 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8NX3GPVDHF;
 				ENABLE_BITCODE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"COCOAPODS=1",
+					"$(inherited)",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.estatjapan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;

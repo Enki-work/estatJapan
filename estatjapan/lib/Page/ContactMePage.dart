@@ -56,31 +56,6 @@ class ContactMePage extends StatelessWidget {
                         launch(emailLaunchUri.toString());
                       },
                     ),
-                    const SizedBox(height: 26),
-                    TextButton.icon(
-                      icon: const Icon(Icons.smart_display_rounded),
-                      label: const Text("YouTube チャンネル"),
-                      onPressed: () {
-                        _launchURL(
-                            "https://www.youtube.com/channel/UCGZZz9-uu4lEtTZgQxLXZrA");
-                      },
-                    ),
-                    const SizedBox(height: 26),
-                    TextButton.icon(
-                      icon: const Icon(Icons.featured_video_rounded),
-                      label: const Text("哔哩哔哩 チャンネル"),
-                      onPressed: () {
-                        _launchURL("https://space.bilibili.com/2025165032");
-                      },
-                    ),
-                    const SizedBox(height: 26),
-                    TextButton.icon(
-                      icon: const Icon(Icons.play_circle_fill_rounded),
-                      label: const Text("西瓜视频 チャンネル"),
-                      onPressed: () {
-                        _launchURL("https://www.ixigua.com/home/111243308299");
-                      },
-                    ),
                   ],
                 ))));
   }

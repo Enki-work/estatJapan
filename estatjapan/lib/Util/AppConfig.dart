@@ -3,6 +3,7 @@
 import 'dart:async' show Future;
 import 'dart:convert';
 
+import 'package:estatjapan/model/pigeonModel/PurchaseModelApi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,6 +21,7 @@ class AppConfig extends ChangeNotifier {
   final String ios_inline_native;
   final String ios_appid;
   final String estatAppId;
+  PurchaseModel? purchaseModel;
   bool isThemeFollowSystem;
   bool isThemeDarkMode;
 

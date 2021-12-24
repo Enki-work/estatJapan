@@ -34,7 +34,7 @@ println("build.gradle flutterBuildMode ${flutterBuildMode}")
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-parcelize"
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
@@ -45,7 +45,9 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-
+    buildFeatures {
+        viewBinding true
+    }
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.estatjapan"
@@ -75,9 +77,13 @@ android {
             } else {
                 buildConfigField "String", "AD_UNIT_ID", keystoreProperties['AD_UNIT_ID_RELEASE']
             }
+            buildConfigField "String", "PURCHASE_SUBSCRIPTION_ADS", keystoreProperties['PURCHASE_SUBSCRIPTION_ADS']
+            buildConfigField "String", "PURCHASE_ADS", keystoreProperties['PURCHASE_ADS']
         }
         release {
             buildConfigField "String", "AD_UNIT_ID", keystoreProperties['AD_UNIT_ID_RELEASE']
+            buildConfigField "String", "PURCHASE_SUBSCRIPTION_ADS", keystoreProperties['PURCHASE_SUBSCRIPTION_ADS']
+            buildConfigField "String", "PURCHASE_ADS", keystoreProperties['PURCHASE_ADS']
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release
@@ -103,8 +109,24 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
+    // Firebase libraries.
+    implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
+    implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
+    implementation "com.google.firebase:firebase-functions:$firebaseFunctionsVersion"
+
+    // FirebaseUI Auth library.
+    implementation "com.firebaseui:firebase-ui-auth:$firebaseUiVersion"
+    implementation 'androidx.leanback:leanback:1.0.0'
+
     def lifecycle_version = '2.3.1'
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+
+    implementation "com.android.billingclient:billing:$billingVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
+
+    // ViewModel and LiveData extensions.
+    implementation "android.arch.lifecycle:extensions:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 }
