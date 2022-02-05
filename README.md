@@ -1,5 +1,6 @@
 # estatJapan
 在留資格統計
+ストアにリリース済み、リンクは以下です
 
 GooglePlay：https://play.google.com/store/apps/details?id=com.estatjapan
 
