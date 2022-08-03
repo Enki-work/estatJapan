@@ -59,7 +59,7 @@ class AppInitializer {
       );
     } on Exception catch (e) {
       if (kDebugMode) {
-        print(e);
+        print(e.toString());
       }
       rethrow;
     }
