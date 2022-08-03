@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:async' show Future;
 import 'dart:convert';
 
@@ -7,7 +5,6 @@ import 'package:estatjapan/model/pigeonModel/PurchaseModelApi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
 
 const isThemeFollowSystemKey = "isThemeFollowSystemKey";
@@ -39,7 +36,7 @@ class AppConfig extends ChangeNotifier {
       required this.isThemeDarkMode});
 
   static Future<AppConfig> forEnvironment() async {
-    final env = kReleaseMode ? 'prod' : 'dev';
+    const env = kReleaseMode ? 'prod' : 'dev';
     final contents = await rootBundle.loadString(
       'lib/config/$env.json',
     );

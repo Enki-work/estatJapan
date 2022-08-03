@@ -9,10 +9,6 @@ class FlutterPurchaseModelApiHandler extends FlutterPurchaseModelApi {
 
   @override
   void sendPurchaseModel(PurchaseModel purchaseModel) {
-    assert(
-      purchaseModel != null,
-      'Non-null book expected from FlutterBookApi.displayBookDetails call.',
-    );
     callback(purchaseModel);
   }
 }
