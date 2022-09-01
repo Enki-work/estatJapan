@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'AppConfig.dart';
+import '../model/state_notifier/AppConfigNotifier.dart';
 
 class AdHelper {
   static String get bannerAdUnitId {

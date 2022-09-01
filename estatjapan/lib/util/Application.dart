@@ -1,7 +1,11 @@
+import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../model/pigeonModel/FlutterPurchaseModelApiHandler.dart';
+import '../model/pigeonModel/PurchaseModelApi.dart';
 import 'DioHolder.dart';
 
 class Application extends StatefulWidget {
@@ -40,6 +44,14 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.transparent,
     ));
+
+    FlutterPurchaseModelApi.setup(
+        FlutterPurchaseModelApiHandler((purchaseModel) {
+      if (kDebugMode) {
+        print('########$purchaseModel');
+      }
+      AppConfig.shared.purchaseModel = purchaseModel;
+    }));
   }
 
   @override
