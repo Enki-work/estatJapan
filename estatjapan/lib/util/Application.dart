@@ -1,5 +1,4 @@
 import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -47,10 +46,9 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
 
     FlutterPurchaseModelApi.setup(
         FlutterPurchaseModelApiHandler((purchaseModel) {
-      if (kDebugMode) {
-        print('########$purchaseModel');
-      }
-      AppConfig.shared.purchaseModel = purchaseModel;
+      setState(() {
+        AppConfig.shared.purchaseModel = purchaseModel;
+      });
     }));
   }
 
