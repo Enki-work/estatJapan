@@ -1,3 +1,4 @@
+import '../state/PurchaseModel.dart';
 import 'PurchaseModelApi.dart';
 
 typedef PurchaseModelReceived = void Function(PurchaseModel purchaseModel);

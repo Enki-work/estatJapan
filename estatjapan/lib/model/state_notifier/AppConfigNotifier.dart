@@ -1,41 +1,27 @@
 import 'dart:async' show Future;
 import 'dart:convert';
 
-import 'package:estatjapan/model/pigeonModel/PurchaseModelApi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:state_notifier/state_notifier.dart';
+
+import '../state/AppConfigState.dart';
+import '../state/PurchaseModel.dart';
 
 const isThemeFollowSystemKey = "isThemeFollowSystemKey";
 const isThemeDarkModeKey = "isThemeDarkModeKey";
 
-class AppConfig extends ChangeNotifier {
-  final String android_inline_banner;
-  final String android_inline_native;
-  final String android_appid;
-  final String ios_inline_banner;
-  final String ios_inline_native;
-  final String ios_appid;
-  final String estatAppId;
-  PurchaseModel? purchaseModel;
-  bool isThemeFollowSystem;
-  bool isThemeDarkMode;
+class AppConfigNotifier extends StateNotifier<AppConfigState> {
+  AppConfigNotifier(PurchaseModel? purchaseModel)
+      : super(AppConfigState(purchaseModel: purchaseModel));
 
-  static late final AppConfig shared;
+  set purchaseModel(PurchaseModel? purchaseModel) {
+    state = state.copyWith(purchaseModel: purchaseModel);
+  }
 
-  AppConfig._internal(
-      {required this.android_inline_banner,
-      required this.android_inline_native,
-      required this.android_appid,
-      required this.ios_inline_banner,
-      required this.ios_inline_native,
-      required this.ios_appid,
-      required this.estatAppId,
-      required this.isThemeFollowSystem,
-      required this.isThemeDarkMode});
-
-  static Future<AppConfig> forEnvironment() async {
+  Future<AppConfigState> forEnvironment() async {
     const env = kReleaseMode ? 'prod' : 'dev';
     final contents = await rootBundle.loadString(
       'lib/config/$env.json',
@@ -45,7 +31,7 @@ class AppConfig extends ChangeNotifier {
     final isThemeDarkMode = pref.getBool(isThemeDarkModeKey) ?? false;
     // decode our json
     final json = jsonDecode(contents);
-    shared = AppConfig._internal(
+    state = state.copyWith(
         android_inline_banner: json['android_inline_banner'],
         android_inline_native: json['android_inline_native'],
         android_appid: json['android_appid'],
@@ -55,29 +41,28 @@ class AppConfig extends ChangeNotifier {
         estatAppId: json['estatAppId'],
         isThemeFollowSystem: isThemeFollowSystem,
         isThemeDarkMode: isThemeDarkMode);
-    return shared;
+
+    return state;
   }
 
   void setThemeFollowSystem(bool isThemeFollowSystem) {
-    this.isThemeFollowSystem = isThemeFollowSystem;
     SharedPreferences.getInstance().then((value) {
       value.setBool(isThemeFollowSystemKey, isThemeFollowSystem);
-      notifyListeners();
+      state = state.copyWith(isThemeFollowSystem: isThemeFollowSystem);
     });
   }
 
   void setThemeDarkModeKey(bool isThemeDarkMode) {
-    this.isThemeDarkMode = isThemeDarkMode;
     SharedPreferences.getInstance().then((value) {
       value.setBool(isThemeDarkModeKey, isThemeDarkMode);
-      notifyListeners();
+      state = state.copyWith(isThemeDarkMode: isThemeDarkMode);
     });
   }
 
   ThemeMode getThemeMode() {
-    if (isThemeFollowSystem) {
+    if (state.isThemeFollowSystem) {
       return ThemeMode.system;
-    } else if (isThemeDarkMode) {
+    } else if (state.isThemeDarkMode) {
       return ThemeMode.dark;
     } else {
       return ThemeMode.light;

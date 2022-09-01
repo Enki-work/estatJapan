@@ -1,23 +1,26 @@
 import 'dart:io';
 
-import '../model/state_notifier/AppConfigNotifier.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+
+import '../model/state/AppConfigState.dart';
 
 class AdHelper {
-  static String get bannerAdUnitId {
+  static String bannerAdUnitId(BuildContext context) {
     if (Platform.isAndroid) {
-      return AppConfig.shared.android_inline_banner;
+      return context.read<AppConfigState>().android_inline_banner;
     } else if (Platform.isIOS) {
-      return AppConfig.shared.ios_inline_banner;
+      return context.read<AppConfigState>().ios_inline_banner;
     } else {
       throw UnsupportedError("Unsupported platform");
     }
   }
 
-  static String get nativeAdUnitId {
+  static String nativeAdUnitId(BuildContext context) {
     if (Platform.isAndroid) {
-      return AppConfig.shared.android_appid;
+      return context.read<AppConfigState>().android_appid;
     } else if (Platform.isIOS) {
-      return AppConfig.shared.android_appid;
+      return context.read<AppConfigState>().android_appid;
     } else {
       throw UnsupportedError("Unsupported platform");
     }

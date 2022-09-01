@@ -1,10 +1,13 @@
 import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
 import '../model/pigeonModel/FlutterPurchaseModelApiHandler.dart';
 import '../model/pigeonModel/PurchaseModelApi.dart';
+import '../model/state/AppConfigState.dart';
+import '../model/state/PurchaseModel.dart';
 import 'DioHolder.dart';
 
 class Application extends StatefulWidget {
@@ -29,6 +32,7 @@ class Application extends StatefulWidget {
 
 class _ApplicationState extends State<Application> with WidgetsBindingObserver {
   final bool isRestart;
+  PurchaseModel? _purchaseModel;
 
   _ApplicationState({
     this.isRestart = false,
@@ -47,7 +51,7 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
     FlutterPurchaseModelApi.setup(
         FlutterPurchaseModelApiHandler((purchaseModel) {
       setState(() {
-        AppConfig.shared.purchaseModel = purchaseModel;
+        _purchaseModel = purchaseModel;
       });
     }));
   }
@@ -77,6 +81,9 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
     return MultiProvider(
       providers: [
         Provider<DioHolder>(create: (context) => widget.dioHolder),
+        StateNotifierProvider<AppConfigNotifier, AppConfigState>(
+          create: (_) => AppConfigNotifier(_purchaseModel),
+        )
       ],
       // showCustomModalBottomSheetを使用するとステータスバーの文字色が白から戻らなくなる問題の回避策
       // see: https://github.com/jamesblasco/modal_bottom_sheet/issues/206#issuecomment-1062839762
