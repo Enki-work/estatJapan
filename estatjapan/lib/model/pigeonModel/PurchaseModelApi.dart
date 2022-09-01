@@ -2,10 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart' show WriteBuffer, ReadBuffer;
 import 'package:flutter/services.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class PurchaseModel {
-  bool isPurchase = false;
-  bool isUsedTrial = false;
+part 'PurchaseModelApi.freezed.dart';
+
+@freezed
+class PurchaseModel with _$PurchaseModel {
+  const factory PurchaseModel({
+    @Default(false) bool isPurchase,
+    @Default(false) bool isUsedTrial,
+  }) = _PurchaseModel;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
@@ -16,9 +22,9 @@ class PurchaseModel {
 
   static PurchaseModel decode(Object message) {
     final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
-    return PurchaseModel()
-      ..isPurchase = pigeonMap['isPurchase'] as bool? ?? false
-      ..isUsedTrial = pigeonMap['isUsedTrial'] as bool? ?? false;
+    return PurchaseModel(
+        isPurchase: ((pigeonMap['isPurchase'] as bool?) ?? false),
+        isUsedTrial: (pigeonMap['isUsedTrial'] as bool?) ?? false);
   }
 }
 

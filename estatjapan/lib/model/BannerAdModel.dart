@@ -1,6 +1,6 @@
-import 'package:estatjapan/Util/AdHelper.dart';
-import 'package:estatjapan/Util/AppConfig.dart';
 import 'package:estatjapan/model/pigeonModel/PurchaseModelApi.dart';
+import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
+import 'package:estatjapan/util/AdHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 

@@ -1,4 +1,4 @@
-import 'package:estatjapan/Util/AppConfig.dart';
+import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'jsonModel/Class.dart';
