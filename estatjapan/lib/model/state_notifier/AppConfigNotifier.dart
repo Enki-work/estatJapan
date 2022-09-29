@@ -14,8 +14,7 @@ const isThemeFollowSystemKey = "isThemeFollowSystemKey";
 const isThemeDarkModeKey = "isThemeDarkModeKey";
 
 class AppConfigNotifier extends StateNotifier<AppConfigState> {
-  AppConfigNotifier(PurchaseModel? purchaseModel)
-      : super(AppConfigState(purchaseModel: purchaseModel));
+  AppConfigNotifier() : super(const AppConfigState());
 
   set purchaseModel(PurchaseModel? purchaseModel) {
     state = state.copyWith(purchaseModel: purchaseModel);

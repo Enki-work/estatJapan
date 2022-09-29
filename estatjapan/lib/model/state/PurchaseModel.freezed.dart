@@ -14,11 +14,16 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+PurchaseModel _$PurchaseModelFromJson(Map<String, dynamic> json) {
+  return _PurchaseModel.fromJson(json);
+}
+
 /// @nodoc
 mixin _$PurchaseModel {
   bool get isPurchase => throw _privateConstructorUsedError;
   bool get isUsedTrial => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PurchaseModelCopyWith<PurchaseModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -99,9 +104,13 @@ class __$$_PurchaseModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$_PurchaseModel extends _PurchaseModel {
+  const _$_PurchaseModel({this.isPurchase = false, this.isUsedTrial = false})
+      : super._();
 
-class _$_PurchaseModel implements _PurchaseModel {
-  const _$_PurchaseModel({this.isPurchase = false, this.isUsedTrial = false});
+  factory _$_PurchaseModel.fromJson(Map<String, dynamic> json) =>
+      _$$_PurchaseModelFromJson(json);
 
   @override
   @JsonKey()
@@ -126,6 +135,7 @@ class _$_PurchaseModel implements _PurchaseModel {
                 .equals(other.isUsedTrial, isUsedTrial));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -137,17 +147,19 @@ class _$_PurchaseModel implements _PurchaseModel {
   _$$_PurchaseModelCopyWith<_$_PurchaseModel> get copyWith =>
       __$$_PurchaseModelCopyWithImpl<_$_PurchaseModel>(this, _$identity);
 
-  Object encode() {
-    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
-    pigeonMap['isPurchase'] = isPurchase;
-    pigeonMap['isUsedTrial'] = isUsedTrial;
-    return pigeonMap;
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PurchaseModelToJson(this);
   }
 }
 
-abstract class _PurchaseModel implements PurchaseModel {
+abstract class _PurchaseModel extends PurchaseModel {
   const factory _PurchaseModel(
       {final bool isPurchase, final bool isUsedTrial}) = _$_PurchaseModel;
+  const _PurchaseModel._() : super._();
+
+  factory _PurchaseModel.fromJson(Map<String, dynamic> json) =
+      _$_PurchaseModel.fromJson;
 
   @override
   bool get isPurchase;

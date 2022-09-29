@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../model/pigeonModel/FlutterPurchaseModelApiHandler.dart';
 import '../model/pigeonModel/PurchaseModelApi.dart';
 import '../model/state/AppConfigState.dart';
-import '../model/state/PurchaseModel.dart';
+import '../page/RootPage.dart';
 import 'DioHolder.dart';
 
 class Application extends StatefulWidget {
@@ -32,7 +32,6 @@ class Application extends StatefulWidget {
 
 class _ApplicationState extends State<Application> with WidgetsBindingObserver {
   final bool isRestart;
-  PurchaseModel? _purchaseModel;
 
   _ApplicationState({
     this.isRestart = false,
@@ -41,7 +40,7 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     // Android Status Barを透過させるため
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
@@ -50,15 +49,13 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
 
     FlutterPurchaseModelApi.setup(
         FlutterPurchaseModelApiHandler((purchaseModel) {
-      setState(() {
-        _purchaseModel = purchaseModel;
-      });
+      context.read<AppConfigNotifier>().purchaseModel = purchaseModel;
     }));
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -78,72 +75,31 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<DioHolder>(create: (context) => widget.dioHolder),
-        StateNotifierProvider<AppConfigNotifier, AppConfigState>(
-          create: (_) => AppConfigNotifier(_purchaseModel),
-        )
-      ],
-      // showCustomModalBottomSheetを使用するとステータスバーの文字色が白から戻らなくなる問題の回避策
-      // see: https://github.com/jamesblasco/modal_bottom_sheet/issues/206#issuecomment-1062839762
-      child: const AnnotatedRegion<SystemUiOverlayStyle>(
-        child: MyHomePage(title: 'Flutter Demo Home Page'),
-        value: SystemUiOverlayStyle.dark,
-      ),
-    );
+    return MultiProvider(providers: [
+      Provider<DioHolder>(create: (context) => widget.dioHolder),
+      StateNotifierProvider<AppConfigNotifier, AppConfigState>(
+        create: (_) => AppConfigNotifier()..forEnvironment(),
+      )
+    ], child: const MyHomePage());
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '在留資格統計',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _incrementCounter,
-          tooltip: 'Increment',
-          child: const Icon(Icons.add),
-        ), // This trailing comma makes auto-formatting nicer for build methods.
-      ),
+          primarySwatch: Colors.orange,
+          iconTheme: const IconThemeData(color: Colors.orangeAccent)),
+      darkTheme: ThemeData(
+          primarySwatch: Colors.deepOrange,
+          iconTheme: const IconThemeData(color: Colors.deepOrangeAccent)),
+      themeMode: context.watch<AppConfigNotifier>().getThemeMode(),
+      home: const RootPage(title: '在留資格取得の受理・処理'),
     );
   }
 }

@@ -52,6 +52,7 @@ dependencies:
   firebase_analytics:
   firebase_crashlytics:
   json_serializable:
+  stack_trace:
 
 dev_dependencies:
   flutter_test:

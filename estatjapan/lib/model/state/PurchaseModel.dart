@@ -1,9 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'PurchaseModel.freezed.dart';
+part 'PurchaseModel.g.dart';
 
 @freezed
 class PurchaseModel with _$PurchaseModel {
+  const PurchaseModel._();
   const factory PurchaseModel({
     @Default(false) bool isPurchase,
     @Default(false) bool isUsedTrial,
@@ -22,4 +24,7 @@ class PurchaseModel with _$PurchaseModel {
         isPurchase: ((pigeonMap['isPurchase'] as bool?) ?? false),
         isUsedTrial: (pigeonMap['isUsedTrial'] as bool?) ?? false);
   }
+
+  factory PurchaseModel.fromJson(Map<String, dynamic> json) =>
+      _$PurchaseModelFromJson(json);
 }
