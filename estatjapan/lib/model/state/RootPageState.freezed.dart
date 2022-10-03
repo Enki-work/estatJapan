@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$RootPageState {
   int get selectedIndex => throw _privateConstructorUsedError;
+  ImmigrationStatisticsRoot? get immigrationStatisticsRoot =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RootPageStateCopyWith<RootPageState> get copyWith =>
@@ -28,7 +30,9 @@ abstract class $RootPageStateCopyWith<$Res> {
   factory $RootPageStateCopyWith(
           RootPageState value, $Res Function(RootPageState) then) =
       _$RootPageStateCopyWithImpl<$Res>;
-  $Res call({int selectedIndex});
+  $Res call(
+      {int selectedIndex,
+      ImmigrationStatisticsRoot? immigrationStatisticsRoot});
 }
 
 /// @nodoc
@@ -43,12 +47,17 @@ class _$RootPageStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectedIndex = freezed,
+    Object? immigrationStatisticsRoot = freezed,
   }) {
     return _then(_value.copyWith(
       selectedIndex: selectedIndex == freezed
           ? _value.selectedIndex
           : selectedIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      immigrationStatisticsRoot: immigrationStatisticsRoot == freezed
+          ? _value.immigrationStatisticsRoot
+          : immigrationStatisticsRoot // ignore: cast_nullable_to_non_nullable
+              as ImmigrationStatisticsRoot?,
     ));
   }
 }
@@ -60,7 +69,9 @@ abstract class _$$_RootPageStateCopyWith<$Res>
           _$_RootPageState value, $Res Function(_$_RootPageState) then) =
       __$$_RootPageStateCopyWithImpl<$Res>;
   @override
-  $Res call({int selectedIndex});
+  $Res call(
+      {int selectedIndex,
+      ImmigrationStatisticsRoot? immigrationStatisticsRoot});
 }
 
 /// @nodoc
@@ -77,12 +88,17 @@ class __$$_RootPageStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectedIndex = freezed,
+    Object? immigrationStatisticsRoot = freezed,
   }) {
     return _then(_$_RootPageState(
       selectedIndex: selectedIndex == freezed
           ? _value.selectedIndex
           : selectedIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      immigrationStatisticsRoot: immigrationStatisticsRoot == freezed
+          ? _value.immigrationStatisticsRoot
+          : immigrationStatisticsRoot // ignore: cast_nullable_to_non_nullable
+              as ImmigrationStatisticsRoot?,
     ));
   }
 }
@@ -90,15 +106,18 @@ class __$$_RootPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_RootPageState implements _RootPageState {
-  const _$_RootPageState({this.selectedIndex = 0});
+  const _$_RootPageState(
+      {this.selectedIndex = 0, this.immigrationStatisticsRoot});
 
   @override
   @JsonKey()
   final int selectedIndex;
+  @override
+  final ImmigrationStatisticsRoot? immigrationStatisticsRoot;
 
   @override
   String toString() {
-    return 'RootPageState(selectedIndex: $selectedIndex)';
+    return 'RootPageState(selectedIndex: $selectedIndex, immigrationStatisticsRoot: $immigrationStatisticsRoot)';
   }
 
   @override
@@ -107,12 +126,16 @@ class _$_RootPageState implements _RootPageState {
         (other.runtimeType == runtimeType &&
             other is _$_RootPageState &&
             const DeepCollectionEquality()
-                .equals(other.selectedIndex, selectedIndex));
+                .equals(other.selectedIndex, selectedIndex) &&
+            const DeepCollectionEquality().equals(
+                other.immigrationStatisticsRoot, immigrationStatisticsRoot));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(selectedIndex));
+      runtimeType,
+      const DeepCollectionEquality().hash(selectedIndex),
+      const DeepCollectionEquality().hash(immigrationStatisticsRoot));
 
   @JsonKey(ignore: true)
   @override
@@ -121,10 +144,15 @@ class _$_RootPageState implements _RootPageState {
 }
 
 abstract class _RootPageState implements RootPageState {
-  const factory _RootPageState({final int selectedIndex}) = _$_RootPageState;
+  const factory _RootPageState(
+          {final int selectedIndex,
+          final ImmigrationStatisticsRoot? immigrationStatisticsRoot}) =
+      _$_RootPageState;
 
   @override
   int get selectedIndex;
+  @override
+  ImmigrationStatisticsRoot? get immigrationStatisticsRoot;
   @override
   @JsonKey(ignore: true)
   _$$_RootPageStateCopyWith<_$_RootPageState> get copyWith =>

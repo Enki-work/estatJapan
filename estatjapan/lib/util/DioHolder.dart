@@ -15,9 +15,9 @@ class DioHolder {
     dio.interceptors.add(_DioInterceptor());
   }
 
-  Future<ImmigrationStatisticsRoot> getMenu(String estatAppId) async {
+  Future<ImmigrationStatisticsRoot> getMenuData(String estatAppId) async {
     final res = await dio.get(
-        "https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&cdTime=2022000707&appId=$estatAppId&lang=J&statsDataId=0003449073&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0");
+        "https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=$estatAppId&lang=J&statsDataId=0003449073&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0");
     return ImmigrationStatisticsRoot.fromJson(res.data);
   }
 }
@@ -54,7 +54,7 @@ class _ApiError extends Error {
 
     String responseLog = "${res?.statusMessage} [${res?.requestOptions.uri}]: ";
     String dioErrorLog = "${_error.toString()}: \n";
-    String responseErrorLog = "${res.toString()}";
+    String responseErrorLog = res.toString();
 
     return responseLog + dioErrorLog + responseErrorLog;
   }

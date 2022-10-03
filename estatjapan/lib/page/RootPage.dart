@@ -11,7 +11,6 @@ import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
 import '../model/state/AppConfigState.dart';
 import '../model/state/RootPageState.dart';
 import '../model/state_notifier/RootPageNotifier.dart';
-import '../util/DioHolder.dart';
 
 class RootPage extends StatelessWidget {
   final String title;
@@ -19,16 +18,12 @@ class RootPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          StateNotifierProvider<RootPageNotifier, RootPageState>(
-            create: (_) => RootPageNotifier(),
-          ),
-          ChangeNotifierProvider<BannerAdModel>(create: (_) => BannerAdModel()),
-        ],
-        child: Builder(
-          builder: (context) => _RootPageBody(title),
-        ));
+    return MultiProvider(providers: [
+      StateNotifierProvider<RootPageNotifier, RootPageState>(
+        create: (_) => RootPageNotifier(),
+      ),
+      ChangeNotifierProvider<BannerAdModel>(create: (_) => BannerAdModel()),
+    ], child: _RootPageBody(title));
   }
 }
 
@@ -38,28 +33,10 @@ class _RootPageBody extends StatelessWidget {
   const _RootPageBody(this.title);
 
   Widget _body(BuildContext context) {
-    return FutureBuilder(
-        future: context
-            .watch<DioHolder>()
-            .getMenu(context.watch<AppConfigState>().estatAppId),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            }
-            ImmigrationStatisticsRoot rootModel = snapshot.data;
-            return FutureBuilder<InitializationStatus>(
-              future: _initGoogleMobileAds(),
-              builder: (context, snapshot) =>
-                  snapshot.connectionState == ConnectionState.done
-                      ? getPageWidget(context, rootModel)
-                      : const Center(child: CircularProgressIndicator()),
-            );
-          } else {
-//请求未完成时弹出loading
-            return const Center(child: CircularProgressIndicator());
-          }
-        });
+    context
+        .read<RootPageNotifier>()
+        .getMenuData(context.watch<AppConfigState>().estatAppId);
+    return getPageWidget(context);
   }
 
   Widget _cat01ListView(
@@ -92,8 +69,7 @@ class _RootPageBody extends StatelessWidget {
     ));
   }
 
-  Widget getPageWidget(
-      BuildContext context, ImmigrationStatisticsRoot rootModel) {
+  Widget getPageWidget(BuildContext context) {
     context.read<BannerAdModel>().loadBannerAd(context);
     final bAdModel = context.watch<BannerAdModel>();
     return OrientationBuilder(builder: (context, orientation) {
@@ -103,35 +79,35 @@ class _RootPageBody extends StatelessWidget {
           if (orientation == Orientation.portrait && bAdModel.isAdLoaded())
             Container(
               child: AdWidget(ad: bAdModel.bannerAd()),
-              width: bAdModel.bannerAd().size.width.toDouble(),
+              width: double.infinity,
               height: 72.0,
               alignment: Alignment.center,
             ),
-          Expanded(
-              flex: 1,
-              child: () {
-                switch (rootPageState.selectedIndex) {
-                  case 0:
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[_cat01ListView(rootModel, bAdModel)],
-                    );
-                  // case 1:
-                  //   return const GraphDataSelectPage();
-                  // case 2:
-                  //   return const VisaInfoPage();
-                  default:
-                    return const Center(child: Text("予想外エラー"));
-                }
-              }()),
+          if (rootPageState.immigrationStatisticsRoot != null)
+            Expanded(
+                flex: 1,
+                child: () {
+                  switch (rootPageState.selectedIndex) {
+                    case 0:
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          _cat01ListView(
+                              rootPageState.immigrationStatisticsRoot!,
+                              bAdModel)
+                        ],
+                      );
+                    // case 1:
+                    //   return const GraphDataSelectPage();
+                    // case 2:
+                    //   return const VisaInfoPage();
+                    default:
+                      return const Center(child: Text("予想外エラー"));
+                  }
+                }()),
         ],
       );
     });
-  }
-
-  Future<InitializationStatus> _initGoogleMobileAds() {
-    // COMPLETE: Initialize Google Mobile Ads SDK
-    return MobileAds.instance.initialize();
   }
 
   @override

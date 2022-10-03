@@ -2,7 +2,6 @@ import 'dart:async' show Future;
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:state_notifier/state_notifier.dart';
@@ -56,15 +55,5 @@ class AppConfigNotifier extends StateNotifier<AppConfigState> {
       value.setBool(isThemeDarkModeKey, isThemeDarkMode);
       state = state.copyWith(isThemeDarkMode: isThemeDarkMode);
     });
-  }
-
-  ThemeMode getThemeMode() {
-    if (state.isThemeFollowSystem) {
-      return ThemeMode.system;
-    } else if (state.isThemeDarkMode) {
-      return ThemeMode.dark;
-    } else {
-      return ThemeMode.light;
-    }
   }
 }

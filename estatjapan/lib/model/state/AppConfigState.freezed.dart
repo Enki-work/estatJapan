@@ -224,7 +224,7 @@ class __$$_AppConfigStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AppConfigState implements _AppConfigState {
+class _$_AppConfigState extends _AppConfigState {
   const _$_AppConfigState(
       {this.android_inline_banner = "",
       this.android_inline_native = "",
@@ -235,7 +235,8 @@ class _$_AppConfigState implements _AppConfigState {
       this.estatAppId = "",
       this.isThemeFollowSystem = true,
       this.isThemeDarkMode = false,
-      this.purchaseModel});
+      this.purchaseModel})
+      : super._();
 
   @override
   @JsonKey()
@@ -318,7 +319,7 @@ class _$_AppConfigState implements _AppConfigState {
       __$$_AppConfigStateCopyWithImpl<_$_AppConfigState>(this, _$identity);
 }
 
-abstract class _AppConfigState implements AppConfigState {
+abstract class _AppConfigState extends AppConfigState {
   const factory _AppConfigState(
       {final String android_inline_banner,
       final String android_inline_native,
@@ -330,6 +331,7 @@ abstract class _AppConfigState implements AppConfigState {
       final bool isThemeFollowSystem,
       final bool isThemeDarkMode,
       final PurchaseModel? purchaseModel}) = _$_AppConfigState;
+  const _AppConfigState._() : super._();
 
   @override
   String get android_inline_banner;

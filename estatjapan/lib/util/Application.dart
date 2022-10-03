@@ -2,6 +2,7 @@ import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../model/RouteModel.dart';
@@ -9,6 +10,7 @@ import '../model/jsonModel/ClassOBJ.dart';
 import '../model/pigeonModel/FlutterPurchaseModelApiHandler.dart';
 import '../model/pigeonModel/PurchaseModelApi.dart';
 import '../model/state/AppConfigState.dart';
+import '../page/MonthSelectPage.dart';
 import '../page/RootPage.dart';
 import 'DioHolder.dart';
 
@@ -44,6 +46,7 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
 
+    MobileAds.instance.initialize();
     // Android Status Barを透過させるため
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.transparent,
@@ -100,79 +103,75 @@ class MyHomePage extends StatelessWidget {
       darkTheme: ThemeData(
           primarySwatch: Colors.deepOrange,
           iconTheme: const IconThemeData(color: Colors.deepOrangeAccent)),
-      themeMode: context.watch<AppConfigNotifier>().getThemeMode(),
-
-        routes: {
-          "MonthSelectPage": (context) {
-            if (ModalRoute.of(context)?.settings.arguments
-            is RouteModel) {
-              return MonthSelectPage(
-                routeModel: ModalRoute.of(context)
-                    ?.settings
-                    .arguments as RouteModel,
-                pageType: MonthSelectPageType.old,
-              );
-            } else {
-              return MonthSelectPage(
-                monthClassObj: ModalRoute.of(context)
-                    ?.settings
-                    .arguments as ClassOBJ,
-                pageType: MonthSelectPageType.graph,
-              );
-            }
-          },
-          // "DataTablePage": (context) => DataTablePage(
-          //   routeModel: ModalRoute.of(context)
-          //       ?.settings
-          //       .arguments as RouteModel,
-          // ),
-          // "LicenseInfoPage": (context) => const LicenseInfoPage(),
-          // "eStaInfoPage": (context) => const EStaInfoPage(),
-          // "ContactMePage": (context) => const ContactMePage(),
-          // "VisaTypeSelectPage": (context) {
-          //   return VisaTypeSelectPage(
-          //     obj: ModalRoute.of(context)?.settings.arguments
-          //     as ClassOBJ,
-          //   );
-          // },
-          // "BureauSelectPage": (context) {
-          //   return BureauSelectPage(
-          //     obj: ModalRoute.of(context)?.settings.arguments
-          //     as ClassOBJ,
-          //   );
-          // },
-          // "GraphDataPage": (context) {
-          //   return GraphDataPage(
-          //     graphData: ModalRoute.of(context)?.settings.arguments
-          //     as GraphData,
-          //   );
-          // },
-          // "LineGraphDataPage": (context) {
-          //   return LineGraphDataPage(
-          //     graphData: ModalRoute.of(context)?.settings.arguments
-          //     as GraphData,
-          //   );
-          // },
-          // "WebViewPage": (context) {
-          //   return WebViewPage(
-          //       loadUrl: ModalRoute.of(context)?.settings.arguments
-          //       as String?);
-          // },
-          // "VisaInfoPage": (context) {
-          //   return VisaInfoPage(
-          //     visaInfoPageData: ModalRoute.of(context)
-          //         ?.settings
-          //         .arguments as VisaInfoPageData?,
-          //   );
-          // },
-          // "SettingPage": (context) {
-          //   return const SettingPage();
-          // },
-          // "PurchaseInfoPage": (context) {
-          //   return const PurchaseInfoPage();
-          // },
-          "/": (context) => const RootPage(title: '在留資格取得の受理・処理'),
-        };
+      themeMode: context.watch<AppConfigState>().getThemeMode,
+      routes: {
+        "MonthSelectPage": (context) {
+          if (ModalRoute.of(context)?.settings.arguments is RouteModel) {
+            return MonthSelectPage(
+              routeModel:
+                  ModalRoute.of(context)?.settings.arguments as RouteModel,
+              pageType: MonthSelectPageType.old,
+            );
+          } else {
+            return MonthSelectPage(
+              monthClassObj:
+                  ModalRoute.of(context)?.settings.arguments as ClassOBJ,
+              pageType: MonthSelectPageType.graph,
+            );
+          }
+        },
+        // "DataTablePage": (context) => DataTablePage(
+        //   routeModel: ModalRoute.of(context)
+        //       ?.settings
+        //       .arguments as RouteModel,
+        // ),
+        // "LicenseInfoPage": (context) => const LicenseInfoPage(),
+        // "eStaInfoPage": (context) => const EStaInfoPage(),
+        // "ContactMePage": (context) => const ContactMePage(),
+        // "VisaTypeSelectPage": (context) {
+        //   return VisaTypeSelectPage(
+        //     obj: ModalRoute.of(context)?.settings.arguments
+        //     as ClassOBJ,
+        //   );
+        // },
+        // "BureauSelectPage": (context) {
+        //   return BureauSelectPage(
+        //     obj: ModalRoute.of(context)?.settings.arguments
+        //     as ClassOBJ,
+        //   );
+        // },
+        // "GraphDataPage": (context) {
+        //   return GraphDataPage(
+        //     graphData: ModalRoute.of(context)?.settings.arguments
+        //     as GraphData,
+        //   );
+        // },
+        // "LineGraphDataPage": (context) {
+        //   return LineGraphDataPage(
+        //     graphData: ModalRoute.of(context)?.settings.arguments
+        //     as GraphData,
+        //   );
+        // },
+        // "WebViewPage": (context) {
+        //   return WebViewPage(
+        //       loadUrl: ModalRoute.of(context)?.settings.arguments
+        //       as String?);
+        // },
+        // "VisaInfoPage": (context) {
+        //   return VisaInfoPage(
+        //     visaInfoPageData: ModalRoute.of(context)
+        //         ?.settings
+        //         .arguments as VisaInfoPageData?,
+        //   );
+        // },
+        // "SettingPage": (context) {
+        //   return const SettingPage();
+        // },
+        // "PurchaseInfoPage": (context) {
+        //   return const PurchaseInfoPage();
+        // },
+        "/": (context) => const RootPage(title: '在留資格取得の受理・処理'),
+      },
     );
   }
 }
