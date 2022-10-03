@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
+import '../model/RouteModel.dart';
+import '../model/jsonModel/ClassOBJ.dart';
 import '../model/pigeonModel/FlutterPurchaseModelApiHandler.dart';
 import '../model/pigeonModel/PurchaseModelApi.dart';
 import '../model/state/AppConfigState.dart';
@@ -99,7 +101,78 @@ class MyHomePage extends StatelessWidget {
           primarySwatch: Colors.deepOrange,
           iconTheme: const IconThemeData(color: Colors.deepOrangeAccent)),
       themeMode: context.watch<AppConfigNotifier>().getThemeMode(),
-      home: const RootPage(title: '在留資格取得の受理・処理'),
+
+        routes: {
+          "MonthSelectPage": (context) {
+            if (ModalRoute.of(context)?.settings.arguments
+            is RouteModel) {
+              return MonthSelectPage(
+                routeModel: ModalRoute.of(context)
+                    ?.settings
+                    .arguments as RouteModel,
+                pageType: MonthSelectPageType.old,
+              );
+            } else {
+              return MonthSelectPage(
+                monthClassObj: ModalRoute.of(context)
+                    ?.settings
+                    .arguments as ClassOBJ,
+                pageType: MonthSelectPageType.graph,
+              );
+            }
+          },
+          // "DataTablePage": (context) => DataTablePage(
+          //   routeModel: ModalRoute.of(context)
+          //       ?.settings
+          //       .arguments as RouteModel,
+          // ),
+          // "LicenseInfoPage": (context) => const LicenseInfoPage(),
+          // "eStaInfoPage": (context) => const EStaInfoPage(),
+          // "ContactMePage": (context) => const ContactMePage(),
+          // "VisaTypeSelectPage": (context) {
+          //   return VisaTypeSelectPage(
+          //     obj: ModalRoute.of(context)?.settings.arguments
+          //     as ClassOBJ,
+          //   );
+          // },
+          // "BureauSelectPage": (context) {
+          //   return BureauSelectPage(
+          //     obj: ModalRoute.of(context)?.settings.arguments
+          //     as ClassOBJ,
+          //   );
+          // },
+          // "GraphDataPage": (context) {
+          //   return GraphDataPage(
+          //     graphData: ModalRoute.of(context)?.settings.arguments
+          //     as GraphData,
+          //   );
+          // },
+          // "LineGraphDataPage": (context) {
+          //   return LineGraphDataPage(
+          //     graphData: ModalRoute.of(context)?.settings.arguments
+          //     as GraphData,
+          //   );
+          // },
+          // "WebViewPage": (context) {
+          //   return WebViewPage(
+          //       loadUrl: ModalRoute.of(context)?.settings.arguments
+          //       as String?);
+          // },
+          // "VisaInfoPage": (context) {
+          //   return VisaInfoPage(
+          //     visaInfoPageData: ModalRoute.of(context)
+          //         ?.settings
+          //         .arguments as VisaInfoPageData?,
+          //   );
+          // },
+          // "SettingPage": (context) {
+          //   return const SettingPage();
+          // },
+          // "PurchaseInfoPage": (context) {
+          //   return const PurchaseInfoPage();
+          // },
+          "/": (context) => const RootPage(title: '在留資格取得の受理・処理'),
+        };
     );
   }
 }
