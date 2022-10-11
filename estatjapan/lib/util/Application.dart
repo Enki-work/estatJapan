@@ -12,6 +12,8 @@ import '../model/jsonModel/ClassOBJ.dart';
 import '../model/pigeonModel/FlutterPurchaseModelApiHandler.dart';
 import '../model/pigeonModel/PurchaseModelApi.dart';
 import '../model/state/AppConfigState.dart';
+import '../model/state/RepositoryDataState.dart';
+import '../model/state_notifier/APIRepositoryNotifier.dart';
 import '../page/BureauSelectPage.dart';
 import '../page/ContactMePage.dart';
 import '../page/EStatInfoPage.dart';
@@ -102,6 +104,9 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
           StateNotifierProvider<AppConfigNotifier, AppConfigState>.value(
             value: appConfig,
           ),
+          StateNotifierProvider<APIRepositoryNotifier, RepositoryDataState>(
+            create: (_) => APIRepositoryNotifier(),
+          )
         ],
         builder: (context, child) {
           return const MyHomePage();

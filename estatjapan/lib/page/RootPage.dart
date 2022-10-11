@@ -1,12 +1,10 @@
-import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../model/state/AppConfigState.dart';
-import '../model/state/RootPageState.dart';
-import '../model/state_notifier/RootPageNotifier.dart';
+import '../model/state/RepositoryDataState.dart';
+import '../model/state_notifier/APIRepositoryNotifier.dart';
 import 'GraphDataSelectPage.dart';
 import 'ImmigrationStatisticsTypeSelectPage.dart';
 import 'MenuDrawer.dart';
@@ -16,26 +14,8 @@ class RootPage extends StatelessWidget {
   final String title;
   const RootPage({Key? key, required this.title}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      StateNotifierProvider<RootPageNotifier, RootPageState>(
-        create: (_) => RootPageNotifier(),
-      ),
-      ChangeNotifierProvider<BannerAdModel>(create: (_) => BannerAdModel()),
-    ], child: _RootPageBody(title));
-  }
-}
-
-class _RootPageBody extends StatelessWidget {
-  final String title;
-
-  const _RootPageBody(this.title);
-
   Widget _body(BuildContext context) {
-    context
-        .read<RootPageNotifier>()
-        .getMenuData(context.watch<AppConfigState>().estatAppId);
+    context.read<APIRepositoryNotifier>().getMenuData();
     return getPageWidget(context);
   }
 
@@ -43,7 +23,7 @@ class _RootPageBody extends StatelessWidget {
     final bAdModel = context.watch<AppConfigState>().bannerAdModel!
       ..loadBannerAd(context);
     return OrientationBuilder(builder: (context, orientation) {
-      final rootPageState = context.watch<RootPageState>();
+      final rootPageState = context.watch<RepositoryDataState>();
       return Column(
         children: [
           if (orientation == Orientation.portrait && bAdModel.isAdLoaded())
@@ -95,9 +75,9 @@ class _RootPageBody extends StatelessWidget {
             BottomNavigationBarItem(
                 icon: Icon(Icons.all_inbox_rounded), label: 'ビザに関する情報'),
           ],
-          currentIndex: context.watch<RootPageState>().selectedIndex,
+          currentIndex: context.watch<RepositoryDataState>().selectedIndex,
           onTap: (index) =>
-              context.read<RootPageNotifier>().selectedIndex = index,
+              context.read<APIRepositoryNotifier>().selectedIndex = index,
         );
       }),
     );

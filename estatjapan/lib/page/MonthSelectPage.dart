@@ -1,13 +1,12 @@
 import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/RouteModel.dart';
-import 'package:estatjapan/util/RouteFacade.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../model/jsonModel/ClassOBJ.dart';
 import '../model/state/AppConfigState.dart';
+import '../util/RouteFacade.dart';
 import 'DataTablePage.dart';
 
 enum MonthSelectPageType { old, graph }

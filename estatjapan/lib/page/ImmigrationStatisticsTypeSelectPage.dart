@@ -7,7 +7,7 @@ import '../model/jsonModel/Class.dart';
 import '../model/jsonModel/ClassOBJ.dart';
 import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
 import '../model/state/AppConfigState.dart';
-import '../model/state/RootPageState.dart';
+import '../model/state/RepositoryDataState.dart';
 import '../util/RouteFacade.dart';
 import 'MonthSelectPage.dart';
 
@@ -20,7 +20,7 @@ class ImmigrationStatisticsTypeSelectPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         _cat01ListView(
-            context.watch<RootPageState>().immigrationStatisticsRoot!,
+            context.watch<RepositoryDataState>().immigrationStatisticsRoot!,
             context.watch<AppConfigState>().bannerAdModel!)
       ],
     );

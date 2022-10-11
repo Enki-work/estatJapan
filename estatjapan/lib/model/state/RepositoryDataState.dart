@@ -2,12 +2,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../jsonModel/ImmigrationStatisticsRoot.dart';
 
-part 'RootPageState.freezed.dart';
+part 'RepositoryDataState.freezed.dart';
 
 @freezed
-class RootPageState with _$RootPageState {
-  const factory RootPageState({
+class RepositoryDataState with _$RepositoryDataState {
+  const factory RepositoryDataState({
     @Default(0) int selectedIndex,
     ImmigrationStatisticsRoot? immigrationStatisticsRoot,
-  }) = _RootPageState;
+    ImmigrationStatisticsRoot? dataTableData,
+  }) = _RepositoryDataStateState;
 }

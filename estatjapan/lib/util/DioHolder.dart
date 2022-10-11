@@ -3,6 +3,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:stack_trace/stack_trace.dart';
 
+import '../model/RouteModel.dart';
 import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
 
 class DioHolder {
@@ -18,6 +19,25 @@ class DioHolder {
   Future<ImmigrationStatisticsRoot> getMenuData(String estatAppId) async {
     final res = await dio.get(
         "https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=$estatAppId&lang=J&statsDataId=0003449073&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0");
+    return ImmigrationStatisticsRoot.fromJson(res.data);
+  }
+
+  Future<ImmigrationStatisticsRoot> getDataTable(
+      String estatAppId, RouteModel routeModel) async {
+    String url =
+        "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=$estatAppId&lang=J&statsDataId=0003449073&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0";
+    if (routeModel.selectedMonth != null) {
+      url = url + "&cdTime=" + routeModel.selectedMonth!.code;
+    }
+    final idStr = routeModel.selectedCLASS.parentID;
+    if (idStr != null && idStr.isNotEmpty) {
+      url = url +
+          "&cd" +
+          idStr.replaceFirst(idStr[0], idStr[0].toUpperCase()) +
+          "=" +
+          routeModel.selectedCLASS.code;
+    }
+    final res = await dio.get(url);
     return ImmigrationStatisticsRoot.fromJson(res.data);
   }
 }

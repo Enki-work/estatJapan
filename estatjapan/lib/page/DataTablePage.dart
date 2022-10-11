@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/RouteModel.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../model/jsonModel/ClassOBJ.dart';
 import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
 import '../model/jsonModel/Value.dart';
+import '../model/state_notifier/APIRepositoryNotifier.dart';
 
 class DataTablePage extends StatefulWidget {
   static const double height = 56;
@@ -29,20 +29,6 @@ class DataTablePage extends StatefulWidget {
 class _DataTablePageState extends State<DataTablePage> {
   @override
   Widget build(BuildContext context) {
-    Dio _dio = Dio();
-    String url =
-        "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?cdTab=160&appId=${"AppConfig.shared.estatAppId"}&lang=J&statsDataId=0003423913&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0";
-    if (widget.routeModel.selectedMonth != null) {
-      url = url + "&cdTime=" + widget.routeModel.selectedMonth!.code;
-    }
-    final idStr = widget.routeModel.selectedCLASS.parentID;
-    if (idStr != null && idStr.isNotEmpty) {
-      url = url +
-          "&cd" +
-          idStr.replaceFirst(idStr[0], idStr[0].toUpperCase()) +
-          "=" +
-          widget.routeModel.selectedCLASS.code;
-    }
     return Scaffold(
         appBar: AppBar(
           //导航栏
@@ -52,15 +38,15 @@ class _DataTablePageState extends State<DataTablePage> {
               "）"),
         ),
         body: FutureBuilder(
-            future: _dio.get(url),
+            future: context
+                .read<APIRepositoryNotifier>()
+                .getDataTable(widget.routeModel),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 }
-                Response response = snapshot.data;
-                ImmigrationStatisticsRoot rootModel =
-                    ImmigrationStatisticsRoot.fromJson(response.data);
+                ImmigrationStatisticsRoot rootModel = snapshot.data;
                 widget.routeModel.loadedDatarootModel = rootModel;
                 return _getBodyWidget();
               } else {
