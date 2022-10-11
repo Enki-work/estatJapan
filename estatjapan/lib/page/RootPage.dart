@@ -11,6 +11,9 @@ import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
 import '../model/state/AppConfigState.dart';
 import '../model/state/RootPageState.dart';
 import '../model/state_notifier/RootPageNotifier.dart';
+import 'GraphDataSelectPage.dart';
+import 'MenuDrawer.dart';
+import 'VisaInfoPage.dart';
 
 class RootPage extends StatelessWidget {
   final String title;
@@ -97,10 +100,10 @@ class _RootPageBody extends StatelessWidget {
                               bAdModel)
                         ],
                       );
-                    // case 1:
-                    //   return const GraphDataSelectPage();
-                    // case 2:
-                    //   return const VisaInfoPage();
+                    case 1:
+                      return const GraphDataSelectPage();
+                    case 2:
+                      return const VisaInfoPage();
                     default:
                       return const Center(child: Text("予想外エラー"));
                   }
@@ -120,6 +123,7 @@ class _RootPageBody extends StatelessWidget {
         ),
       ),
       body: _body(context),
+      drawer: const MenuDrawer(), //抽屉
       bottomNavigationBar: Builder(builder: (context) {
         return BottomNavigationBar(
           // 底部导航

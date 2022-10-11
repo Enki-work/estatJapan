@@ -53,6 +53,10 @@ dependencies:
   firebase_crashlytics:
   json_serializable:
   stack_trace:
+  package_info_plus:
+  horizontal_data_table: ^3.4.3
+  flutter_svg:
+  fl_chart:
 
 dev_dependencies:
   flutter_test:

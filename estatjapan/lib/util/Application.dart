@@ -5,13 +5,27 @@ import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
+import '../model/GraphData.dart';
 import '../model/RouteModel.dart';
+import '../model/VisaInfoPageData.dart';
 import '../model/jsonModel/ClassOBJ.dart';
 import '../model/pigeonModel/FlutterPurchaseModelApiHandler.dart';
 import '../model/pigeonModel/PurchaseModelApi.dart';
 import '../model/state/AppConfigState.dart';
+import '../page/BureauSelectPage.dart';
+import '../page/ContactMePage.dart';
+import '../page/DataTablePage.dart';
+import '../page/EStatInfoPage.dart';
+import '../page/GraphDataPage.dart';
+import '../page/LicenseInfoPage.dart';
+import '../page/LineGraphDataPage.dart';
 import '../page/MonthSelectPage.dart';
+import '../page/PurchaseInfoPage.dart';
 import '../page/RootPage.dart';
+import '../page/SettingPage.dart';
+import '../page/VisaInfoPage.dart';
+import '../page/VisaTypeSelectPage.dart';
+import '../page/WebViewPage.dart';
 import 'DioHolder.dart';
 
 class Application extends StatefulWidget {
@@ -120,56 +134,49 @@ class MyHomePage extends StatelessWidget {
             );
           }
         },
-        // "DataTablePage": (context) => DataTablePage(
-        //   routeModel: ModalRoute.of(context)
-        //       ?.settings
-        //       .arguments as RouteModel,
-        // ),
-        // "LicenseInfoPage": (context) => const LicenseInfoPage(),
-        // "eStaInfoPage": (context) => const EStaInfoPage(),
-        // "ContactMePage": (context) => const ContactMePage(),
-        // "VisaTypeSelectPage": (context) {
-        //   return VisaTypeSelectPage(
-        //     obj: ModalRoute.of(context)?.settings.arguments
-        //     as ClassOBJ,
-        //   );
-        // },
-        // "BureauSelectPage": (context) {
-        //   return BureauSelectPage(
-        //     obj: ModalRoute.of(context)?.settings.arguments
-        //     as ClassOBJ,
-        //   );
-        // },
-        // "GraphDataPage": (context) {
-        //   return GraphDataPage(
-        //     graphData: ModalRoute.of(context)?.settings.arguments
-        //     as GraphData,
-        //   );
-        // },
-        // "LineGraphDataPage": (context) {
-        //   return LineGraphDataPage(
-        //     graphData: ModalRoute.of(context)?.settings.arguments
-        //     as GraphData,
-        //   );
-        // },
-        // "WebViewPage": (context) {
-        //   return WebViewPage(
-        //       loadUrl: ModalRoute.of(context)?.settings.arguments
-        //       as String?);
-        // },
-        // "VisaInfoPage": (context) {
-        //   return VisaInfoPage(
-        //     visaInfoPageData: ModalRoute.of(context)
-        //         ?.settings
-        //         .arguments as VisaInfoPageData?,
-        //   );
-        // },
-        // "SettingPage": (context) {
-        //   return const SettingPage();
-        // },
-        // "PurchaseInfoPage": (context) {
-        //   return const PurchaseInfoPage();
-        // },
+        "DataTablePage": (context) => DataTablePage(
+              routeModel:
+                  ModalRoute.of(context)?.settings.arguments as RouteModel,
+            ),
+        "LicenseInfoPage": (context) => const LicenseInfoPage(),
+        "eStaInfoPage": (context) => const EStaInfoPage(),
+        "ContactMePage": (context) => const ContactMePage(),
+        "VisaTypeSelectPage": (context) {
+          return VisaTypeSelectPage(
+            obj: ModalRoute.of(context)?.settings.arguments as ClassOBJ,
+          );
+        },
+        "BureauSelectPage": (context) {
+          return BureauSelectPage(
+            obj: ModalRoute.of(context)?.settings.arguments as ClassOBJ,
+          );
+        },
+        "GraphDataPage": (context) {
+          return GraphDataPage(
+            graphData: ModalRoute.of(context)?.settings.arguments as GraphData,
+          );
+        },
+        "LineGraphDataPage": (context) {
+          return LineGraphDataPage(
+            graphData: ModalRoute.of(context)?.settings.arguments as GraphData,
+          );
+        },
+        "WebViewPage": (context) {
+          return WebViewPage(
+              loadUrl: ModalRoute.of(context)?.settings.arguments as String?);
+        },
+        "VisaInfoPage": (context) {
+          return VisaInfoPage(
+            visaInfoPageData:
+                ModalRoute.of(context)?.settings.arguments as VisaInfoPageData?,
+          );
+        },
+        "SettingPage": (context) {
+          return const SettingPage();
+        },
+        "PurchaseInfoPage": (context) {
+          return const PurchaseInfoPage();
+        },
         "/": (context) => const RootPage(title: '在留資格取得の受理・処理'),
       },
     );
