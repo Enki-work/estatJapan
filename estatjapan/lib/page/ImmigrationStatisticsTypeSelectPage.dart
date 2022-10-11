@@ -6,7 +6,10 @@ import '../model/RouteModel.dart';
 import '../model/jsonModel/Class.dart';
 import '../model/jsonModel/ClassOBJ.dart';
 import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
+import '../model/state/AppConfigState.dart';
 import '../model/state/RootPageState.dart';
+import '../util/RouteFacade.dart';
+import 'MonthSelectPage.dart';
 
 class ImmigrationStatisticsTypeSelectPage extends StatelessWidget {
   const ImmigrationStatisticsTypeSelectPage({Key? key}) : super(key: key);
@@ -18,7 +21,7 @@ class ImmigrationStatisticsTypeSelectPage extends StatelessWidget {
       children: <Widget>[
         _cat01ListView(
             context.watch<RootPageState>().immigrationStatisticsRoot!,
-            context.watch<BannerAdModel>())
+            context.watch<AppConfigState>().bannerAdModel!)
       ],
     );
   }
@@ -39,9 +42,14 @@ class ImmigrationStatisticsTypeSelectPage extends StatelessWidget {
           minVerticalPadding: 25,
           onTap: () {
             CLASS.parentID = obj.id;
-            Navigator.of(context).pushNamed("MonthSelectPage",
-                arguments:
-                    RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
+            RouteFacade.push(
+              context,
+              MonthSelectPage(
+                routeModel:
+                    RouteModel(rootModel: rootModel, selectedCLASS: CLASS),
+                pageType: MonthSelectPageType.old,
+              ),
+            );
           },
         );
       },

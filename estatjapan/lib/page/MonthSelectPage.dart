@@ -1,10 +1,14 @@
 import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/RouteModel.dart';
+import 'package:estatjapan/util/RouteFacade.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../model/jsonModel/ClassOBJ.dart';
+import '../model/state/AppConfigState.dart';
+import 'DataTablePage.dart';
 
 enum MonthSelectPageType { old, graph }
 
@@ -29,7 +33,11 @@ class MonthSelectPage extends StatelessWidget {
       itemOnTap = (int index) {
         routeModel!.selectedMonth = classOBJ.CLASS[index];
         routeModel!.selectedMonth!.parentID = classOBJ.id;
-        Navigator.of(context).pushNamed("DataTablePage", arguments: routeModel);
+        RouteFacade.push(
+            context,
+            DataTablePage(
+              routeModel: routeModel!,
+            ));
       };
       obj = classOBJ;
     } else {
@@ -42,54 +50,50 @@ class MonthSelectPage extends StatelessWidget {
       };
       obj = classOBJ;
     }
-    return ChangeNotifierProvider<BannerAdModel>(
-      create: (_) => BannerAdModel()..loadBannerAd(context),
-      child: Scaffold(
-          appBar: AppBar(
-            //导航栏
-            title: Text(obj.name),
-          ),
-          body: Builder(
-            builder: (context) {
-              BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
-              return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                        child: ListView.separated(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                      itemCount: bAdModel.isAdLoaded()
-                          ? obj.CLASS.length + 1
-                          : obj.CLASS.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int oIndex) {
-                        int index = bAdModel.isAdLoaded() ? oIndex - 1 : oIndex;
-                        if (oIndex == 0 && bAdModel.isAdLoaded()) {
-                          return Container(
-                            child: AdWidget(ad: bAdModel.bannerAd()),
-                            width: bAdModel.bannerAd().size.width.toDouble(),
-                            height: 72.0,
-                            alignment: Alignment.center,
-                          );
-                        }
-                        return ListTile(
-                          title: Text(obj.CLASS[index].name),
-                          minVerticalPadding: 25,
-                          onTap: () {
-                            itemOnTap(index);
-                          },
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          Divider(
-                        height: 0.5,
-                        indent: 20,
-                        color: Colors.grey[120],
-                      ),
-                    ))
-                  ]);
-            },
-          )),
+    BannerAdModel bAdModel = context.watch<AppConfigState>().bannerAdModel!
+      ..loadBannerAd(context);
+    return Scaffold(
+      appBar: AppBar(
+        //导航栏
+        title: Text(obj.name),
+      ),
+      body: Builder(
+        builder: (context) {
+          return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Expanded(
+                child: ListView.separated(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              itemCount: bAdModel.isAdLoaded()
+                  ? obj.CLASS.length + 1
+                  : obj.CLASS.length,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int oIndex) {
+                int index = bAdModel.isAdLoaded() ? oIndex - 1 : oIndex;
+                if (oIndex == 0 && bAdModel.isAdLoaded()) {
+                  return Container(
+                    child: AdWidget(ad: bAdModel.bannerAd()),
+                    width: bAdModel.bannerAd().size.width.toDouble(),
+                    height: 72.0,
+                    alignment: Alignment.center,
+                  );
+                }
+                return ListTile(
+                  title: Text(obj.CLASS[index].name),
+                  minVerticalPadding: 25,
+                  onTap: () {
+                    itemOnTap(index);
+                  },
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) => Divider(
+                height: 0.5,
+                indent: 20,
+                color: Colors.grey[120],
+              ),
+            ))
+          ]);
+        },
+      ),
     );
   }
 }

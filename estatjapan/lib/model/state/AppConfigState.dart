@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../BannerAdModel.dart';
 import 'PurchaseModel.dart';
 
 part 'AppConfigState.freezed.dart';
@@ -19,6 +20,7 @@ class AppConfigState with _$AppConfigState {
     @Default(true) bool isThemeFollowSystem,
     @Default(false) bool isThemeDarkMode,
     PurchaseModel? purchaseModel,
+    BannerAdModel? bannerAdModel,
   }) = _AppConfigState;
 
   ThemeMode get getThemeMode {

@@ -1,6 +1,7 @@
 import 'dart:async' show Future;
 import 'dart:convert';
 
+import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +14,7 @@ const isThemeFollowSystemKey = "isThemeFollowSystemKey";
 const isThemeDarkModeKey = "isThemeDarkModeKey";
 
 class AppConfigNotifier extends StateNotifier<AppConfigState> {
-  AppConfigNotifier() : super(const AppConfigState());
+  AppConfigNotifier() : super(AppConfigState(bannerAdModel: BannerAdModel()));
 
   set purchaseModel(PurchaseModel? purchaseModel) {
     state = state.copyWith(purchaseModel: purchaseModel);

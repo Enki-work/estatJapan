@@ -40,8 +40,8 @@ class _RootPageBody extends StatelessWidget {
   }
 
   Widget getPageWidget(BuildContext context) {
-    context.read<BannerAdModel>().loadBannerAd(context);
-    final bAdModel = context.watch<BannerAdModel>();
+    final bAdModel = context.watch<AppConfigState>().bannerAdModel!
+      ..loadBannerAd(context);
     return OrientationBuilder(builder: (context, orientation) {
       final rootPageState = context.watch<RootPageState>();
       return Column(

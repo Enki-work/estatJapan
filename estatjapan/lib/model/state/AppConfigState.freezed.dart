@@ -26,6 +26,7 @@ mixin _$AppConfigState {
   bool get isThemeFollowSystem => throw _privateConstructorUsedError;
   bool get isThemeDarkMode => throw _privateConstructorUsedError;
   PurchaseModel? get purchaseModel => throw _privateConstructorUsedError;
+  BannerAdModel? get bannerAdModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppConfigStateCopyWith<AppConfigState> get copyWith =>
@@ -47,7 +48,8 @@ abstract class $AppConfigStateCopyWith<$Res> {
       String estatAppId,
       bool isThemeFollowSystem,
       bool isThemeDarkMode,
-      PurchaseModel? purchaseModel});
+      PurchaseModel? purchaseModel,
+      BannerAdModel? bannerAdModel});
 
   $PurchaseModelCopyWith<$Res>? get purchaseModel;
 }
@@ -73,6 +75,7 @@ class _$AppConfigStateCopyWithImpl<$Res>
     Object? isThemeFollowSystem = freezed,
     Object? isThemeDarkMode = freezed,
     Object? purchaseModel = freezed,
+    Object? bannerAdModel = freezed,
   }) {
     return _then(_value.copyWith(
       android_inline_banner: android_inline_banner == freezed
@@ -115,6 +118,10 @@ class _$AppConfigStateCopyWithImpl<$Res>
           ? _value.purchaseModel
           : purchaseModel // ignore: cast_nullable_to_non_nullable
               as PurchaseModel?,
+      bannerAdModel: bannerAdModel == freezed
+          ? _value.bannerAdModel
+          : bannerAdModel // ignore: cast_nullable_to_non_nullable
+              as BannerAdModel?,
     ));
   }
 
@@ -147,7 +154,8 @@ abstract class _$$_AppConfigStateCopyWith<$Res>
       String estatAppId,
       bool isThemeFollowSystem,
       bool isThemeDarkMode,
-      PurchaseModel? purchaseModel});
+      PurchaseModel? purchaseModel,
+      BannerAdModel? bannerAdModel});
 
   @override
   $PurchaseModelCopyWith<$Res>? get purchaseModel;
@@ -176,6 +184,7 @@ class __$$_AppConfigStateCopyWithImpl<$Res>
     Object? isThemeFollowSystem = freezed,
     Object? isThemeDarkMode = freezed,
     Object? purchaseModel = freezed,
+    Object? bannerAdModel = freezed,
   }) {
     return _then(_$_AppConfigState(
       android_inline_banner: android_inline_banner == freezed
@@ -218,6 +227,10 @@ class __$$_AppConfigStateCopyWithImpl<$Res>
           ? _value.purchaseModel
           : purchaseModel // ignore: cast_nullable_to_non_nullable
               as PurchaseModel?,
+      bannerAdModel: bannerAdModel == freezed
+          ? _value.bannerAdModel
+          : bannerAdModel // ignore: cast_nullable_to_non_nullable
+              as BannerAdModel?,
     ));
   }
 }
@@ -235,7 +248,8 @@ class _$_AppConfigState extends _AppConfigState {
       this.estatAppId = "",
       this.isThemeFollowSystem = true,
       this.isThemeDarkMode = false,
-      this.purchaseModel})
+      this.purchaseModel,
+      this.bannerAdModel})
       : super._();
 
   @override
@@ -267,10 +281,12 @@ class _$_AppConfigState extends _AppConfigState {
   final bool isThemeDarkMode;
   @override
   final PurchaseModel? purchaseModel;
+  @override
+  final BannerAdModel? bannerAdModel;
 
   @override
   String toString() {
-    return 'AppConfigState(android_inline_banner: $android_inline_banner, android_inline_native: $android_inline_native, android_appid: $android_appid, ios_inline_banner: $ios_inline_banner, ios_inline_native: $ios_inline_native, ios_appid: $ios_appid, estatAppId: $estatAppId, isThemeFollowSystem: $isThemeFollowSystem, isThemeDarkMode: $isThemeDarkMode, purchaseModel: $purchaseModel)';
+    return 'AppConfigState(android_inline_banner: $android_inline_banner, android_inline_native: $android_inline_native, android_appid: $android_appid, ios_inline_banner: $ios_inline_banner, ios_inline_native: $ios_inline_native, ios_appid: $ios_appid, estatAppId: $estatAppId, isThemeFollowSystem: $isThemeFollowSystem, isThemeDarkMode: $isThemeDarkMode, purchaseModel: $purchaseModel, bannerAdModel: $bannerAdModel)';
   }
 
   @override
@@ -296,7 +312,9 @@ class _$_AppConfigState extends _AppConfigState {
             const DeepCollectionEquality()
                 .equals(other.isThemeDarkMode, isThemeDarkMode) &&
             const DeepCollectionEquality()
-                .equals(other.purchaseModel, purchaseModel));
+                .equals(other.purchaseModel, purchaseModel) &&
+            const DeepCollectionEquality()
+                .equals(other.bannerAdModel, bannerAdModel));
   }
 
   @override
@@ -311,7 +329,8 @@ class _$_AppConfigState extends _AppConfigState {
       const DeepCollectionEquality().hash(estatAppId),
       const DeepCollectionEquality().hash(isThemeFollowSystem),
       const DeepCollectionEquality().hash(isThemeDarkMode),
-      const DeepCollectionEquality().hash(purchaseModel));
+      const DeepCollectionEquality().hash(purchaseModel),
+      const DeepCollectionEquality().hash(bannerAdModel));
 
   @JsonKey(ignore: true)
   @override
@@ -330,7 +349,8 @@ abstract class _AppConfigState extends AppConfigState {
       final String estatAppId,
       final bool isThemeFollowSystem,
       final bool isThemeDarkMode,
-      final PurchaseModel? purchaseModel}) = _$_AppConfigState;
+      final PurchaseModel? purchaseModel,
+      final BannerAdModel? bannerAdModel}) = _$_AppConfigState;
   const _AppConfigState._() : super._();
 
   @override
@@ -353,6 +373,8 @@ abstract class _AppConfigState extends AppConfigState {
   bool get isThemeDarkMode;
   @override
   PurchaseModel? get purchaseModel;
+  @override
+  BannerAdModel? get bannerAdModel;
   @override
   @JsonKey(ignore: true)
   _$$_AppConfigStateCopyWith<_$_AppConfigState> get copyWith =>

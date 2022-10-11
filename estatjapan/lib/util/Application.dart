@@ -14,7 +14,6 @@ import '../model/pigeonModel/PurchaseModelApi.dart';
 import '../model/state/AppConfigState.dart';
 import '../page/BureauSelectPage.dart';
 import '../page/ContactMePage.dart';
-import '../page/DataTablePage.dart';
 import '../page/EStatInfoPage.dart';
 import '../page/GraphDataPage.dart';
 import '../page/LicenseInfoPage.dart';
@@ -50,7 +49,7 @@ class Application extends StatefulWidget {
 
 class _ApplicationState extends State<Application> with WidgetsBindingObserver {
   final bool isRestart;
-  final AppConfigNotifier appConfig = AppConfigNotifier();
+  final appConfig = AppConfigNotifier();
 
   _ApplicationState({
     this.isRestart = false,
@@ -66,13 +65,13 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.transparent,
     ));
-
-    FlutterPurchaseModelApi.setup(
-        FlutterPurchaseModelApiHandler((purchaseModel) {
-      context.read<AppConfigNotifier>().purchaseModel = purchaseModel;
-    }));
-
-    appConfig.forEnvironment();
+    Future(() async {
+      await appConfig.forEnvironment();
+      FlutterPurchaseModelApi.setup(
+          FlutterPurchaseModelApiHandler((purchaseModel) {
+        appConfig.purchaseModel = purchaseModel;
+      }));
+    });
   }
 
   @override
@@ -97,12 +96,16 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      Provider<DioHolder>(create: (context) => widget.dioHolder),
-      StateNotifierProvider<AppConfigNotifier, AppConfigState>.value(
-        value: appConfig,
-      ),
-    ], child: const MyHomePage());
+    return MultiProvider(
+        providers: [
+          Provider<DioHolder>(create: (context) => widget.dioHolder),
+          StateNotifierProvider<AppConfigNotifier, AppConfigState>.value(
+            value: appConfig,
+          ),
+        ],
+        builder: (context, child) {
+          return const MyHomePage();
+        });
   }
 }
 
@@ -137,10 +140,6 @@ class MyHomePage extends StatelessWidget {
             );
           }
         },
-        "DataTablePage": (context) => DataTablePage(
-              routeModel:
-                  ModalRoute.of(context)?.settings.arguments as RouteModel,
-            ),
         "LicenseInfoPage": (context) => const LicenseInfoPage(),
         "eStaInfoPage": (context) => const EStaInfoPage(),
         "ContactMePage": (context) => const ContactMePage(),

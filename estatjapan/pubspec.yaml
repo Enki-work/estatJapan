@@ -57,6 +57,8 @@ dependencies:
   horizontal_data_table: ^3.4.3
   flutter_svg:
   fl_chart:
+  recase:
+  flutter_inappwebview:
 
 dev_dependencies:
   flutter_test:
