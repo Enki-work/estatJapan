@@ -1,17 +1,14 @@
 import 'package:estatjapan/model/BannerAdModel.dart';
-import 'package:estatjapan/model/RouteModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
-import '../model/jsonModel/Class.dart';
-import '../model/jsonModel/ClassOBJ.dart';
-import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
 import '../model/state/AppConfigState.dart';
 import '../model/state/RootPageState.dart';
 import '../model/state_notifier/RootPageNotifier.dart';
 import 'GraphDataSelectPage.dart';
+import 'ImmigrationStatisticsTypeSelectPage.dart';
 import 'MenuDrawer.dart';
 import 'VisaInfoPage.dart';
 
@@ -42,36 +39,6 @@ class _RootPageBody extends StatelessWidget {
     return getPageWidget(context);
   }
 
-  Widget _cat01ListView(
-      ImmigrationStatisticsRoot rootModel, BannerAdModel bAdModel) {
-    ClassOBJ obj = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-        .firstWhere((e) => e.id == "cat01");
-    return Expanded(
-        child: ListView.separated(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-      itemCount: obj.CLASS.length,
-      shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
-        Class CLASS = obj.CLASS[index];
-        return ListTile(
-          title: Text(CLASS.name),
-          minVerticalPadding: 25,
-          onTap: () {
-            CLASS.parentID = obj.id;
-            Navigator.of(context).pushNamed("MonthSelectPage",
-                arguments:
-                    RouteModel(rootModel: rootModel, selectedCLASS: CLASS));
-          },
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) => Divider(
-        height: 0.5,
-        indent: 20,
-        color: Colors.grey[120],
-      ),
-    ));
-  }
-
   Widget getPageWidget(BuildContext context) {
     context.read<BannerAdModel>().loadBannerAd(context);
     final bAdModel = context.watch<BannerAdModel>();
@@ -92,14 +59,7 @@ class _RootPageBody extends StatelessWidget {
                 child: () {
                   switch (rootPageState.selectedIndex) {
                     case 0:
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          _cat01ListView(
-                              rootPageState.immigrationStatisticsRoot!,
-                              bAdModel)
-                        ],
-                      );
+                      return const ImmigrationStatisticsTypeSelectPage();
                     case 1:
                       return const GraphDataSelectPage();
                     case 2:

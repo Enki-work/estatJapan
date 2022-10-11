@@ -58,7 +58,7 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     MobileAds.instance.initialize();
     // Android Status Barを透過させるため
@@ -74,7 +74,7 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
