@@ -22,7 +22,7 @@
         android:taskAffinity=""
         android:allowBackup="true"
         android:label="在留取得統計"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true">
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

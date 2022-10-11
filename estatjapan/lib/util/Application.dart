@@ -50,6 +50,7 @@ class Application extends StatefulWidget {
 
 class _ApplicationState extends State<Application> with WidgetsBindingObserver {
   final bool isRestart;
+  final AppConfigNotifier appConfig = AppConfigNotifier();
 
   _ApplicationState({
     this.isRestart = false,
@@ -70,6 +71,8 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
         FlutterPurchaseModelApiHandler((purchaseModel) {
       context.read<AppConfigNotifier>().purchaseModel = purchaseModel;
     }));
+
+    appConfig.forEnvironment();
   }
 
   @override
@@ -96,9 +99,9 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       Provider<DioHolder>(create: (context) => widget.dioHolder),
-      StateNotifierProvider<AppConfigNotifier, AppConfigState>(
-        create: (_) => AppConfigNotifier()..forEnvironment(),
-      )
+      StateNotifierProvider<AppConfigNotifier, AppConfigState>.value(
+        value: appConfig,
+      ),
     ], child: const MyHomePage());
   }
 }
