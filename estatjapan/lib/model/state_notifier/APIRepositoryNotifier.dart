@@ -29,4 +29,15 @@ class APIRepositoryNotifier extends StateNotifier<RepositoryDataState>
     state = state.copyWith(dataTableData: res);
     return res;
   }
+
+  Future<ImmigrationStatisticsRoot> getDataGraph(
+      {required String selectedCat01,
+      required String selectedCat03,
+      String? selectedMonth}) async {
+    final res = await _dioHolder.getData(_estatAppId,
+        selectedMonth: selectedMonth,
+        selectedCat01: selectedCat01,
+        selectedCat03: selectedCat03);
+    return res;
+  }
 }

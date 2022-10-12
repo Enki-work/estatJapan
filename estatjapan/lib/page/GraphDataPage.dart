@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:estatjapan/Util/Indicator.dart';
 import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/GraphData.dart';
@@ -13,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../model/jsonModel/Class.dart';
 import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
 import '../model/jsonModel/Value.dart';
+import '../model/state_notifier/APIRepositoryNotifier.dart';
 
 class GraphDataPage extends StatefulWidget {
   final GraphData graphData;
@@ -36,7 +36,6 @@ class _GraphDataPageState extends State<GraphDataPage> {
   ];
   @override
   Widget build(BuildContext context) {
-    Dio _dio = Dio();
     return Scaffold(
         appBar: AppBar(
           //导航栏
@@ -65,15 +64,16 @@ class _GraphDataPageState extends State<GraphDataPage> {
           ],
         ),
         body: FutureBuilder(
-            future: _dio.get(widget.graphData.url(context)),
+            future: context.read<APIRepositoryNotifier>().getDataGraph(
+                selectedMonth: widget.graphData.selectedMonth!.code,
+                selectedCat01: widget.graphData.selectedCat01Mode!.code,
+                selectedCat03: widget.graphData.selectedCat03Mode!.code),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 }
-                Response response = snapshot.data;
-                ImmigrationStatisticsRoot rootModel =
-                    ImmigrationStatisticsRoot.fromJson(response.data);
+                ImmigrationStatisticsRoot rootModel = snapshot.data;
                 return _pieChart(rootModel);
               } else {
                 return const Center(child: CircularProgressIndicator());

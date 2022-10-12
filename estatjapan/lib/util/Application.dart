@@ -14,10 +14,8 @@ import '../model/pigeonModel/PurchaseModelApi.dart';
 import '../model/state/AppConfigState.dart';
 import '../model/state/RepositoryDataState.dart';
 import '../model/state_notifier/APIRepositoryNotifier.dart';
-import '../page/BureauSelectPage.dart';
 import '../page/ContactMePage.dart';
 import '../page/EStatInfoPage.dart';
-import '../page/GraphDataPage.dart';
 import '../page/LicenseInfoPage.dart';
 import '../page/LineGraphDataPage.dart';
 import '../page/MonthSelectPage.dart';
@@ -25,7 +23,6 @@ import '../page/PurchaseInfoPage.dart';
 import '../page/RootPage.dart';
 import '../page/SettingPage.dart';
 import '../page/VisaInfoPage.dart';
-import '../page/VisaTypeSelectPage.dart';
 import '../page/WebViewPage.dart';
 import 'DioHolder.dart';
 
@@ -106,7 +103,10 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
           ),
           StateNotifierProvider<APIRepositoryNotifier, RepositoryDataState>(
             create: (_) => APIRepositoryNotifier(),
-          )
+          ),
+          ChangeNotifierProvider(
+            create: (_) => GraphData(),
+          ),
         ],
         builder: (context, child) {
           return const MyHomePage();
@@ -148,21 +148,6 @@ class MyHomePage extends StatelessWidget {
         "LicenseInfoPage": (context) => const LicenseInfoPage(),
         "eStaInfoPage": (context) => const EStaInfoPage(),
         "ContactMePage": (context) => const ContactMePage(),
-        "VisaTypeSelectPage": (context) {
-          return VisaTypeSelectPage(
-            obj: ModalRoute.of(context)?.settings.arguments as ClassOBJ,
-          );
-        },
-        "BureauSelectPage": (context) {
-          return BureauSelectPage(
-            obj: ModalRoute.of(context)?.settings.arguments as ClassOBJ,
-          );
-        },
-        "GraphDataPage": (context) {
-          return GraphDataPage(
-            graphData: ModalRoute.of(context)?.settings.arguments as GraphData,
-          );
-        },
         "LineGraphDataPage": (context) {
           return LineGraphDataPage(
             graphData: ModalRoute.of(context)?.settings.arguments as GraphData,

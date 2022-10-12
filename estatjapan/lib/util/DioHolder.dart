@@ -40,6 +40,25 @@ class DioHolder {
     final res = await dio.get(url);
     return ImmigrationStatisticsRoot.fromJson(res.data);
   }
+
+  Future<ImmigrationStatisticsRoot> getData(String estatAppId,
+      {String? selectedCat01,
+      String? selectedCat03,
+      String? selectedMonth}) async {
+    String url =
+        "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=$estatAppId&lang=J&statsDataId=0003449073&metaGetFlg=Y&cntGetFlg=N&explanationGetFlg=Y&annotationGetFlg=Y&sectionHeaderFlg=1&replaceSpChars=0";
+    if (selectedMonth != null) {
+      url = url + "&cdTime=" + selectedMonth;
+    }
+    if (selectedCat01 != null) {
+      url = url + "&cdCat01=" + selectedCat01;
+    }
+    if (selectedCat03 != null) {
+      url = url + "&cdCat03=" + selectedCat03;
+    }
+    final res = await dio.get(url);
+    return ImmigrationStatisticsRoot.fromJson(res.data);
+  }
 }
 
 class _DioInterceptor extends Interceptor {
