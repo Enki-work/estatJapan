@@ -8,6 +8,7 @@ import '../model/jsonModel/ClassOBJ.dart';
 import '../model/state/RepositoryDataState.dart';
 import 'BureauSelectPage.dart';
 import 'GraphDataPage.dart';
+import 'LineGraphDataPage.dart';
 import 'MonthSelectPage.dart';
 import 'VisaTypeSelectPage.dart';
 
@@ -30,18 +31,18 @@ class GraphDataSelectPage extends StatelessWidget {
                   onPressed: () async {
                     ClassOBJ obj = immigrationStatisticsRoot
                         .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-                        .firstWhere((e) => e.id == "cat01");
+                        .firstWhere((e) => e.id == "cat02");
                     final result = await RouteFacade.push<Class?>(
                         context,
                         VisaTypeSelectPage(
                           obj: obj,
                         ));
-                    context.read<GraphData>().selectedCat01Mode = result;
+                    context.read<GraphData>().selectedCat02Mode = result;
                   },
                   child: Text(
-                      context.watch<GraphData>().selectedCat01Mode == null
+                      context.watch<GraphData>().selectedCat02Mode == null
                           ? '在留資格選択'
-                          : '在留資格選択\n(${context.watch<GraphData>().selectedCat01Mode?.name})',
+                          : '在留資格選択\n(${context.watch<GraphData>().selectedCat02Mode?.name})',
                       textAlign: TextAlign.center),
                 )),
           ),
@@ -127,10 +128,12 @@ class GraphDataSelectPage extends StatelessWidget {
                     icon: const Icon(Icons.auto_graph_rounded),
                     label: const Text("全期間折れ線グラフ表示"),
                     onPressed: (context.watch<GraphData>().isModelExist())
-                        ? () {
-                            Navigator.of(context).pushNamed("LineGraphDataPage",
-                                arguments: context.read<GraphData>());
-                          }
+                        ? () => RouteFacade.push<Class?>(
+                              context,
+                              LineGraphDataPage(
+                                graphData: context.read<GraphData>(),
+                              ),
+                            )
                         : null,
                   )))
         ],

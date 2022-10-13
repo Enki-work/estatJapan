@@ -30,13 +30,13 @@ class APIRepositoryNotifier extends StateNotifier<RepositoryDataState>
     return res;
   }
 
-  Future<ImmigrationStatisticsRoot> getDataGraph(
-      {required String selectedCat01,
+  Future<ImmigrationStatisticsRoot> getData(
+      {required String selectedCat02,
       required String selectedCat03,
       String? selectedMonth}) async {
     final res = await _dioHolder.getData(_estatAppId,
         selectedMonth: selectedMonth,
-        selectedCat01: selectedCat01,
+        selectedCat02: selectedCat02,
         selectedCat03: selectedCat03);
     return res;
   }

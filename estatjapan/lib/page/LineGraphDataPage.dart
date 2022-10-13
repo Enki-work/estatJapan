@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/GraphData.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -10,6 +9,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
+import '../model/state/AppConfigState.dart';
+import '../model/state_notifier/APIRepositoryNotifier.dart';
 
 class LineGraphDataPage extends StatefulWidget {
   final GraphData graphData;
@@ -23,14 +24,13 @@ class LineGraphDataPage extends StatefulWidget {
 class _LineGraphDataPageState extends State<LineGraphDataPage> {
   @override
   Widget build(BuildContext context) {
-    Dio _dio = Dio();
     return Scaffold(
         appBar: AppBar(
           //导航栏
           title: Text(
             widget.graphData.selectedCat03Mode!.name +
                 "の" +
-                widget.graphData.selectedCat01Mode!.name +
+                widget.graphData.selectedCat02Mode!.name +
                 "\n全期間統計折れ線グラフ",
             style: const TextStyle(
               color: Colors.black,
@@ -52,15 +52,15 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
           ],
         ),
         body: FutureBuilder(
-            future: _dio.get(widget.graphData.urlWithoutMonth(context)),
+            future: context.read<APIRepositoryNotifier>().getData(
+                selectedCat02: widget.graphData.selectedCat02Mode!.code,
+                selectedCat03: widget.graphData.selectedCat03Mode!.code),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 }
-                Response response = snapshot.data;
-                ImmigrationStatisticsRoot rootModel =
-                    ImmigrationStatisticsRoot.fromJson(response.data);
+                ImmigrationStatisticsRoot rootModel = snapshot.data;
                 return _lineChart(rootModel);
               } else {
                 return const Center(child: CircularProgressIndicator());
@@ -97,87 +97,86 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
   }
 
   Widget _lineChart(ImmigrationStatisticsRoot rootModel) {
-    return ChangeNotifierProvider<BannerAdModel>(
-        create: (_) => BannerAdModel()..loadBannerAd(context),
-        child: SafeArea(child: Builder(builder: (context) {
-          BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
-          return ListView(
-            padding: const EdgeInsets.all(8),
-            children: [
-              if (bAdModel.isAdLoaded())
-                Container(
-                  child: AdWidget(ad: bAdModel.bannerAd()),
-                  width: bAdModel.bannerAd().size.width.toDouble(),
-                  height: 72.0,
-                  alignment: Alignment.center,
-                ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Text(
-                  "${widget.graphData.selectedCat01Mode!.name}の毎月許可率",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 18),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 20, bottom: 110),
-                height: 360,
-                child: LineChart(
-                  passRateData(rootModel),
-                  swapAnimationDuration: const Duration(milliseconds: 250),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Text(
-                  "${widget.graphData.selectedCat01Mode!.name}の毎月新規受理数",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 18),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 20, bottom: 110),
-                height: 360,
-                child: LineChart(
-                  newApplicationData(rootModel),
-                  swapAnimationDuration: const Duration(milliseconds: 250),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Text(
-                  "${widget.graphData.selectedCat01Mode!.name}の毎月既済数",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 18),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 20, bottom: 110),
-                height: 360,
-                child: LineChart(
-                  argeedApplicationData(rootModel),
-                  swapAnimationDuration: const Duration(milliseconds: 250),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Text(
-                  "${widget.graphData.selectedCat01Mode!.name}の毎月未済数",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 18),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 20, bottom: 110),
-                height: 360,
-                child: LineChart(
-                  waitingApplicationData(rootModel),
-                  swapAnimationDuration: const Duration(milliseconds: 250),
-                ),
-              )
-            ],
-          );
-        })));
+    BannerAdModel bAdModel = context.watch<AppConfigState>().bannerAdModel!
+      ..loadBannerAd(context);
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(8),
+        children: [
+          if (bAdModel.isAdLoaded())
+            Container(
+              child: AdWidget(ad: bAdModel.bannerAd()),
+              width: bAdModel.bannerAd().size.width.toDouble(),
+              height: 72.0,
+              alignment: Alignment.center,
+            ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Text(
+              "${widget.graphData.selectedCat02Mode!.name}の毎月許可率",
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 18),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(top: 20, bottom: 110),
+            height: 360,
+            child: LineChart(
+              passRateData(rootModel),
+              swapAnimationDuration: const Duration(milliseconds: 250),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Text(
+              "${widget.graphData.selectedCat02Mode!.name}の毎月新規受理数",
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 18),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(top: 20, bottom: 110),
+            height: 360,
+            child: LineChart(
+              newApplicationData(rootModel),
+              swapAnimationDuration: const Duration(milliseconds: 250),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Text(
+              "${widget.graphData.selectedCat02Mode!.name}の毎月既済数",
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 18),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(top: 20, bottom: 110),
+            height: 360,
+            child: LineChart(
+              argeedApplicationData(rootModel),
+              swapAnimationDuration: const Duration(milliseconds: 250),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Text(
+              "${widget.graphData.selectedCat02Mode!.name}の毎月未済数",
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 18),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(top: 20, bottom: 110),
+            height: 360,
+            child: LineChart(
+              waitingApplicationData(rootModel),
+              swapAnimationDuration: const Duration(milliseconds: 250),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   LineChartData passRateData(ImmigrationStatisticsRoot rootModel) {
@@ -251,20 +250,32 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
             dotData: FlDotData(show: false),
             belowBarData: BarAreaData(show: false),
             spots: timeModels.map((e) {
+              final dateStr = e.code;
               final value = rootModel
                   .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
-                  .where((element) => element.time == e.code);
+                  .where((element) => (element.time == dateStr))
+                  .toList();
+              final type = rootModel
+                  .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+                  .firstWhere((element) => element.name == "在留資格審査の受理・処理");
+              final approveDoneCode = type.CLASS
+                  .firstWhere((element) => (element.name == "既済_許可"))
+                  .code;
+              final totalDoneCode = type.CLASS
+                  .firstWhere((element) => (element.name == "既済_総数"))
+                  .code;
               if (value
-                      .firstWhere((element) => element.cat02 == "00200")
+                      .firstWhere((element) => element.cat01 == totalDoneCode)
                       .valueDouble ==
                   0) {
                 return FlSpot(timeModels.indexOf(e).toDouble(), 0);
               } else {
                 final rate = value
-                        .firstWhere((element) => element.cat02 == "00201")
+                        .firstWhere(
+                            (element) => element.cat01 == approveDoneCode)
                         .valueDouble /
                     value
-                        .firstWhere((element) => element.cat02 == "00200")
+                        .firstWhere((element) => element.cat01 == totalDoneCode)
                         .valueDouble;
                 return FlSpot(timeModels.indexOf(e).toDouble(),
                     (rate * 1000).toInt() / 10.toDouble());
@@ -292,7 +303,7 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
       for (var timeModel in timeModels) {
         final values = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
             .where((element) =>
-                element.time == timeModel.code && element.cat02 == "00102")
+                element.time == timeModel.code && element.cat01 == "103000")
             .toList();
         values.sort(
             (left, right) => left.valueDouble.compareTo(right.valueDouble));
@@ -308,7 +319,7 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
       for (var timeModel in timeModels) {
         final values = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
             .where((element) =>
-                element.time == timeModel.code && element.cat02 == "00102")
+                element.time == timeModel.code && element.cat01 == "103000")
             .toList();
         values.sort(
             (left, right) => left.valueDouble.compareTo(right.valueDouble));
@@ -385,7 +396,7 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
               final value = rootModel
                   .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
                   .where((element) =>
-                      element.time == e.code && element.cat02 == "00102");
+                      element.time == e.code && element.cat01 == "103000");
               return FlSpot(
                   timeModels.indexOf(e).toDouble(), value.first.valueDouble);
             }).toList()),
@@ -409,7 +420,7 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
       for (var timeModel in timeModels) {
         final values = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
             .where((element) =>
-                element.time == timeModel.code && element.cat02 == "00200")
+                element.time == timeModel.code && element.cat01 == "300000")
             .toList();
         values.sort(
             (left, right) => left.valueDouble.compareTo(right.valueDouble));
@@ -425,7 +436,7 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
       for (var timeModel in timeModels) {
         final values = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
             .where((element) =>
-                element.time == timeModel.code && element.cat02 == "00200")
+                element.time == timeModel.code && element.cat01 == "300000")
             .toList();
         values.sort(
             (left, right) => left.valueDouble.compareTo(right.valueDouble));
@@ -502,7 +513,7 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
               final value = rootModel
                   .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
                   .where((element) =>
-                      element.time == e.code && element.cat02 == "00200");
+                      element.time == e.code && element.cat01 == "300000");
               return FlSpot(
                   timeModels.indexOf(e).toDouble(), value.first.valueDouble);
             }).toList()),
@@ -526,7 +537,7 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
       for (var timeModel in timeModels) {
         final values = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
             .where((element) =>
-                element.time == timeModel.code && element.cat02 == "00300")
+                element.time == timeModel.code && element.cat01 == "400000")
             .toList();
         values.sort(
             (left, right) => left.valueDouble.compareTo(right.valueDouble));
@@ -542,7 +553,7 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
       for (var timeModel in timeModels) {
         final values = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
             .where((element) =>
-                element.time == timeModel.code && element.cat02 == "00300")
+                element.time == timeModel.code && element.cat01 == "400000")
             .toList();
         values.sort(
             (left, right) => left.valueDouble.compareTo(right.valueDouble));
@@ -619,7 +630,7 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
               final value = rootModel
                   .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
                   .where((element) =>
-                      element.time == e.code && element.cat02 == "00300");
+                      element.time == e.code && element.cat01 == "400000");
               return FlSpot(
                   timeModels.indexOf(e).toDouble(), value.first.valueDouble);
             }).toList()),

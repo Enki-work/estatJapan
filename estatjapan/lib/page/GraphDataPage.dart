@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../model/jsonModel/Class.dart';
 import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
 import '../model/jsonModel/Value.dart';
+import '../model/state/AppConfigState.dart';
 import '../model/state_notifier/APIRepositoryNotifier.dart';
 
 class GraphDataPage extends StatefulWidget {
@@ -42,7 +43,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
           title: Text(
             widget.graphData.selectedCat03Mode!.name +
                 "の" +
-                widget.graphData.selectedCat01Mode!.name +
+                widget.graphData.selectedCat02Mode!.name +
                 "\n(${widget.graphData.selectedMonth!.name})統計グラフ",
             style: const TextStyle(
               color: Colors.black,
@@ -64,9 +65,9 @@ class _GraphDataPageState extends State<GraphDataPage> {
           ],
         ),
         body: FutureBuilder(
-            future: context.read<APIRepositoryNotifier>().getDataGraph(
+            future: context.read<APIRepositoryNotifier>().getData(
                 selectedMonth: widget.graphData.selectedMonth!.code,
-                selectedCat01: widget.graphData.selectedCat01Mode!.code,
+                selectedCat02: widget.graphData.selectedCat02Mode!.code,
                 selectedCat03: widget.graphData.selectedCat03Mode!.code),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
@@ -111,33 +112,31 @@ class _GraphDataPageState extends State<GraphDataPage> {
 
   Widget _pieChart(ImmigrationStatisticsRoot rootModel) {
     final models = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-        .firstWhere((element) => element.id == "cat02")
+        .firstWhere((element) => element.id == "cat01")
         .CLASS
         .where((element) => element.level == "1")
         .toList();
     final totalResult = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
-        .firstWhere((element) => element.cat02 == models.first.code);
-
-    return ChangeNotifierProvider<BannerAdModel>(
-        create: (_) => BannerAdModel()..loadBannerAd(context),
-        child: SafeArea(child: Builder(builder: (context) {
-          BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
-          return ListView(
-            padding: const EdgeInsets.all(8),
-            children: [
-              if (bAdModel.isAdLoaded())
-                Container(
-                  child: AdWidget(ad: bAdModel.bannerAd()),
-                  width: bAdModel.bannerAd().size.width.toDouble(),
-                  height: 72.0,
-                  alignment: Alignment.center,
-                ),
-              _getShowingSummaryPieChart(models, totalResult, rootModel),
-              _getShowingReceivedPieChart(models, totalResult, rootModel),
-              _getShowingSettledPieChart(models, rootModel)
-            ],
-          );
-        })));
+        .firstWhere((element) => element.cat01 == models.first.code);
+    BannerAdModel bAdModel = context.watch<AppConfigState>().bannerAdModel!
+      ..loadBannerAd(context);
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(8),
+        children: [
+          if (bAdModel.isAdLoaded())
+            Container(
+              child: AdWidget(ad: bAdModel.bannerAd()),
+              width: bAdModel.bannerAd().size.width.toDouble(),
+              height: 72.0,
+              alignment: Alignment.center,
+            ),
+          _getShowingSummaryPieChart(models, totalResult, rootModel),
+          _getShowingReceivedPieChart(models, totalResult, rootModel),
+          _getShowingSettledPieChart(models, rootModel)
+        ],
+      ),
+    );
   }
 
   Widget _getShowingSummaryPieChart(List<Class> models, Value totalResult,
@@ -241,10 +240,10 @@ class _GraphDataPageState extends State<GraphDataPage> {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 17.0;
       final radius = isTouched ? 110.0 : 90.0;
-      final model = models[i + 1];
+      final modelCode = models[i + 1].code;
       final resultData = rootModel
           .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
-          .firstWhere((element) => element.cat02 == model.code);
+          .firstWhere((element) => (element.cat01 == modelCode));
       return PieChartSectionData(
         color: chartColors[i],
         value: resultData.valueDouble,
@@ -263,7 +262,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
       ImmigrationStatisticsRoot rootModel) {
     final touchedIndex = ValueNotifier(-1);
     final models = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-        .firstWhere((element) => element.id == "cat02")
+        .firstWhere((element) => (element.id == "cat01"))
         .CLASS
         .where((element) =>
             (element.parentCode == pModels.first.code) ||
@@ -370,7 +369,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
       final model = models[i + 1];
       final resultData = rootModel
           .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
-          .firstWhere((element) => element.cat02 == model.code);
+          .firstWhere((element) => (element.cat01 == model.code));
       return PieChartSectionData(
         color: chartColors[i],
         value: resultData.valueDouble,
@@ -389,14 +388,14 @@ class _GraphDataPageState extends State<GraphDataPage> {
       List<Class> pModels, ImmigrationStatisticsRoot rootModel) {
     final touchedIndex = ValueNotifier(-1);
     final models = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-        .firstWhere((element) => element.id == "cat02")
+        .firstWhere((element) => (element.id == "cat01"))
         .CLASS
         .where((element) =>
             (element.parentCode == pModels[1].code) ||
             (element.code == pModels[1].code))
         .toList();
     final resultData = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
-        .firstWhere((element) => element.cat02 == pModels[1].code);
+        .firstWhere((element) => (element.cat01 == pModels[1].code));
     return AspectRatio(
         aspectRatio: 0.9,
         child: Card(
@@ -498,7 +497,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
       final model = models[i + 1];
       final resultData = rootModel
           .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
-          .firstWhere((element) => element.cat02 == model.code);
+          .firstWhere((element) => (element.cat01 == model.code));
       return PieChartSectionData(
         color: chartColors[i],
         value: resultData.valueDouble,

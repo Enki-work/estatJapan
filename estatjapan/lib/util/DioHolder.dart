@@ -42,7 +42,7 @@ class DioHolder {
   }
 
   Future<ImmigrationStatisticsRoot> getData(String estatAppId,
-      {String? selectedCat01,
+      {String? selectedCat02,
       String? selectedCat03,
       String? selectedMonth}) async {
     String url =
@@ -50,8 +50,8 @@ class DioHolder {
     if (selectedMonth != null) {
       url = url + "&cdTime=" + selectedMonth;
     }
-    if (selectedCat01 != null) {
-      url = url + "&cdCat01=" + selectedCat01;
+    if (selectedCat02 != null) {
+      url = url + "&cdCat02=" + selectedCat02;
     }
     if (selectedCat03 != null) {
       url = url + "&cdCat03=" + selectedCat03;

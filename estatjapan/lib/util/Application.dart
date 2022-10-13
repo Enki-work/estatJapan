@@ -17,7 +17,6 @@ import '../model/state_notifier/APIRepositoryNotifier.dart';
 import '../page/ContactMePage.dart';
 import '../page/EStatInfoPage.dart';
 import '../page/LicenseInfoPage.dart';
-import '../page/LineGraphDataPage.dart';
 import '../page/MonthSelectPage.dart';
 import '../page/PurchaseInfoPage.dart';
 import '../page/RootPage.dart';
@@ -148,11 +147,6 @@ class MyHomePage extends StatelessWidget {
         "LicenseInfoPage": (context) => const LicenseInfoPage(),
         "eStaInfoPage": (context) => const EStaInfoPage(),
         "ContactMePage": (context) => const ContactMePage(),
-        "LineGraphDataPage": (context) {
-          return LineGraphDataPage(
-            graphData: ModalRoute.of(context)?.settings.arguments as GraphData,
-          );
-        },
         "WebViewPage": (context) {
           return WebViewPage(
               loadUrl: ModalRoute.of(context)?.settings.arguments as String?);
