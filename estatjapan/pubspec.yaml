@@ -54,7 +54,7 @@ dependencies:
   json_serializable:
   stack_trace:
   package_info_plus:
-  horizontal_data_table: ^3.4.3
+  horizontal_data_table: 4.1.2
   flutter_svg:
   fl_chart:
   recase:

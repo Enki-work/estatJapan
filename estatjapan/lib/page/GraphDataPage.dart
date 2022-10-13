@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:estatjapan/Util/Indicator.dart';
 import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/GraphData.dart';
@@ -241,14 +242,38 @@ class _GraphDataPageState extends State<GraphDataPage> {
       final fontSize = isTouched ? 25.0 : 17.0;
       final radius = isTouched ? 110.0 : 90.0;
       final modelCode = models[i + 1].code;
-      final resultData = rootModel
-          .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
-          .firstWhere((element) => (element.cat01 == modelCode));
+      var resultData = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
+          .where((element) => (element.cat01 == modelCode))
+          .firstOrNull;
+      if (resultData == null && models[i + 1].name == "未済") {
+        final existValue =
+            rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE.first;
+        final doneValue = rootModel
+            .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
+            .firstWhere((element) => (element.cat01 ==
+                models.firstWhere((element) => element.name == '既済_総数').code));
+        final notDone = (int.parse(totalResult.value ?? '') -
+                int.parse(doneValue.value ?? ''))
+            .toString();
+        resultData = Value(
+            tab: existValue.tab,
+            cat01: models[i + 1].code,
+            cat02: existValue.cat02,
+            cat03: existValue.cat03,
+            time: existValue.time,
+            unit: existValue.unit,
+            value: notDone);
+      }
+      final a = resultData?.valueDouble ?? 0;
+      final b = totalResult.valueDouble * 100;
+      final c =
+          (((resultData?.valueDouble ?? 0) / (totalResult.valueDouble)) * 100.0)
+              .ceil();
       return PieChartSectionData(
         color: chartColors[i],
-        value: resultData.valueDouble,
+        value: resultData?.valueDouble,
         title:
-            '${resultData.valueDouble.ceil()}${totalResult.unit}\n(${(resultData.valueDouble / totalResult.valueDouble * 100).ceil()}%)',
+            '${resultData?.valueDouble.ceil()}${totalResult.unit}\n(${(((resultData?.valueDouble ?? 0) / (totalResult.valueDouble)) * 100.0).ceil()}%)',
         radius: radius,
         titleStyle: TextStyle(
             fontSize: fontSize,
