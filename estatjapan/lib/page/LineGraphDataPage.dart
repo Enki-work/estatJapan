@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:collection/collection.dart';
 import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/GraphData.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -531,17 +531,28 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
         .firstWhere((element) => element.id == "time")
         .CLASS
         .toList();
+    final models = rootModel.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+        .firstWhere((element) => element.id == "cat01")
+        .CLASS
+        .where((element) => element.level == "1")
+        .toList();
+    final notDoneCode =
+        models.firstWhere((element) => element.name == "未済").code;
     timeModels.sort((left, right) => left.code.compareTo(right.code));
     final newApplicationMaxY = () {
       var maxY = 0.0;
       for (var timeModel in timeModels) {
-        final values = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
+        final valueByCheckCat01 = rootModel
+            .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF
+            .valueByCheckCat01(models);
+        final values = valueByCheckCat01
             .where((element) =>
-                element.time == timeModel.code && element.cat01 == "400000")
+                element.time == timeModel.code && element.cat01 == notDoneCode)
             .toList();
         values.sort(
             (left, right) => left.valueDouble.compareTo(right.valueDouble));
-        if (maxY < values.last.valueDouble) {
+        if (values.isNotEmpty &&
+            maxY < (values.lastOrNull ?? values.first).valueDouble) {
           maxY = values.last.valueDouble;
         }
       }
@@ -551,13 +562,14 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
     final newApplicationMinY = () {
       var minY = double.infinity;
       for (var timeModel in timeModels) {
-        final values = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
+        final values = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF
+            .valueByCheckCat01(models)
             .where((element) =>
-                element.time == timeModel.code && element.cat01 == "400000")
+                element.time == timeModel.code && element.cat01 == notDoneCode)
             .toList();
         values.sort(
             (left, right) => left.valueDouble.compareTo(right.valueDouble));
-        if (minY > values.first.valueDouble) {
+        if (values.isNotEmpty && minY > values.first.valueDouble) {
           minY = values.first.valueDouble;
         }
       }
@@ -627,10 +639,10 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
             dotData: FlDotData(show: false),
             belowBarData: BarAreaData(show: false),
             spots: timeModels.map((e) {
-              final value = rootModel
-                  .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
+              final value = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF
+                  .valueByCheckCat01(models)
                   .where((element) =>
-                      element.time == e.code && element.cat01 == "400000");
+                      element.time == e.code && element.cat01 == notDoneCode);
               return FlSpot(
                   timeModels.indexOf(e).toDouble(), value.first.valueDouble);
             }).toList()),

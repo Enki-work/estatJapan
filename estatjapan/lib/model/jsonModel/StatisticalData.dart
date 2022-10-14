@@ -16,7 +16,11 @@ class StatisticalData {
       {required this.RESULT_INF,
       required this.CLASS_INF,
       required this.DATA_INF});
-  factory StatisticalData.fromJson(Map<String, dynamic> json) =>
-      _$StatisticalDataFromJson(json);
+  factory StatisticalData.fromJson(Map<String, dynamic> json) {
+    if (json['DATA_INF'] == null) {
+      json['DATA_INF'] = {'VALUE': []};
+    }
+    return _$StatisticalDataFromJson(json);
+  }
   Map<String, dynamic> toJson() => _$StatisticalDataToJson(this);
 }

@@ -52,32 +52,6 @@ class GraphDataSelectPage extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 child: OutlinedButton(
                   onPressed: () async {
-                    ClassOBJ? obj = immigrationStatisticsRoot
-                        .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-                        .firstWhere((e) => e.id == "time");
-
-                    final result = await RouteFacade.push<Class?>(
-                      context,
-                      MonthSelectPage(
-                        monthClassObj: obj,
-                        pageType: MonthSelectPageType.graph,
-                      ),
-                    );
-                    context.read<GraphData>().selectedMonth = result;
-                  },
-                  child: Text(
-                      context.watch<GraphData>().selectedMonth == null
-                          ? '時間軸（月次）選択'
-                          : '時間軸（月次）選択\n(${context.watch<GraphData>().selectedMonth?.name})',
-                      textAlign: TextAlign.center),
-                )),
-          ),
-          SizedBox(
-            height: 110,
-            child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: OutlinedButton(
-                  onPressed: () async {
                     ClassOBJ obj = immigrationStatisticsRoot
                         .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
                         .firstWhere((e) => e.id == "cat03");
@@ -99,25 +73,6 @@ class GraphDataSelectPage extends StatelessWidget {
                 )),
           ),
           SizedBox(
-              height: 110,
-              child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: ElevatedButton.icon(
-                    style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all(
-                            Size(MediaQuery.of(context).size.width * 0.5, 60))),
-                    icon: const Icon(Icons.pie_chart_rounded),
-                    label: const Text("月次円グラフ表示"),
-                    onPressed: (context.watch<GraphData>().isModelExist())
-                        ? () => RouteFacade.push<Class?>(
-                              context,
-                              GraphDataPage(
-                                graphData: context.read<GraphData>(),
-                              ),
-                            )
-                        : null,
-                  ))),
-          SizedBox(
               height: 95,
               child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
@@ -127,7 +82,7 @@ class GraphDataSelectPage extends StatelessWidget {
                             Size(MediaQuery.of(context).size.width * 0.5, 60))),
                     icon: const Icon(Icons.auto_graph_rounded),
                     label: const Text("全期間折れ線グラフ表示"),
-                    onPressed: (context.watch<GraphData>().isModelExist())
+                    onPressed: (context.watch<GraphData>().isLineDataExist())
                         ? () => RouteFacade.push<Class?>(
                               context,
                               LineGraphDataPage(
@@ -135,7 +90,52 @@ class GraphDataSelectPage extends StatelessWidget {
                               ),
                             )
                         : null,
-                  )))
+                  ))),
+          SizedBox(
+            height: 110,
+            child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: OutlinedButton(
+                  onPressed: () async {
+                    ClassOBJ? obj = immigrationStatisticsRoot
+                        .GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+                        .firstWhere((e) => e.id == "time");
+
+                    final result = await RouteFacade.push<Class?>(
+                      context,
+                      MonthSelectPage(
+                        monthClassObj: obj,
+                        pageType: MonthSelectPageType.graph,
+                      ),
+                    );
+                    context.read<GraphData>().selectedMonth = result;
+                  },
+                  child: Text(
+                      context.watch<GraphData>().selectedMonth == null
+                          ? '時間軸（月次）選択'
+                          : '時間軸（月次）選択\n(${context.watch<GraphData>().selectedMonth?.name})',
+                      textAlign: TextAlign.center),
+                )),
+          ),
+          SizedBox(
+              height: 110,
+              child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: ElevatedButton.icon(
+                    style: ButtonStyle(
+                        fixedSize: MaterialStateProperty.all(
+                            Size(MediaQuery.of(context).size.width * 0.5, 60))),
+                    icon: const Icon(Icons.pie_chart_rounded),
+                    label: const Text("月次円グラフ表示"),
+                    onPressed: (context.watch<GraphData>().isPieDataExist())
+                        ? () => RouteFacade.push<Class?>(
+                              context,
+                              GraphDataPage(
+                                graphData: context.read<GraphData>(),
+                              ),
+                            )
+                        : null,
+                  ))),
         ],
       )))
     ]);

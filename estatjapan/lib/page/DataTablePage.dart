@@ -48,6 +48,12 @@ class _DataTablePageState extends State<DataTablePage> {
                 }
                 ImmigrationStatisticsRoot rootModel = snapshot.data;
                 widget.routeModel.loadedDatarootModel = rootModel;
+                if (rootModel
+                    .GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE.isEmpty) {
+                  return const Center(
+                    child: Text("データなし"),
+                  );
+                }
                 return _getBodyWidget();
               } else {
                 return const Center(child: CircularProgressIndicator());

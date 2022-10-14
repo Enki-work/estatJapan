@@ -25,9 +25,13 @@ class GraphData extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isModelExist() {
+  bool isPieDataExist() {
     return (_selectedCat02Mode != null &&
         _selectedMonth != null &&
         _selectedCat03Mode != null);
+  }
+
+  bool isLineDataExist() {
+    return (_selectedCat02Mode != null && _selectedCat03Mode != null);
   }
 }

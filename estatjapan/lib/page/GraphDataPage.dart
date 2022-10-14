@@ -36,7 +36,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
     Colors.lime,
     Colors.green,
   ];
-  static const double PieChartHeight = 400;
+  static const double pieChartHeight = 400;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,7 +170,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
             height: 10,
           ),
           SizedBox(
-            height: _GraphDataPageState.PieChartHeight,
+            height: _GraphDataPageState.pieChartHeight,
             child: ValueListenableProvider<int>.value(
               value: touchedIndex,
               child: totalResult.valueDouble > 0
@@ -319,7 +319,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
             height: 10,
           ),
           SizedBox(
-            height: _GraphDataPageState.PieChartHeight,
+            height: _GraphDataPageState.pieChartHeight,
             child: ValueListenableProvider<int>.value(
               value: touchedIndex,
               child: AspectRatio(
@@ -451,7 +451,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
             height: 10,
           ),
           SizedBox(
-            height: _GraphDataPageState.PieChartHeight,
+            height: _GraphDataPageState.pieChartHeight,
             child: ValueListenableProvider<int>.value(
               value: touchedIndex,
               child: AspectRatio(
