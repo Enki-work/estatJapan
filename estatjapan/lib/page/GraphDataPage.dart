@@ -36,6 +36,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
     Colors.lime,
     Colors.green,
   ];
+  static const double PieChartHeight = 400;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,8 +134,17 @@ class _GraphDataPageState extends State<GraphDataPage> {
               alignment: Alignment.center,
             ),
           _getShowingSummaryPieChart(models, totalResult, rootModel),
+          const SizedBox(
+            height: 10,
+          ),
           _getShowingReceivedPieChart(models, totalResult, rootModel),
-          _getShowingSettledPieChart(models, rootModel)
+          const SizedBox(
+            height: 10,
+          ),
+          _getShowingSettledPieChart(models, rootModel),
+          const SizedBox(
+            height: 80,
+          ),
         ],
       ),
     );
@@ -143,89 +153,93 @@ class _GraphDataPageState extends State<GraphDataPage> {
   Widget _getShowingSummaryPieChart(List<Class> models, Value totalResult,
       ImmigrationStatisticsRoot rootModel) {
     final touchedIndex = ValueNotifier(-1);
-    return AspectRatio(
-        aspectRatio: 0.9,
-        child: Card(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "総数 : "
-                "${totalResult.value}${totalResult.unit}",
-                style: const TextStyle(fontSize: 18),
-              ),
-              Expanded(
-                child: ValueListenableProvider<int>.value(
-                    value: touchedIndex,
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: totalResult.valueDouble > 0
-                          ? Builder(
-                              builder: (context) => PieChart(
-                                    PieChartData(
-                                        pieTouchData: PieTouchData(
-                                            touchCallback: (FlTouchEvent event,
-                                                pieTouchResponse) {
-                                          if (!event
-                                                  .isInterestedForInteractions ||
-                                              pieTouchResponse == null ||
-                                              pieTouchResponse.touchedSection ==
-                                                  null) {
-                                            touchedIndex.value = -1;
-                                            return;
-                                          }
-                                          touchedIndex.value = pieTouchResponse
-                                              .touchedSection!
-                                              .touchedSectionIndex;
-                                        }),
-                                        borderData: FlBorderData(
-                                          show: false,
-                                        ),
-                                        sectionsSpace: 0,
-                                        centerSpaceRadius: 50,
-                                        sections: _showingSummarySections(
-                                            Provider.of<int>(context),
-                                            rootModel,
-                                            models,
-                                            totalResult)),
-                                  ))
-                          : Container(
-                              alignment: Alignment.center,
-                              child: const Text(
-                                "データなし",
-                                textAlign: TextAlign.center,
-                              )),
-                    )),
-              ),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                      padding: EdgeInsets.only(
-                          right: MediaQuery.of(context).size.width * 0.1),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: models
-                            .where((element) => models.indexOf(element) != 0)
-                            .map((e) => Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: Indicator(
-                                  color: chartColors[models.indexOf(e) - 1],
-                                  text: e.name,
-                                  isSquare: true,
-                                )))
-                            .toList(),
-                      ))),
-              const SizedBox(
-                width: 28,
-              ),
-            ],
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      color: Colors.grey.shade200,
+      child: Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 10,
           ),
-        ));
+          Text(
+            "総数 : "
+            "${totalResult.value}${totalResult.unit}",
+            style: const TextStyle(fontSize: 18),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: _GraphDataPageState.PieChartHeight,
+            child: ValueListenableProvider<int>.value(
+              value: touchedIndex,
+              child: totalResult.valueDouble > 0
+                  ? Builder(
+                      builder: (context) => AspectRatio(
+                        aspectRatio: 1,
+                        child: PieChart(
+                          PieChartData(
+                              pieTouchData: PieTouchData(touchCallback:
+                                  (FlTouchEvent event, pieTouchResponse) {
+                                if (!event.isInterestedForInteractions ||
+                                    pieTouchResponse == null ||
+                                    pieTouchResponse.touchedSection == null) {
+                                  touchedIndex.value = -1;
+                                  return;
+                                }
+                                touchedIndex.value = pieTouchResponse
+                                    .touchedSection!.touchedSectionIndex;
+                              }),
+                              borderData: FlBorderData(
+                                show: false,
+                              ),
+                              sectionsSpace: 0,
+                              centerSpaceRadius: 50,
+                              sections: _showingSummarySections(
+                                  Provider.of<int>(context),
+                                  rootModel,
+                                  models,
+                                  totalResult)),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      alignment: Alignment.center,
+                      child: const Text(
+                        "データなし",
+                        textAlign: TextAlign.center,
+                      )),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      right: MediaQuery.of(context).size.width * 0.1),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: models
+                        .where((element) => models.indexOf(element) != 0)
+                        .map((e) => Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: Indicator(
+                              color: chartColors[models.indexOf(e) - 1],
+                              text: e.name,
+                              isSquare: true,
+                            )))
+                        .toList(),
+                  ))),
+          const SizedBox(
+            width: 28,
+          ),
+        ],
+      ),
+    );
   }
 
   List<PieChartSectionData> _showingSummarySections(
@@ -264,11 +278,6 @@ class _GraphDataPageState extends State<GraphDataPage> {
             unit: existValue.unit,
             value: notDone);
       }
-      final a = resultData?.valueDouble ?? 0;
-      final b = totalResult.valueDouble * 100;
-      final c =
-          (((resultData?.valueDouble ?? 0) / (totalResult.valueDouble)) * 100.0)
-              .ceil();
       return PieChartSectionData(
         color: chartColors[i],
         value: resultData?.valueDouble,
@@ -293,89 +302,93 @@ class _GraphDataPageState extends State<GraphDataPage> {
             (element.parentCode == pModels.first.code) ||
             (element.code == pModels.first.code))
         .toList();
-    return AspectRatio(
-        aspectRatio: 0.9,
-        child: Card(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "${models.first.name} : "
-                "${totalResult.value}${totalResult.unit}",
-                style: const TextStyle(fontSize: 18),
-              ),
-              Expanded(
-                child: ValueListenableProvider<int>.value(
-                    value: touchedIndex,
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: totalResult.valueDouble > 0
-                          ? Builder(
-                              builder: (context) => PieChart(
-                                    PieChartData(
-                                        pieTouchData: PieTouchData(
-                                            touchCallback: (FlTouchEvent event,
-                                                pieTouchResponse) {
-                                          if (!event
-                                                  .isInterestedForInteractions ||
-                                              pieTouchResponse == null ||
-                                              pieTouchResponse.touchedSection ==
-                                                  null) {
-                                            touchedIndex.value = -1;
-                                            return;
-                                          }
-                                          touchedIndex.value = pieTouchResponse
-                                              .touchedSection!
-                                              .touchedSectionIndex;
-                                        }),
-                                        borderData: FlBorderData(
-                                          show: false,
-                                        ),
-                                        sectionsSpace: 0,
-                                        centerSpaceRadius: 50,
-                                        sections: _showingReceivedSections(
-                                            Provider.of<int>(context),
-                                            rootModel,
-                                            models,
-                                            totalResult)),
-                                  ))
-                          : Container(
-                              alignment: Alignment.center,
-                              child: const Text(
-                                "データなし",
-                                textAlign: TextAlign.center,
-                              )),
-                    )),
-              ),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                      padding: EdgeInsets.only(
-                          right: MediaQuery.of(context).size.width * 0.1),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: models
-                            .where((element) => models.indexOf(element) != 0)
-                            .map((e) => Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: Indicator(
-                                  color: chartColors[models.indexOf(e) - 1],
-                                  text: e.name,
-                                  isSquare: true,
-                                )))
-                            .toList(),
-                      ))),
-              const SizedBox(
-                width: 28,
-              ),
-            ],
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      color: Colors.grey.shade200,
+      child: Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 10,
           ),
-        ));
+          Text(
+            "${models.first.name} : "
+            "${totalResult.value}${totalResult.unit}",
+            style: const TextStyle(fontSize: 18),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: _GraphDataPageState.PieChartHeight,
+            child: ValueListenableProvider<int>.value(
+              value: touchedIndex,
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: totalResult.valueDouble > 0
+                    ? Builder(
+                        builder: (context) => PieChart(
+                              PieChartData(
+                                  pieTouchData: PieTouchData(touchCallback:
+                                      (FlTouchEvent event, pieTouchResponse) {
+                                    if (!event.isInterestedForInteractions ||
+                                        pieTouchResponse == null ||
+                                        pieTouchResponse.touchedSection ==
+                                            null) {
+                                      touchedIndex.value = -1;
+                                      return;
+                                    }
+                                    touchedIndex.value = pieTouchResponse
+                                        .touchedSection!.touchedSectionIndex;
+                                  }),
+                                  borderData: FlBorderData(
+                                    show: false,
+                                  ),
+                                  sectionsSpace: 0,
+                                  centerSpaceRadius: 50,
+                                  sections: _showingReceivedSections(
+                                      Provider.of<int>(context),
+                                      rootModel,
+                                      models,
+                                      totalResult)),
+                            ))
+                    : Container(
+                        alignment: Alignment.center,
+                        child: const Text(
+                          "データなし",
+                          textAlign: TextAlign.center,
+                        )),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      right: MediaQuery.of(context).size.width * 0.1),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: models
+                        .where((element) => models.indexOf(element) != 0)
+                        .map((e) => Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: Indicator(
+                              color: chartColors[models.indexOf(e) - 1],
+                              text: e.name,
+                              isSquare: true,
+                            )))
+                        .toList(),
+                  ))),
+          const SizedBox(
+            width: 28,
+          ),
+        ],
+      ),
+    );
   }
 
   List<PieChartSectionData> _showingReceivedSections(
@@ -421,89 +434,93 @@ class _GraphDataPageState extends State<GraphDataPage> {
         .toList();
     final resultData = rootModel.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE
         .firstWhere((element) => (element.cat01 == pModels[1].code));
-    return AspectRatio(
-        aspectRatio: 0.9,
-        child: Card(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "${pModels[1].name} : "
-                "${resultData.value}${resultData.unit}",
-                style: const TextStyle(fontSize: 18),
-              ),
-              Expanded(
-                child: ValueListenableProvider<int>.value(
-                    value: touchedIndex,
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: resultData.valueDouble > 0
-                          ? Builder(
-                              builder: (context) => PieChart(
-                                    PieChartData(
-                                        pieTouchData: PieTouchData(
-                                            touchCallback: (FlTouchEvent event,
-                                                pieTouchResponse) {
-                                          if (!event
-                                                  .isInterestedForInteractions ||
-                                              pieTouchResponse == null ||
-                                              pieTouchResponse.touchedSection ==
-                                                  null) {
-                                            touchedIndex.value = -1;
-                                            return;
-                                          }
-                                          touchedIndex.value = pieTouchResponse
-                                              .touchedSection!
-                                              .touchedSectionIndex;
-                                        }),
-                                        borderData: FlBorderData(
-                                          show: false,
-                                        ),
-                                        sectionsSpace: 0,
-                                        centerSpaceRadius: 50,
-                                        sections: _showingSettledSections(
-                                            Provider.of<int>(context),
-                                            rootModel,
-                                            models,
-                                            resultData)),
-                                  ))
-                          : Container(
-                              alignment: Alignment.center,
-                              child: const Text(
-                                "データなし",
-                                textAlign: TextAlign.center,
-                              )),
-                    )),
-              ),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                      padding: EdgeInsets.only(
-                          right: MediaQuery.of(context).size.width * 0.1),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: models
-                            .where((element) => models.indexOf(element) != 0)
-                            .map((e) => Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: Indicator(
-                                  color: chartColors[models.indexOf(e) - 1],
-                                  text: e.name,
-                                  isSquare: true,
-                                )))
-                            .toList(),
-                      ))),
-              const SizedBox(
-                width: 28,
-              ),
-            ],
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      color: Colors.grey.shade200,
+      child: Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 10,
           ),
-        ));
+          Text(
+            "${pModels[1].name} : "
+            "${resultData.value}${resultData.unit}",
+            style: const TextStyle(fontSize: 18),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: _GraphDataPageState.PieChartHeight,
+            child: ValueListenableProvider<int>.value(
+              value: touchedIndex,
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: resultData.valueDouble > 0
+                    ? Builder(
+                        builder: (context) => PieChart(
+                              PieChartData(
+                                  pieTouchData: PieTouchData(touchCallback:
+                                      (FlTouchEvent event, pieTouchResponse) {
+                                    if (!event.isInterestedForInteractions ||
+                                        pieTouchResponse == null ||
+                                        pieTouchResponse.touchedSection ==
+                                            null) {
+                                      touchedIndex.value = -1;
+                                      return;
+                                    }
+                                    touchedIndex.value = pieTouchResponse
+                                        .touchedSection!.touchedSectionIndex;
+                                  }),
+                                  borderData: FlBorderData(
+                                    show: false,
+                                  ),
+                                  sectionsSpace: 0,
+                                  centerSpaceRadius: 50,
+                                  sections: _showingSettledSections(
+                                      Provider.of<int>(context),
+                                      rootModel,
+                                      models,
+                                      resultData)),
+                            ))
+                    : Container(
+                        alignment: Alignment.center,
+                        child: const Text(
+                          "データなし",
+                          textAlign: TextAlign.center,
+                        )),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      right: MediaQuery.of(context).size.width * 0.1),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: models
+                        .where((element) => models.indexOf(element) != 0)
+                        .map((e) => Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: Indicator(
+                              color: chartColors[models.indexOf(e) - 1],
+                              text: e.name,
+                              isSquare: true,
+                            )))
+                        .toList(),
+                  ))),
+          const SizedBox(
+            width: 28,
+          ),
+        ],
+      ),
+    );
   }
 
   List<PieChartSectionData> _showingSettledSections(
