@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:estatjapan/model/VisaInfoPageData.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class VisaInfoPage extends StatelessWidget {
@@ -43,7 +42,7 @@ class VisaInfoColumn extends StatelessWidget {
           title: "高度人材ポイント制とは",
           pageUrlStr:
               "https://www.moj.go.jp/isa/publications/materials/newimmiact_3_system_index.html"),
-      if (Platform.isIOS)
+      if (defaultTargetPlatform != TargetPlatform.android)
         const VisaInfoData(
             title: "高度人材ポイント制評価仕組み",
             pageUrlStr: "https://www.moj.go.jp/isa/content/930001655.pdf"),

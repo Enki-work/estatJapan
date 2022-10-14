@@ -48,9 +48,9 @@ class BureauSelectPage extends StatelessWidget {
                               case "1":
                                 return model.name;
                               case "2":
-                                return " ┗" + model.name;
+                                return " →" + model.name;
                               case "3":
-                                return "    ┗" + model.name;
+                                return "    →" + model.name;
                               default:
                                 return model.name;
                             }

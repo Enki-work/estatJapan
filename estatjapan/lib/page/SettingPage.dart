@@ -73,11 +73,9 @@ class _SettingPageState extends State<SettingPage> {
                                   trailing: Switch(
                                     value: isThemeFollowSystem,
                                     onChanged: (value) {
-                                      setState(() {
-                                        context
-                                            .watch<AppConfigNotifier>()
-                                            .setThemeFollowSystem(value);
-                                      });
+                                      context
+                                          .read<AppConfigNotifier>()
+                                          .setThemeFollowSystem(value);
                                     },
                                   ),
                                   onTap: null,
@@ -92,13 +90,9 @@ class _SettingPageState extends State<SettingPage> {
                                             trailing: Checkbox(
                                               value: !isThemeDarkMode,
                                               onChanged: (value) {
-                                                setState(() {
-                                                  context
-                                                      .watch<
-                                                          AppConfigNotifier>()
-                                                      .setThemeDarkModeKey(
-                                                          !(value ?? true));
-                                                });
+                                                context
+                                                    .read<AppConfigNotifier>()
+                                                    .setThemeDarkModeKey(false);
                                               },
                                             ),
                                             onTap: null,
@@ -109,13 +103,9 @@ class _SettingPageState extends State<SettingPage> {
                                             trailing: Checkbox(
                                               value: isThemeDarkMode,
                                               onChanged: (value) {
-                                                setState(() {
-                                                  context
-                                                      .watch<
-                                                          AppConfigNotifier>()
-                                                      .setThemeDarkModeKey(
-                                                          value ?? false);
-                                                });
+                                                context
+                                                    .read<AppConfigNotifier>()
+                                                    .setThemeDarkModeKey(true);
                                               },
                                             ),
                                             onTap: null,

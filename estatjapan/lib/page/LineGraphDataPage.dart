@@ -119,12 +119,16 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(top: 20, bottom: 110),
+            padding: const EdgeInsets.only(top: 20, bottom: 110, right: 8),
             height: 360,
+            color: Colors.grey.shade200,
             child: LineChart(
               passRateData(rootModel),
               swapAnimationDuration: const Duration(milliseconds: 250),
             ),
+          ),
+          const SizedBox(
+            height: 20,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20),
@@ -135,12 +139,16 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(top: 20, bottom: 110),
+            padding: const EdgeInsets.only(top: 20, bottom: 110, right: 8),
             height: 360,
+            color: Colors.grey.shade200,
             child: LineChart(
               newApplicationData(rootModel),
               swapAnimationDuration: const Duration(milliseconds: 250),
             ),
+          ),
+          const SizedBox(
+            height: 20,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20),
@@ -151,12 +159,16 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(top: 20, bottom: 110),
+            padding: const EdgeInsets.only(top: 20, bottom: 110, right: 8),
             height: 360,
+            color: Colors.grey.shade200,
             child: LineChart(
               argeedApplicationData(rootModel),
               swapAnimationDuration: const Duration(milliseconds: 250),
             ),
+          ),
+          const SizedBox(
+            height: 20,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20),
@@ -167,13 +179,17 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(top: 20, bottom: 110),
+            padding: const EdgeInsets.only(top: 20, bottom: 110, right: 8),
             height: 360,
+            color: Colors.grey.shade200,
             child: LineChart(
               waitingApplicationData(rootModel),
               swapAnimationDuration: const Duration(milliseconds: 250),
             ),
-          )
+          ),
+          const SizedBox(
+            height: 80,
+          ),
         ],
       ),
     );
