@@ -168,3 +168,15 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+
+extension GetThemeMode on AppConfigState {
+  ThemeMode get getThemeMode {
+    if (isThemeFollowSystem) {
+      return ThemeMode.system;
+    } else if (isThemeDarkMode) {
+      return ThemeMode.dark;
+    } else {
+      return ThemeMode.light;
+    }
+  }
+}

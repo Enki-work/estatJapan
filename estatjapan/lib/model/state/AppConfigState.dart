@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../BannerAdModel.dart';
@@ -22,14 +21,4 @@ class AppConfigState with _$AppConfigState {
     PurchaseModel? purchaseModel,
     BannerAdModel? bannerAdModel,
   }) = _AppConfigState;
-
-  ThemeMode get getThemeMode {
-    if (isThemeFollowSystem) {
-      return ThemeMode.system;
-    } else if (isThemeDarkMode) {
-      return ThemeMode.dark;
-    } else {
-      return ThemeMode.light;
-    }
-  }
 }

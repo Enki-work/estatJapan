@@ -25,39 +25,50 @@ class LicenseInfoPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ossLicensesData = ref.watch(ossLicensesProvider);
     return Scaffold(
       appBar: AppBar(
         //导航栏
         title: const Text("ライセンス情報"),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.grey.withAlpha(20),
+          ),
           padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-          child: ListView(
-            children: ref
-                .watch(ossLicensesProvider)
-                .map(
-                  (e) => Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      ListTile(
-                          title: DecoratedBox(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.withAlpha(20)),
-                              child: Padding(
-                                child: Column(
-                                  children: [
-                                    Text('${e.name}  version: ${e.version}\n\n'
-                                        '${e.description}\n\n'),
-                                    Text('${e.license}\n\n'),
-                                  ],
-                                ),
-                                padding: const EdgeInsets.all(8),
-                              ))),
-                    ],
-                  ),
-                )
+          child: ExpansionPanelList(
+            expansionCallback: (panelIndex, isExpanded) {
+              final updated = ref.read(ossLicensesProvider)
+                ..[panelIndex].isExpanded = !isExpanded;
+              // updated[panelIndex] =
+              //     updated[panelIndex].copyWith(isExpanded: !isExpanded);
+              ref.read(ossLicensesProvider.notifier).state = [...updated];
+            },
+            children: ossLicensesData
+                .map((e) => ExpansionPanel(
+                      canTapOnHeader: true,
+                      isExpanded: e.isExpanded,
+                      headerBuilder: (context, isExpanded) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text('${e.name}  version: ${e.version}\n\n'
+                              '${e.description}\n\n'),
+                        );
+                      },
+                      body: DecoratedBox(
+                        decoration:
+                            BoxDecoration(color: Colors.grey.withAlpha(20)),
+                        child: Padding(
+                          child: Text('${e.license}\n\n'),
+                          padding: const EdgeInsets.all(8),
+                        ),
+                      ),
+                    ))
                 .toList(),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

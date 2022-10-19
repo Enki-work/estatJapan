@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:collection/collection.dart';
 import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/GraphData.dart';
@@ -124,7 +125,6 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
             color: Colors.grey.shade200,
             child: LineChart(
               passRateData(rootModel),
-              swapAnimationDuration: const Duration(milliseconds: 250),
             ),
           ),
           const SizedBox(
@@ -144,7 +144,6 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
             color: Colors.grey.shade200,
             child: LineChart(
               newApplicationData(rootModel),
-              swapAnimationDuration: const Duration(milliseconds: 250),
             ),
           ),
           const SizedBox(
@@ -164,7 +163,6 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
             color: Colors.grey.shade200,
             child: LineChart(
               argeedApplicationData(rootModel),
-              swapAnimationDuration: const Duration(milliseconds: 250),
             ),
           ),
           const SizedBox(
@@ -184,7 +182,6 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
             color: Colors.grey.shade200,
             child: LineChart(
               waitingApplicationData(rootModel),
-              swapAnimationDuration: const Duration(milliseconds: 250),
             ),
           ),
           const SizedBox(
