@@ -35,9 +35,9 @@ class VisaInfoColumn extends StatelessWidget {
           title: "永住許可申請",
           pageUrlStr:
               "https://www.moj.go.jp/isa/applications/procedures/16-4.html"),
-      const VisaInfoData(
-          title: "永住許可申請書の様式の記入例・書き方の見本・サンプル",
-          pageUrlStr: "http://work-visa.jp/how-to-write/permanent-residence"),
+      // const VisaInfoData(
+      //     title: "永住許可申請書の様式の記入例・書き方の見本・サンプル",
+      //     pageUrlStr: "http://work-visa.jp/how-to-write/permanent-residence"),
       const VisaInfoData(
           title: "高度人材ポイント制とは",
           pageUrlStr:
