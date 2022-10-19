@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../util/DioHolder.dart';
 import 'Application.dart';
@@ -26,7 +27,9 @@ class AppInitializer {
     WidgetsFlutterBinding.ensureInitialized();
 
     initialize().then((app) {
-      runApp(app);
+      runApp(ProviderScope(
+        child: app,
+      ));
     });
   }
 

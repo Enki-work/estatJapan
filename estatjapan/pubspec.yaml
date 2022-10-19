@@ -59,6 +59,7 @@ dependencies:
   fl_chart:
   recase:
   flutter_inappwebview:
+  flutter_riverpod:
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +78,7 @@ dev_dependencies:
   build_runner:
   mockito:
   flutter_launcher_icons:
+  flutter_oss_licenses:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
