@@ -60,6 +60,7 @@ dependencies:
   recase:
   flutter_inappwebview:
   flutter_riverpod:
+  flex_color_scheme:
 
 dev_dependencies:
   flutter_test:

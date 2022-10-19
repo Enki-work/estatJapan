@@ -1,3 +1,4 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../BannerAdModel.dart';
@@ -20,5 +21,6 @@ class AppConfigState with _$AppConfigState {
     @Default(false) bool isThemeDarkMode,
     PurchaseModel? purchaseModel,
     BannerAdModel? bannerAdModel,
+    @Default(FlexScheme.amber) FlexScheme themeFlexScheme,
   }) = _AppConfigState;
 }

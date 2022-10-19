@@ -1,4 +1,5 @@
 import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
@@ -121,12 +122,10 @@ class MyHomePage extends StatelessWidget {
     return MaterialApp(
       title: '在留資格統計',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primarySwatch: Colors.orange,
-          iconTheme: const IconThemeData(color: Colors.orangeAccent)),
-      darkTheme: ThemeData(
-          primarySwatch: Colors.deepOrange,
-          iconTheme: const IconThemeData(color: Colors.deepOrangeAccent)),
+      theme: FlexThemeData.light(
+          scheme: context.watch<AppConfigState>().themeFlexScheme),
+      darkTheme: FlexThemeData.dark(
+          scheme: context.watch<AppConfigState>().themeFlexScheme),
       themeMode: context.watch<AppConfigState>().getThemeMode,
       routes: {
         "MonthSelectPage": (context) {

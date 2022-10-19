@@ -1,12 +1,13 @@
 import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../model/state/AppConfigState.dart';
 
-enum SettingPageItemType { themeFollowSystem, themeDarkMode }
+enum SettingPageItemType { themeDarkMode, themeColorSetting }
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   static const List listItemTitles = [
     SettingPageItemType.themeDarkMode,
+    SettingPageItemType.themeColorSetting,
   ];
 
   @override
@@ -54,66 +56,9 @@ class _SettingPageState extends State<SettingPage> {
                         final itemType = listItemTitles[index];
                         switch (itemType) {
                           case SettingPageItemType.themeDarkMode:
-                            final isThemeFollowSystem = context
-                                .watch<AppConfigState>()
-                                .isThemeFollowSystem;
-                            final isThemeDarkMode =
-                                context.watch<AppConfigState>().isThemeDarkMode;
-                            return Column(
-                              children: [
-                                const Divider(height: 0.5),
-                                const ListTile(
-                                  title: Text("ダークモード",
-                                      style: TextStyle(
-                                          fontSize: 12, color: Colors.grey)),
-                                ),
-                                ListTile(
-                                  title: const Text("システム設定に従う"),
-                                  minVerticalPadding: 25,
-                                  trailing: Switch(
-                                    value: isThemeFollowSystem,
-                                    onChanged: (value) {
-                                      context
-                                          .read<AppConfigNotifier>()
-                                          .setThemeFollowSystem(value);
-                                    },
-                                  ),
-                                  onTap: null,
-                                ),
-                                isThemeFollowSystem
-                                    ? const SizedBox()
-                                    : Column(
-                                        children: [
-                                          ListTile(
-                                            title: const Text("ライトモード"),
-                                            minVerticalPadding: 25,
-                                            trailing: Checkbox(
-                                              value: !isThemeDarkMode,
-                                              onChanged: (value) {
-                                                context
-                                                    .read<AppConfigNotifier>()
-                                                    .setThemeDarkModeKey(false);
-                                              },
-                                            ),
-                                            onTap: null,
-                                          ),
-                                          ListTile(
-                                            title: const Text("ダークモード"),
-                                            minVerticalPadding: 25,
-                                            trailing: Checkbox(
-                                              value: isThemeDarkMode,
-                                              onChanged: (value) {
-                                                context
-                                                    .read<AppConfigNotifier>()
-                                                    .setThemeDarkModeKey(true);
-                                              },
-                                            ),
-                                            onTap: null,
-                                          ),
-                                        ],
-                                      ),
-                              ],
-                            );
+                            return themeDarkModeItem(context);
+                          case SettingPageItemType.themeColorSetting:
+                            return themeColorSettingItem(context);
                         }
 
                         return const ListTile();
@@ -128,6 +73,102 @@ class _SettingPageState extends State<SettingPage> {
                   ]);
             },
           )),
+    );
+  }
+
+  Widget themeDarkModeItem(BuildContext context) {
+    final isThemeFollowSystem =
+        context.watch<AppConfigState>().isThemeFollowSystem;
+    final isThemeDarkMode = context.watch<AppConfigState>().isThemeDarkMode;
+    return Column(
+      children: [
+        const Divider(height: 0.5),
+        const ListTile(
+          title: Text("ダークモード",
+              style: TextStyle(fontSize: 12, color: Colors.grey)),
+        ),
+        ListTile(
+          title: const Text("システム設定に従う"),
+          minVerticalPadding: 25,
+          trailing: Switch(
+            value: isThemeFollowSystem,
+            onChanged: (value) {
+              context.read<AppConfigNotifier>().setThemeFollowSystem(value);
+            },
+          ),
+          onTap: null,
+        ),
+        isThemeFollowSystem
+            ? const SizedBox()
+            : Column(
+                children: [
+                  ListTile(
+                    title: const Text("ライトモード"),
+                    minVerticalPadding: 25,
+                    trailing: Checkbox(
+                      value: !isThemeDarkMode,
+                      onChanged: (value) {
+                        context
+                            .read<AppConfigNotifier>()
+                            .setThemeDarkModeKey(false);
+                      },
+                    ),
+                    onTap: null,
+                  ),
+                  ListTile(
+                    title: const Text("ダークモード"),
+                    minVerticalPadding: 25,
+                    trailing: Checkbox(
+                      value: isThemeDarkMode,
+                      onChanged: (value) {
+                        context
+                            .read<AppConfigNotifier>()
+                            .setThemeDarkModeKey(true);
+                      },
+                    ),
+                    onTap: null,
+                  ),
+                ],
+              ),
+        const SizedBox(
+          height: 8,
+        ),
+      ],
+    );
+  }
+
+  Widget themeColorSettingItem(BuildContext context) {
+    return Column(
+      children: [
+        const Divider(height: 0.5),
+        const ListTile(
+          title: Text("テーマカラー設定",
+              style: TextStyle(fontSize: 12, color: Colors.grey)),
+        ),
+        ...FlexScheme.values
+            .map(
+              (e) => RadioListTile(
+                secondary: Icon(
+                  Icons.color_lens,
+                  color: FlexThemeData.light(scheme: e).primaryColorLight,
+                ),
+                title: Text(e.name),
+                value: e.name,
+                groupValue:
+                    context.watch<AppConfigState>().themeFlexScheme.name,
+                onChanged: (String? value) => context
+                    .read<AppConfigNotifier>()
+                    .themeFlexSchemeName = value ?? '',
+                selected: e.name ==
+                    context.watch<AppConfigState>().themeFlexScheme.name,
+                controlAffinity: ListTileControlAffinity.trailing,
+              ),
+            )
+            .toList(),
+        const SizedBox(
+          height: 8,
+        ),
+      ],
     );
   }
 }

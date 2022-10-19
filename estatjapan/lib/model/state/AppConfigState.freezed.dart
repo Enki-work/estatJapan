@@ -27,6 +27,7 @@ mixin _$AppConfigState {
   bool get isThemeDarkMode => throw _privateConstructorUsedError;
   PurchaseModel? get purchaseModel => throw _privateConstructorUsedError;
   BannerAdModel? get bannerAdModel => throw _privateConstructorUsedError;
+  FlexScheme get themeFlexScheme => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppConfigStateCopyWith<AppConfigState> get copyWith =>
@@ -49,7 +50,8 @@ abstract class $AppConfigStateCopyWith<$Res> {
       bool isThemeFollowSystem,
       bool isThemeDarkMode,
       PurchaseModel? purchaseModel,
-      BannerAdModel? bannerAdModel});
+      BannerAdModel? bannerAdModel,
+      FlexScheme themeFlexScheme});
 
   $PurchaseModelCopyWith<$Res>? get purchaseModel;
 }
@@ -76,6 +78,7 @@ class _$AppConfigStateCopyWithImpl<$Res>
     Object? isThemeDarkMode = freezed,
     Object? purchaseModel = freezed,
     Object? bannerAdModel = freezed,
+    Object? themeFlexScheme = freezed,
   }) {
     return _then(_value.copyWith(
       android_inline_banner: android_inline_banner == freezed
@@ -122,6 +125,10 @@ class _$AppConfigStateCopyWithImpl<$Res>
           ? _value.bannerAdModel
           : bannerAdModel // ignore: cast_nullable_to_non_nullable
               as BannerAdModel?,
+      themeFlexScheme: themeFlexScheme == freezed
+          ? _value.themeFlexScheme
+          : themeFlexScheme // ignore: cast_nullable_to_non_nullable
+              as FlexScheme,
     ));
   }
 
@@ -155,7 +162,8 @@ abstract class _$$_AppConfigStateCopyWith<$Res>
       bool isThemeFollowSystem,
       bool isThemeDarkMode,
       PurchaseModel? purchaseModel,
-      BannerAdModel? bannerAdModel});
+      BannerAdModel? bannerAdModel,
+      FlexScheme themeFlexScheme});
 
   @override
   $PurchaseModelCopyWith<$Res>? get purchaseModel;
@@ -185,6 +193,7 @@ class __$$_AppConfigStateCopyWithImpl<$Res>
     Object? isThemeDarkMode = freezed,
     Object? purchaseModel = freezed,
     Object? bannerAdModel = freezed,
+    Object? themeFlexScheme = freezed,
   }) {
     return _then(_$_AppConfigState(
       android_inline_banner: android_inline_banner == freezed
@@ -231,6 +240,10 @@ class __$$_AppConfigStateCopyWithImpl<$Res>
           ? _value.bannerAdModel
           : bannerAdModel // ignore: cast_nullable_to_non_nullable
               as BannerAdModel?,
+      themeFlexScheme: themeFlexScheme == freezed
+          ? _value.themeFlexScheme
+          : themeFlexScheme // ignore: cast_nullable_to_non_nullable
+              as FlexScheme,
     ));
   }
 }
@@ -249,7 +262,8 @@ class _$_AppConfigState extends _AppConfigState {
       this.isThemeFollowSystem = true,
       this.isThemeDarkMode = false,
       this.purchaseModel,
-      this.bannerAdModel})
+      this.bannerAdModel,
+      this.themeFlexScheme = FlexScheme.amber})
       : super._();
 
   @override
@@ -283,10 +297,13 @@ class _$_AppConfigState extends _AppConfigState {
   final PurchaseModel? purchaseModel;
   @override
   final BannerAdModel? bannerAdModel;
+  @override
+  @JsonKey()
+  final FlexScheme themeFlexScheme;
 
   @override
   String toString() {
-    return 'AppConfigState(android_inline_banner: $android_inline_banner, android_inline_native: $android_inline_native, android_appid: $android_appid, ios_inline_banner: $ios_inline_banner, ios_inline_native: $ios_inline_native, ios_appid: $ios_appid, estatAppId: $estatAppId, isThemeFollowSystem: $isThemeFollowSystem, isThemeDarkMode: $isThemeDarkMode, purchaseModel: $purchaseModel, bannerAdModel: $bannerAdModel)';
+    return 'AppConfigState(android_inline_banner: $android_inline_banner, android_inline_native: $android_inline_native, android_appid: $android_appid, ios_inline_banner: $ios_inline_banner, ios_inline_native: $ios_inline_native, ios_appid: $ios_appid, estatAppId: $estatAppId, isThemeFollowSystem: $isThemeFollowSystem, isThemeDarkMode: $isThemeDarkMode, purchaseModel: $purchaseModel, bannerAdModel: $bannerAdModel, themeFlexScheme: $themeFlexScheme)';
   }
 
   @override
@@ -314,7 +331,9 @@ class _$_AppConfigState extends _AppConfigState {
             const DeepCollectionEquality()
                 .equals(other.purchaseModel, purchaseModel) &&
             const DeepCollectionEquality()
-                .equals(other.bannerAdModel, bannerAdModel));
+                .equals(other.bannerAdModel, bannerAdModel) &&
+            const DeepCollectionEquality()
+                .equals(other.themeFlexScheme, themeFlexScheme));
   }
 
   @override
@@ -330,7 +349,8 @@ class _$_AppConfigState extends _AppConfigState {
       const DeepCollectionEquality().hash(isThemeFollowSystem),
       const DeepCollectionEquality().hash(isThemeDarkMode),
       const DeepCollectionEquality().hash(purchaseModel),
-      const DeepCollectionEquality().hash(bannerAdModel));
+      const DeepCollectionEquality().hash(bannerAdModel),
+      const DeepCollectionEquality().hash(themeFlexScheme));
 
   @JsonKey(ignore: true)
   @override
@@ -350,7 +370,8 @@ abstract class _AppConfigState extends AppConfigState {
       final bool isThemeFollowSystem,
       final bool isThemeDarkMode,
       final PurchaseModel? purchaseModel,
-      final BannerAdModel? bannerAdModel}) = _$_AppConfigState;
+      final BannerAdModel? bannerAdModel,
+      final FlexScheme themeFlexScheme}) = _$_AppConfigState;
   const _AppConfigState._() : super._();
 
   @override
@@ -375,6 +396,8 @@ abstract class _AppConfigState extends AppConfigState {
   PurchaseModel? get purchaseModel;
   @override
   BannerAdModel? get bannerAdModel;
+  @override
+  FlexScheme get themeFlexScheme;
   @override
   @JsonKey(ignore: true)
   _$$_AppConfigStateCopyWith<_$_AppConfigState> get copyWith =>

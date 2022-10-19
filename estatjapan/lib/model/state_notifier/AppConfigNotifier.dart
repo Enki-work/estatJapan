@@ -2,6 +2,7 @@ import 'dart:async' show Future;
 import 'dart:convert';
 
 import 'package:estatjapan/model/BannerAdModel.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +13,7 @@ import '../state/PurchaseModel.dart';
 
 const isThemeFollowSystemKey = "isThemeFollowSystemKey";
 const isThemeDarkModeKey = "isThemeDarkModeKey";
+const themeFlexSchemeKey = "themeFlexSchemeKey";
 
 class AppConfigNotifier extends StateNotifier<AppConfigState> {
   AppConfigNotifier() : super(AppConfigState(bannerAdModel: BannerAdModel()));
@@ -28,6 +30,8 @@ class AppConfigNotifier extends StateNotifier<AppConfigState> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final isThemeFollowSystem = pref.getBool(isThemeFollowSystemKey) ?? true;
     final isThemeDarkMode = pref.getBool(isThemeDarkModeKey) ?? false;
+    final themeFlexSchemeName =
+        pref.getString(themeFlexSchemeKey) ?? FlexScheme.amber.name;
     // decode our json
     final json = jsonDecode(contents);
     state = state.copyWith(
@@ -39,7 +43,9 @@ class AppConfigNotifier extends StateNotifier<AppConfigState> {
         ios_appid: json['ios_appid'],
         estatAppId: json['estatAppId'],
         isThemeFollowSystem: isThemeFollowSystem,
-        isThemeDarkMode: isThemeDarkMode);
+        isThemeDarkMode: isThemeDarkMode,
+        themeFlexScheme: FlexScheme.values
+            .firstWhere((element) => element.name == themeFlexSchemeName));
 
     return state;
   }
@@ -55,6 +61,15 @@ class AppConfigNotifier extends StateNotifier<AppConfigState> {
     SharedPreferences.getInstance().then((value) {
       value.setBool(isThemeDarkModeKey, isThemeDarkMode);
       state = state.copyWith(isThemeDarkMode: isThemeDarkMode);
+    });
+  }
+
+  set themeFlexSchemeName(String themeFlexSchemeName) {
+    SharedPreferences.getInstance().then((value) {
+      value.setString(themeFlexSchemeKey, themeFlexSchemeName);
+      state = state.copyWith(
+          themeFlexScheme: FlexScheme.values
+              .firstWhere((element) => element.name == themeFlexSchemeName));
     });
   }
 }
