@@ -48,16 +48,8 @@ class _GraphDataPageState extends State<GraphDataPage> {
                 widget.graphData.selectedCat02Mode!.name +
                 "\n(${widget.graphData.selectedMonth!.name})統計グラフ",
             style: const TextStyle(
-              color: Colors.black,
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(
-                  blurRadius: 10.0,
-                  color: Colors.grey,
-                  offset: Offset(1.0, 1.0),
-                )
-              ],
             ),
             textAlign: TextAlign.center,
           ),
@@ -155,7 +147,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
     final touchedIndex = ValueNotifier(-1);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
-      color: Colors.grey.shade200,
+      color: Theme.of(context).backgroundColor,
       child: Column(
         children: <Widget>[
           const SizedBox(
@@ -231,6 +223,9 @@ class _GraphDataPageState extends State<GraphDataPage> {
                               color: chartColors[models.indexOf(e) - 1],
                               text: e.name,
                               isSquare: true,
+                              textColor:
+                                  Theme.of(context).textTheme.caption?.color ??
+                                      const Color(0xff505050),
                             )))
                         .toList(),
                   ))),
@@ -304,7 +299,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
         .toList();
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
-      color: Colors.grey.shade200,
+      color: Theme.of(context).backgroundColor,
       child: Column(
         children: <Widget>[
           const SizedBox(
@@ -380,6 +375,9 @@ class _GraphDataPageState extends State<GraphDataPage> {
                               color: chartColors[models.indexOf(e) - 1],
                               text: e.name,
                               isSquare: true,
+                              textColor:
+                                  Theme.of(context).textTheme.caption?.color ??
+                                      const Color(0xff505050),
                             )))
                         .toList(),
                   ))),
@@ -436,7 +434,7 @@ class _GraphDataPageState extends State<GraphDataPage> {
         .firstWhere((element) => (element.cat01 == pModels[1].code));
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
-      color: Colors.grey.shade200,
+      color: Theme.of(context).backgroundColor,
       child: Column(
         children: <Widget>[
           const SizedBox(
@@ -512,6 +510,9 @@ class _GraphDataPageState extends State<GraphDataPage> {
                               color: chartColors[models.indexOf(e) - 1],
                               text: e.name,
                               isSquare: true,
+                              textColor:
+                                  Theme.of(context).textTheme.caption?.color ??
+                                      const Color(0xff505050),
                             )))
                         .toList(),
                   ))),

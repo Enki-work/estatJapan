@@ -34,18 +34,9 @@ class _LineGraphDataPageState extends State<LineGraphDataPage> {
                 widget.graphData.selectedCat02Mode!.name +
                 "\n全期間統計折れ線グラフ",
             style: const TextStyle(
-              color: Colors.black,
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(
-                  blurRadius: 10.0,
-                  color: Colors.grey,
-                  offset: Offset(1.0, 1.0),
-                )
-              ],
             ),
-            textAlign: TextAlign.center,
           ),
           actions: const <Widget>[
             //导航栏右侧菜单

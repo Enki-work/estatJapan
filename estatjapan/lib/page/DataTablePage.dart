@@ -155,8 +155,10 @@ class _DataTablePageState extends State<DataTablePage> {
                   height: 0.5,
                   thickness: 0.0,
                 ),
-                leftHandSideColBackgroundColor: const Color(0xFFFFFFFF),
-                rightHandSideColBackgroundColor: const Color(0xFFFFFFFF),
+                leftHandSideColBackgroundColor:
+                    Theme.of(context).backgroundColor,
+                rightHandSideColBackgroundColor:
+                    Theme.of(context).backgroundColor,
                 verticalScrollbarStyle: ScrollbarStyle(
                   thumbColor: Theme.of(context).primaryColorDark,
                   isAlwaysShown: true,
