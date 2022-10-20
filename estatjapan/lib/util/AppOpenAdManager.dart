@@ -7,7 +7,7 @@ import 'dart:io' show Platform;
 
 class AppOpenAdManager {
   /// Maximum duration allowed between loading and showing the ad.
-  final Duration maxCacheDuration = Duration(hours: 4);
+  final Duration maxCacheDuration = const Duration(hours: 4);
 
   /// Keep track of load time so we don't show an expired ad.
   DateTime? _appOpenLoadTime;

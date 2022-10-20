@@ -1,11 +1,8 @@
 import 'package:estatjapan/model/state/AppConfigState.dart';
-import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
 import 'package:estatjapan/util/AdHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-
-import '../pigeons/pigeon.dart';
 
 class BannerAdModel extends ChangeNotifier {
   late BannerAd? _bannerAd;
