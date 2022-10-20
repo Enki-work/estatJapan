@@ -47,7 +47,7 @@ dependencies:
 
   shared_preferences:
 
-  google_mobile_ads:
+  google_mobile_ads: ^2.1.0
   firebase_core:
   firebase_analytics:
   firebase_crashlytics:

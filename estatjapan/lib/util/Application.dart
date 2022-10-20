@@ -24,6 +24,7 @@ import '../page/RootPage.dart';
 import '../page/SettingPage.dart';
 import '../page/VisaInfoPage.dart';
 import '../page/WebViewPage.dart';
+import 'AppOpenAdManager.dart';
 import 'DioHolder.dart';
 
 class Application extends StatefulWidget {
@@ -38,10 +39,12 @@ class Application extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() {
-    // ignore: no_logic_in_create_state
+    AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
     return _ApplicationState(
       isRestart: isRestart,
+      appOpenAdManager: appOpenAdManager,
     );
   }
 }
@@ -50,9 +53,8 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
   final bool isRestart;
   final appConfig = AppConfigNotifier();
 
-  _ApplicationState({
-    this.isRestart = false,
-  });
+  final AppOpenAdManager appOpenAdManager;
+  _ApplicationState({this.isRestart = false, required this.appOpenAdManager});
 
   @override
   void initState() {
@@ -89,6 +91,7 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
       case AppLifecycleState.detached:
         break;
       case AppLifecycleState.resumed:
+        appOpenAdManager.showAdIfAvailable();
         break;
     }
   }

@@ -18,9 +18,11 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AppConfigState {
   String get android_inline_banner => throw _privateConstructorUsedError;
   String get android_inline_native => throw _privateConstructorUsedError;
+  String get android_open_ads => throw _privateConstructorUsedError;
   String get android_appid => throw _privateConstructorUsedError;
   String get ios_inline_banner => throw _privateConstructorUsedError;
   String get ios_inline_native => throw _privateConstructorUsedError;
+  String get ios_open_ads => throw _privateConstructorUsedError;
   String get ios_appid => throw _privateConstructorUsedError;
   String get estatAppId => throw _privateConstructorUsedError;
   bool get isThemeFollowSystem => throw _privateConstructorUsedError;
@@ -42,9 +44,11 @@ abstract class $AppConfigStateCopyWith<$Res> {
   $Res call(
       {String android_inline_banner,
       String android_inline_native,
+      String android_open_ads,
       String android_appid,
       String ios_inline_banner,
       String ios_inline_native,
+      String ios_open_ads,
       String ios_appid,
       String estatAppId,
       bool isThemeFollowSystem,
@@ -69,9 +73,11 @@ class _$AppConfigStateCopyWithImpl<$Res>
   $Res call({
     Object? android_inline_banner = freezed,
     Object? android_inline_native = freezed,
+    Object? android_open_ads = freezed,
     Object? android_appid = freezed,
     Object? ios_inline_banner = freezed,
     Object? ios_inline_native = freezed,
+    Object? ios_open_ads = freezed,
     Object? ios_appid = freezed,
     Object? estatAppId = freezed,
     Object? isThemeFollowSystem = freezed,
@@ -89,6 +95,10 @@ class _$AppConfigStateCopyWithImpl<$Res>
           ? _value.android_inline_native
           : android_inline_native // ignore: cast_nullable_to_non_nullable
               as String,
+      android_open_ads: android_open_ads == freezed
+          ? _value.android_open_ads
+          : android_open_ads // ignore: cast_nullable_to_non_nullable
+              as String,
       android_appid: android_appid == freezed
           ? _value.android_appid
           : android_appid // ignore: cast_nullable_to_non_nullable
@@ -100,6 +110,10 @@ class _$AppConfigStateCopyWithImpl<$Res>
       ios_inline_native: ios_inline_native == freezed
           ? _value.ios_inline_native
           : ios_inline_native // ignore: cast_nullable_to_non_nullable
+              as String,
+      ios_open_ads: ios_open_ads == freezed
+          ? _value.ios_open_ads
+          : ios_open_ads // ignore: cast_nullable_to_non_nullable
               as String,
       ios_appid: ios_appid == freezed
           ? _value.ios_appid
@@ -154,9 +168,11 @@ abstract class _$$_AppConfigStateCopyWith<$Res>
   $Res call(
       {String android_inline_banner,
       String android_inline_native,
+      String android_open_ads,
       String android_appid,
       String ios_inline_banner,
       String ios_inline_native,
+      String ios_open_ads,
       String ios_appid,
       String estatAppId,
       bool isThemeFollowSystem,
@@ -184,9 +200,11 @@ class __$$_AppConfigStateCopyWithImpl<$Res>
   $Res call({
     Object? android_inline_banner = freezed,
     Object? android_inline_native = freezed,
+    Object? android_open_ads = freezed,
     Object? android_appid = freezed,
     Object? ios_inline_banner = freezed,
     Object? ios_inline_native = freezed,
+    Object? ios_open_ads = freezed,
     Object? ios_appid = freezed,
     Object? estatAppId = freezed,
     Object? isThemeFollowSystem = freezed,
@@ -204,6 +222,10 @@ class __$$_AppConfigStateCopyWithImpl<$Res>
           ? _value.android_inline_native
           : android_inline_native // ignore: cast_nullable_to_non_nullable
               as String,
+      android_open_ads: android_open_ads == freezed
+          ? _value.android_open_ads
+          : android_open_ads // ignore: cast_nullable_to_non_nullable
+              as String,
       android_appid: android_appid == freezed
           ? _value.android_appid
           : android_appid // ignore: cast_nullable_to_non_nullable
@@ -215,6 +237,10 @@ class __$$_AppConfigStateCopyWithImpl<$Res>
       ios_inline_native: ios_inline_native == freezed
           ? _value.ios_inline_native
           : ios_inline_native // ignore: cast_nullable_to_non_nullable
+              as String,
+      ios_open_ads: ios_open_ads == freezed
+          ? _value.ios_open_ads
+          : ios_open_ads // ignore: cast_nullable_to_non_nullable
               as String,
       ios_appid: ios_appid == freezed
           ? _value.ios_appid
@@ -254,9 +280,11 @@ class _$_AppConfigState extends _AppConfigState {
   const _$_AppConfigState(
       {this.android_inline_banner = "",
       this.android_inline_native = "",
+      this.android_open_ads = "",
       this.android_appid = "",
       this.ios_inline_banner = "",
       this.ios_inline_native = "",
+      this.ios_open_ads = "",
       this.ios_appid = "",
       this.estatAppId = "",
       this.isThemeFollowSystem = true,
@@ -274,6 +302,9 @@ class _$_AppConfigState extends _AppConfigState {
   final String android_inline_native;
   @override
   @JsonKey()
+  final String android_open_ads;
+  @override
+  @JsonKey()
   final String android_appid;
   @override
   @JsonKey()
@@ -281,6 +312,9 @@ class _$_AppConfigState extends _AppConfigState {
   @override
   @JsonKey()
   final String ios_inline_native;
+  @override
+  @JsonKey()
+  final String ios_open_ads;
   @override
   @JsonKey()
   final String ios_appid;
@@ -303,7 +337,7 @@ class _$_AppConfigState extends _AppConfigState {
 
   @override
   String toString() {
-    return 'AppConfigState(android_inline_banner: $android_inline_banner, android_inline_native: $android_inline_native, android_appid: $android_appid, ios_inline_banner: $ios_inline_banner, ios_inline_native: $ios_inline_native, ios_appid: $ios_appid, estatAppId: $estatAppId, isThemeFollowSystem: $isThemeFollowSystem, isThemeDarkMode: $isThemeDarkMode, purchaseModel: $purchaseModel, bannerAdModel: $bannerAdModel, themeFlexScheme: $themeFlexScheme)';
+    return 'AppConfigState(android_inline_banner: $android_inline_banner, android_inline_native: $android_inline_native, android_open_ads: $android_open_ads, android_appid: $android_appid, ios_inline_banner: $ios_inline_banner, ios_inline_native: $ios_inline_native, ios_open_ads: $ios_open_ads, ios_appid: $ios_appid, estatAppId: $estatAppId, isThemeFollowSystem: $isThemeFollowSystem, isThemeDarkMode: $isThemeDarkMode, purchaseModel: $purchaseModel, bannerAdModel: $bannerAdModel, themeFlexScheme: $themeFlexScheme)';
   }
 
   @override
@@ -316,11 +350,15 @@ class _$_AppConfigState extends _AppConfigState {
             const DeepCollectionEquality()
                 .equals(other.android_inline_native, android_inline_native) &&
             const DeepCollectionEquality()
+                .equals(other.android_open_ads, android_open_ads) &&
+            const DeepCollectionEquality()
                 .equals(other.android_appid, android_appid) &&
             const DeepCollectionEquality()
                 .equals(other.ios_inline_banner, ios_inline_banner) &&
             const DeepCollectionEquality()
                 .equals(other.ios_inline_native, ios_inline_native) &&
+            const DeepCollectionEquality()
+                .equals(other.ios_open_ads, ios_open_ads) &&
             const DeepCollectionEquality().equals(other.ios_appid, ios_appid) &&
             const DeepCollectionEquality()
                 .equals(other.estatAppId, estatAppId) &&
@@ -341,9 +379,11 @@ class _$_AppConfigState extends _AppConfigState {
       runtimeType,
       const DeepCollectionEquality().hash(android_inline_banner),
       const DeepCollectionEquality().hash(android_inline_native),
+      const DeepCollectionEquality().hash(android_open_ads),
       const DeepCollectionEquality().hash(android_appid),
       const DeepCollectionEquality().hash(ios_inline_banner),
       const DeepCollectionEquality().hash(ios_inline_native),
+      const DeepCollectionEquality().hash(ios_open_ads),
       const DeepCollectionEquality().hash(ios_appid),
       const DeepCollectionEquality().hash(estatAppId),
       const DeepCollectionEquality().hash(isThemeFollowSystem),
@@ -362,9 +402,11 @@ abstract class _AppConfigState extends AppConfigState {
   const factory _AppConfigState(
       {final String android_inline_banner,
       final String android_inline_native,
+      final String android_open_ads,
       final String android_appid,
       final String ios_inline_banner,
       final String ios_inline_native,
+      final String ios_open_ads,
       final String ios_appid,
       final String estatAppId,
       final bool isThemeFollowSystem,
@@ -379,11 +421,15 @@ abstract class _AppConfigState extends AppConfigState {
   @override
   String get android_inline_native;
   @override
+  String get android_open_ads;
+  @override
   String get android_appid;
   @override
   String get ios_inline_banner;
   @override
   String get ios_inline_native;
+  @override
+  String get ios_open_ads;
   @override
   String get ios_appid;
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../util/DioHolder.dart';
 import 'Application.dart';
@@ -24,8 +25,7 @@ class AppInitializer {
 
   /// アプリのスタート
   void run() {
-    WidgetsFlutterBinding.ensureInitialized();
-
+    MobileAds.instance.initialize();
     initialize().then((app) {
       runApp(ProviderScope(
         child: app,

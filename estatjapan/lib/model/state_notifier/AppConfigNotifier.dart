@@ -37,9 +37,11 @@ class AppConfigNotifier extends StateNotifier<AppConfigState> {
     state = state.copyWith(
         android_inline_banner: json['android_inline_banner'],
         android_inline_native: json['android_inline_native'],
+        android_open_ads: json['android_open_ads'],
         android_appid: json['android_appid'],
         ios_inline_banner: json['ios_inline_banner'],
         ios_inline_native: json['ios_inline_native'],
+        ios_open_ads: json['ios_open_ads'],
         ios_appid: json['ios_appid'],
         estatAppId: json['estatAppId'],
         isThemeFollowSystem: isThemeFollowSystem,
