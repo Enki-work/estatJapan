@@ -11,9 +11,7 @@ import com.android.billingclient.api.Purchase
 import com.estatjapan.estatjapan.purchase.Constants
 import com.estatjapan.estatjapan.purchase.billing.BillingClientLifecycle
 import com.estatjapan.estatjapan.purchase.ui.BillingViewModel
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseApp
-import com.google.firebase.messaging.FirebaseMessaging
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import pigeon.Pigeon
@@ -84,10 +82,11 @@ class MainActivity: FlutterFragmentActivity(), Pigeon.HostPurchaseModelApi {
     }
 
     override fun getPurchaseModel(): Pigeon.PurchaseModel {
-        val baseSku = getSharedPreferences(Constants.PURCHASE_KEY, MODE_PRIVATE).getString(Constants.BASIC_SKU, "") ?: ""
-        val purchaseModel = Pigeon.PurchaseModel()
-        purchaseModel.isPurchase = baseSku.isNotEmpty()
-        return purchaseModel
+        val baseSku = getSharedPreferences(
+            Constants.PURCHASE_KEY,
+            MODE_PRIVATE
+        ).getString(Constants.BASIC_SKU, "") ?: ""
+        return Pigeon.PurchaseModel.Builder().setIsPurchase(baseSku.isNotEmpty()).setIsUsedTrial(false).build()
     }
 
     override fun getIsUsedTrial(): Boolean {
@@ -111,8 +110,7 @@ class MainActivity: FlutterFragmentActivity(), Pigeon.HostPurchaseModelApi {
      */
     private fun registerPurchases(purchaseList: List<Purchase>) {
         if (purchaseList.isEmpty()) {
-            val purchaseModel = Pigeon.PurchaseModel()
-            purchaseModel.isPurchase = false
+            val purchaseModel = Pigeon.PurchaseModel.Builder().setIsPurchase(false).setIsUsedTrial(false).build()
             Pigeon.FlutterPurchaseModelApi(flutterEngine?.dartExecutor).sendPurchaseModel(purchaseModel) {
                 Log.d(TAG, "FlutterPurchaseModelApi sendPurchaseModel")
                 val sharedPreferences = getSharedPreferences(Constants.PURCHASE_KEY, MODE_PRIVATE)
@@ -132,8 +130,7 @@ class MainActivity: FlutterFragmentActivity(), Pigeon.HostPurchaseModelApi {
             editor.apply()
 
             if (Constants.BASIC_SKU == sku) {
-                val purchaseModel = Pigeon.PurchaseModel()
-                purchaseModel.isPurchase = true
+                val purchaseModel = Pigeon.PurchaseModel.Builder().setIsPurchase(true).setIsUsedTrial(false).build()
                 Pigeon.FlutterPurchaseModelApi(flutterEngine?.dartExecutor).sendPurchaseModel(purchaseModel) {
                     Log.d(TAG, "FlutterPurchaseModelApi sendPurchaseModel")
 

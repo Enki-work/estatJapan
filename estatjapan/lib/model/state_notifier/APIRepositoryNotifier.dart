@@ -20,6 +20,9 @@ class APIRepositoryNotifier extends StateNotifier<RepositoryDataState>
   }
 
   Future<void> getMenuData() async {
+    if (_estatAppId.isEmpty) {
+      return;
+    }
     final res = await _dioHolder.getMenuData(_estatAppId);
     state = state.copyWith(immigrationStatisticsRoot: res);
   }

@@ -1,4 +1,3 @@
-import 'package:estatjapan/model/pigeonModel/PurchaseModelApi.dart';
 import 'package:estatjapan/model/state/AppConfigState.dart';
 import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
 import 'package:estatjapan/util/AdHelper.dart';
@@ -6,22 +5,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
-class BannerAdModel extends ChangeNotifier {
-  late BannerAd _bannerAd;
+import '../pigeons/pigeon.dart';
 
-  BannerAd bannerAd() => _bannerAd;
+class BannerAdModel extends ChangeNotifier {
+  late BannerAd? _bannerAd;
+
+  BannerAd bannerAd() => _bannerAd!;
   bool _isAdLoaded = false;
   bool isAdLoaded() => _isAdLoaded;
   bool _isPurchase = false;
   bool isPurchase() => _isPurchase;
 
   Future<void> loadBannerAd(BuildContext context) async {
-    if (context.read<AppConfigState>().purchaseModel == null) {
-      final purchaseModel = await HostPurchaseModelApi().getPurchaseModel();
-      context.read<AppConfigNotifier>().purchaseModel = purchaseModel;
-      loadBannerAd(context);
-      return;
-    }
+    // if (context.read<AppConfigState>().purchaseModel == null) {
+    //   final purchaseModel = await HostPurchaseModelApi().getPurchaseModel();
+    //   context.read<AppConfigNotifier>().purchaseModel = purchaseModel;
+    //   loadBannerAd(context);
+    //   return;
+    // }
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId(context),
       size: AdSize.banner,
@@ -39,20 +40,20 @@ class BannerAdModel extends ChangeNotifier {
         },
       ),
     );
-    if (context.read<AppConfigState>().purchaseModel?.isPurchase == true) {
+    if (context.read<AppConfigState>().purchaseModel.isPurchase == true) {
       _isPurchase = true;
       _isAdLoaded = false;
-      _bannerAd.dispose();
+      _bannerAd?.dispose();
       notifyListeners();
       return;
     }
 
-    _bannerAd.load();
+    _bannerAd?.load();
   }
 
   @override
   void dispose() {
-    _bannerAd.dispose();
+    _bannerAd?.dispose();
     super.dispose();
   }
 }

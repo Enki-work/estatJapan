@@ -21,7 +21,7 @@ class AppConfigState with _$AppConfigState {
     @Default("") String estatAppId,
     @Default(true) bool isThemeFollowSystem,
     @Default(false) bool isThemeDarkMode,
-    PurchaseModel? purchaseModel,
+    @Default(PurchaseModel()) PurchaseModel purchaseModel,
     BannerAdModel? bannerAdModel,
     @Default(FlexScheme.amber) FlexScheme themeFlexScheme,
   }) = _AppConfigState;

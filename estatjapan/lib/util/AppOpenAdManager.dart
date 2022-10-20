@@ -5,17 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'dart:io' show Platform;
 
-import '../model/state/AppConfigState.dart';
-
 class AppOpenAdManager {
-  AppOpenAd? _appOpenAd;
-  bool _isShowingAd = false;
-
   /// Maximum duration allowed between loading and showing the ad.
-  final Duration maxCacheDuration = const Duration(hours: 4);
+  final Duration maxCacheDuration = Duration(hours: 4);
 
   /// Keep track of load time so we don't show an expired ad.
   DateTime? _appOpenLoadTime;
+
+  AppOpenAd? _appOpenAd;
+  bool _isShowingAd = false;
 
   /// Load an [AppOpenAd].
   Future<void> loadAd() async {
@@ -32,14 +30,16 @@ class AppOpenAdManager {
       request: const AdRequest(),
       adLoadCallback: AppOpenAdLoadCallback(
         onAdLoaded: (ad) {
-          _appOpenAd = ad;
+          if (kDebugMode) {
+            print('$ad loaded');
+          }
           _appOpenLoadTime = DateTime.now();
+          _appOpenAd = ad;
         },
         onAdFailedToLoad: (error) {
           if (kDebugMode) {
             print('AppOpenAd failed to load: $error');
           }
-          // Handle the error.
         },
       ),
     );
@@ -50,6 +50,10 @@ class AppOpenAdManager {
     return _appOpenAd != null;
   }
 
+  /// Shows the ad, if one exists and is not already being shown.
+  ///
+  /// If the previously cached ad has expired, this just loads and caches a
+  /// new ad.
   void showAdIfAvailable() {
     if (!isAdAvailable) {
       if (kDebugMode) {
@@ -99,5 +103,6 @@ class AppOpenAdManager {
         loadAd();
       },
     );
+    _appOpenAd!.show();
   }
 }

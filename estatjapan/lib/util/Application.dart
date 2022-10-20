@@ -3,7 +3,6 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../model/GraphData.dart';
@@ -24,6 +23,7 @@ import '../page/RootPage.dart';
 import '../page/SettingPage.dart';
 import '../page/VisaInfoPage.dart';
 import '../page/WebViewPage.dart';
+import 'AppLifecycleReactor.dart';
 import 'AppOpenAdManager.dart';
 import 'DioHolder.dart';
 
@@ -41,10 +41,9 @@ class Application extends StatefulWidget {
   @override
   // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() {
-    AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
+    // ignore: no_logic_in_create_state
     return _ApplicationState(
       isRestart: isRestart,
-      appOpenAdManager: appOpenAdManager,
     );
   }
 }
@@ -52,16 +51,19 @@ class Application extends StatefulWidget {
 class _ApplicationState extends State<Application> with WidgetsBindingObserver {
   final bool isRestart;
   final appConfig = AppConfigNotifier();
+  late AppLifecycleReactor _appLifecycleReactor;
 
-  final AppOpenAdManager appOpenAdManager;
-  _ApplicationState({this.isRestart = false, required this.appOpenAdManager});
+  _ApplicationState({this.isRestart = false});
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    MobileAds.instance.initialize();
+    AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
+    _appLifecycleReactor =
+        AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+    _appLifecycleReactor.listenToAppStateChanges();
     // Android Status Barを透過させるため
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.transparent,
@@ -91,7 +93,6 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
       case AppLifecycleState.detached:
         break;
       case AppLifecycleState.resumed:
-        appOpenAdManager.showAdIfAvailable();
         break;
     }
   }

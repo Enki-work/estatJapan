@@ -27,7 +27,7 @@ mixin _$AppConfigState {
   String get estatAppId => throw _privateConstructorUsedError;
   bool get isThemeFollowSystem => throw _privateConstructorUsedError;
   bool get isThemeDarkMode => throw _privateConstructorUsedError;
-  PurchaseModel? get purchaseModel => throw _privateConstructorUsedError;
+  PurchaseModel get purchaseModel => throw _privateConstructorUsedError;
   BannerAdModel? get bannerAdModel => throw _privateConstructorUsedError;
   FlexScheme get themeFlexScheme => throw _privateConstructorUsedError;
 
@@ -53,11 +53,11 @@ abstract class $AppConfigStateCopyWith<$Res> {
       String estatAppId,
       bool isThemeFollowSystem,
       bool isThemeDarkMode,
-      PurchaseModel? purchaseModel,
+      PurchaseModel purchaseModel,
       BannerAdModel? bannerAdModel,
       FlexScheme themeFlexScheme});
 
-  $PurchaseModelCopyWith<$Res>? get purchaseModel;
+  $PurchaseModelCopyWith<$Res> get purchaseModel;
 }
 
 /// @nodoc
@@ -134,7 +134,7 @@ class _$AppConfigStateCopyWithImpl<$Res>
       purchaseModel: purchaseModel == freezed
           ? _value.purchaseModel
           : purchaseModel // ignore: cast_nullable_to_non_nullable
-              as PurchaseModel?,
+              as PurchaseModel,
       bannerAdModel: bannerAdModel == freezed
           ? _value.bannerAdModel
           : bannerAdModel // ignore: cast_nullable_to_non_nullable
@@ -147,12 +147,8 @@ class _$AppConfigStateCopyWithImpl<$Res>
   }
 
   @override
-  $PurchaseModelCopyWith<$Res>? get purchaseModel {
-    if (_value.purchaseModel == null) {
-      return null;
-    }
-
-    return $PurchaseModelCopyWith<$Res>(_value.purchaseModel!, (value) {
+  $PurchaseModelCopyWith<$Res> get purchaseModel {
+    return $PurchaseModelCopyWith<$Res>(_value.purchaseModel, (value) {
       return _then(_value.copyWith(purchaseModel: value));
     });
   }
@@ -177,12 +173,12 @@ abstract class _$$_AppConfigStateCopyWith<$Res>
       String estatAppId,
       bool isThemeFollowSystem,
       bool isThemeDarkMode,
-      PurchaseModel? purchaseModel,
+      PurchaseModel purchaseModel,
       BannerAdModel? bannerAdModel,
       FlexScheme themeFlexScheme});
 
   @override
-  $PurchaseModelCopyWith<$Res>? get purchaseModel;
+  $PurchaseModelCopyWith<$Res> get purchaseModel;
 }
 
 /// @nodoc
@@ -261,7 +257,7 @@ class __$$_AppConfigStateCopyWithImpl<$Res>
       purchaseModel: purchaseModel == freezed
           ? _value.purchaseModel
           : purchaseModel // ignore: cast_nullable_to_non_nullable
-              as PurchaseModel?,
+              as PurchaseModel,
       bannerAdModel: bannerAdModel == freezed
           ? _value.bannerAdModel
           : bannerAdModel // ignore: cast_nullable_to_non_nullable
@@ -289,7 +285,7 @@ class _$_AppConfigState extends _AppConfigState {
       this.estatAppId = "",
       this.isThemeFollowSystem = true,
       this.isThemeDarkMode = false,
-      this.purchaseModel,
+      this.purchaseModel = const PurchaseModel(),
       this.bannerAdModel,
       this.themeFlexScheme = FlexScheme.amber})
       : super._();
@@ -328,7 +324,8 @@ class _$_AppConfigState extends _AppConfigState {
   @JsonKey()
   final bool isThemeDarkMode;
   @override
-  final PurchaseModel? purchaseModel;
+  @JsonKey()
+  final PurchaseModel purchaseModel;
   @override
   final BannerAdModel? bannerAdModel;
   @override
@@ -411,7 +408,7 @@ abstract class _AppConfigState extends AppConfigState {
       final String estatAppId,
       final bool isThemeFollowSystem,
       final bool isThemeDarkMode,
-      final PurchaseModel? purchaseModel,
+      final PurchaseModel purchaseModel,
       final BannerAdModel? bannerAdModel,
       final FlexScheme themeFlexScheme}) = _$_AppConfigState;
   const _AppConfigState._() : super._();
@@ -439,7 +436,7 @@ abstract class _AppConfigState extends AppConfigState {
   @override
   bool get isThemeDarkMode;
   @override
-  PurchaseModel? get purchaseModel;
+  PurchaseModel get purchaseModel;
   @override
   BannerAdModel? get bannerAdModel;
   @override

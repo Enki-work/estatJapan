@@ -18,7 +18,7 @@ const themeFlexSchemeKey = "themeFlexSchemeKey";
 class AppConfigNotifier extends StateNotifier<AppConfigState> {
   AppConfigNotifier() : super(AppConfigState(bannerAdModel: BannerAdModel()));
 
-  set purchaseModel(PurchaseModel? purchaseModel) {
+  set purchaseModel(PurchaseModel purchaseModel) {
     state = state.copyWith(purchaseModel: purchaseModel);
   }
 
