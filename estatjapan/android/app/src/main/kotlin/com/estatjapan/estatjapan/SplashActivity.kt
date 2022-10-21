@@ -1,4 +1,4 @@
-package com.estatjapan.estatjapan
+package com.estatjapan
 
 
 import android.content.Intent
@@ -7,8 +7,8 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.estatjapan.estatjapan.MainActivity
-import com.estatjapan.estatjapan.R
+import com.estatjapan.MainActivity
+import com.estatjapan.R
 
 /**
  * Number of seconds to count down before showing the app open ad. This simulates the time needed

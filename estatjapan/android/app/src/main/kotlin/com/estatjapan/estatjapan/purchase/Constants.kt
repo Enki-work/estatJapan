@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.estatjapan.estatjapan.purchase
+package com.estatjapan.purchase
 
-import com.estatjapan.estatjapan.BuildConfig
+import com.estatjapan.BuildConfig
 
 
 class Constants {

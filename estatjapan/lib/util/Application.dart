@@ -70,10 +70,10 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
     ));
     Future(() async {
       await appConfig.forEnvironment();
-      FlutterPurchaseModelApi.setup(
-          FlutterPurchaseModelApiHandler((purchaseModel) {
-        appConfig.purchaseModel = purchaseModel;
-      }));
+      // FlutterPurchaseModelApi.setup(
+      //     FlutterPurchaseModelApiHandler((purchaseModel) {
+      //   appConfig.purchaseModel = purchaseModel;
+      // }));
     });
   }
 

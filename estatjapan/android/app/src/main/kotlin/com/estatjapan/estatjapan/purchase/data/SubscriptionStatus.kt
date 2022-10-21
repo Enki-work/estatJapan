@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.estatjapan.estatjapan.purchase.data
+package com.estatjapan.purchase.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

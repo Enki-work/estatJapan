@@ -60,6 +60,6 @@ class ContactMePage extends StatelessWidget {
   }
 
   void _launchURL(String _url) async => await canLaunchUrl(Uri.parse(_url))
-      ? _launchURL(_url)
+      ? launchUrl(Uri.parse(_url))
       : throw 'Could not launch $_url';
 }

@@ -1,4 +1,4 @@
-package com.estatjapan.estatjapan.purchase.ui
+package com.estatjapan.purchase.ui
 
 import android.util.Log
 import androidx.annotation.MainThread

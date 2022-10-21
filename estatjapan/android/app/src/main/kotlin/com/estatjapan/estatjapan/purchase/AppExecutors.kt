@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.estatjapan.estatjapan.purchase
+package com.estatjapan.purchase
 
 import android.os.Handler
 import android.os.Looper

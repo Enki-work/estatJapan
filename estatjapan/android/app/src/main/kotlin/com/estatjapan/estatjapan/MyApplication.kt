@@ -1,4 +1,4 @@
-package com.estatjapan.estatjapan
+package com.estatjapan
 
 
 import android.app.Activity
@@ -11,9 +11,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.estatjapan.estatjapan.purchase.AppExecutors
-import com.estatjapan.estatjapan.purchase.Constants
-import com.estatjapan.estatjapan.purchase.billing.BillingClientLifecycle
+import com.estatjapan.purchase.AppExecutors
+import com.estatjapan.purchase.Constants
+import com.estatjapan.purchase.billing.BillingClientLifecycle
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -40,12 +40,13 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks, Lif
 
     override fun onCreate() {
         super.onCreate()
-        registerActivityLifecycleCallbacks(this)
-        if (isBasePurchase) {
-            MobileAds.initialize(this) {}
-        }
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+//        registerActivityLifecycleCallbacks(this)
+//        if (isBasePurchase) {
+//            MobileAds.initialize(this) {}
+//        }
+//        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         appOpenAdManager = AppOpenAdManager()
+
     }
 
     /** LifecycleObserver method that shows the app open ad when the app moves to foreground. */
@@ -92,7 +93,7 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks, Lif
     ) {
         // We wrap the showAdIfAvailable to enforce that other classes only interact with MyApplication
         // class.
-        appOpenAdManager.showAdIfAvailable(activity, onShowAdCompleteListener)
+//        appOpenAdManager.showAdIfAvailable(activity, onShowAdCompleteListener)
     }
 
     /**
@@ -177,13 +178,13 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks, Lif
          * @param activity the activity that shows the app open ad
          */
         fun showAdIfAvailable(activity: Activity) {
-            showAdIfAvailable(
-                activity,
-                object : OnShowAdCompleteListener {
-                    override fun onShowAdComplete() {
-                        // Empty because the user will go back to the activity that shows the ad.
-                    }
-                })
+//            showAdIfAvailable(
+//                activity,
+//                object : OnShowAdCompleteListener {
+//                    override fun onShowAdComplete() {
+//                        // Empty because the user will go back to the activity that shows the ad.
+//                    }
+//                })
         }
 
         /**

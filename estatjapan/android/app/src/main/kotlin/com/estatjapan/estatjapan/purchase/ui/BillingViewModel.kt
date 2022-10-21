@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.estatjapan.estatjapan.purchase.ui
+package com.estatjapan.purchase.ui
 
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.Purchase
-import com.estatjapan.estatjapan.MyApplication
-import com.estatjapan.estatjapan.purchase.Constants
-import com.estatjapan.estatjapan.purchase.billing.deviceHasGooglePlaySubscription
-import com.estatjapan.estatjapan.purchase.billing.serverHasSubscription
-import com.estatjapan.estatjapan.purchase.billing.subscriptionForSku
-import com.estatjapan.estatjapan.purchase.data.SubscriptionStatus
+import com.estatjapan.MyApplication
+import com.estatjapan.purchase.Constants
+import com.estatjapan.purchase.billing.deviceHasGooglePlaySubscription
+import com.estatjapan.purchase.billing.serverHasSubscription
+import com.estatjapan.purchase.billing.subscriptionForSku
+import com.estatjapan.purchase.data.SubscriptionStatus
 
 class BillingViewModel(application: Application) : AndroidViewModel(application) {
 

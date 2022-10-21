@@ -5,6 +5,6 @@ flutter pub run pigeon \
   --objc_source_out ios/Runner/pigeon.m \
   --experimental_swift_out ios/Runner/Pigeon.swift \
   --java_out ./android/app/src/main/java/pigeon/Pigeon.java \
-  --java_package "com.estatjapan.estatjapan"
+  --java_package "com.estatjapan"
 
   flutter pub run build_runner build

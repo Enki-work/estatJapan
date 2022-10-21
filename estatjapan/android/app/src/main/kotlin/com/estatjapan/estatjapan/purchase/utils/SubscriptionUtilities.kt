@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.estatjapan.estatjapan.purchase.utils
+package com.estatjapan.purchase.utils
 
 import android.content.res.Resources
-import com.estatjapan.estatjapan.purchase.data.SubscriptionStatus
+import com.estatjapan.purchase.data.SubscriptionStatus
 
 /**
  * Return the resource string for the basic subscription button.

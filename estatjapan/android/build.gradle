@@ -1,12 +1,14 @@
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.7.10'
     ext.billingVersion = '5.0.0'
     ext.gsonVersion= '2.8.9'
-    ext.firebaseAuthVersion = '21.0.7'
-    ext.firebaseCoreVersion = '21.1.0'
-    ext.firebaseFunctionsVersion = '20.1.0'
+    ext.firebaseAuthVersion = '21.1.0'
+    ext.firebaseCoreVersion = '21.1.1'
+    ext.firebaseFunctionsVersion = '20.2.0'
     ext.firebaseUiVersion = '8.0.1'
     ext.archLifecycleVersion = '1.1.1'
+    ext.billing_version = '5.0.0'
+
     repositories {
         google()
         mavenCentral()

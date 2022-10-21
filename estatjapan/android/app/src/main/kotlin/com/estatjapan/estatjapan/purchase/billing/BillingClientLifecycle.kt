@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.estatjapan.estatjapan.purchase.billing
+package com.estatjapan.purchase.billing
 
 import android.app.Activity
 import android.app.Application
@@ -34,8 +34,8 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.SkuDetailsResponseListener
-import com.estatjapan.estatjapan.purchase.Constants
-import com.estatjapan.estatjapan.purchase.ui.SingleLiveEvent
+import com.estatjapan.purchase.Constants
+import com.estatjapan.purchase.ui.SingleLiveEvent
 
 class BillingClientLifecycle private constructor(
         private val app: Application

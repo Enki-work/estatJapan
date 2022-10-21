@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.estatjapan.estatjapan.purchase.presenter
+package com.estatjapan.purchase.presenter
 
 import android.text.TextUtils
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter
 
-import com.estatjapan.estatjapan.purchase.data.SubscriptionContent
+import com.estatjapan.purchase.data.SubscriptionContent
 
 /**
  * Presenter class used to bind and display metadata from a SubscriptionContent object

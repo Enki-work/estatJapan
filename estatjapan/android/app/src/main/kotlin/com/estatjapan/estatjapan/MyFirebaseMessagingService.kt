@@ -1,4 +1,4 @@
-package com.estatjapan.estatjapan
+package com.estatjapan
 
 
 import android.app.NotificationChannel

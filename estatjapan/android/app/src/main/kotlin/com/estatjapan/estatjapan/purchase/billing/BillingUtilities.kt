@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.estatjapan.estatjapan.purchase.billing
+package com.estatjapan.purchase.billing
 
 import com.android.billingclient.api.Purchase
-import com.estatjapan.estatjapan.purchase.Constants
-import com.estatjapan.estatjapan.purchase.data.SubscriptionStatus
+import com.estatjapan.purchase.Constants
+import com.estatjapan.purchase.data.SubscriptionStatus
 
 /**
  * Return subscription for the provided SKU, if it exists.
