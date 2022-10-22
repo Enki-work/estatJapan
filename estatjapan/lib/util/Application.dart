@@ -9,11 +9,11 @@ import '../model/GraphData.dart';
 import '../model/RouteModel.dart';
 import '../model/VisaInfoPageData.dart';
 import '../model/jsonModel/ClassOBJ.dart';
-import '../model/pigeonModel/FlutterPurchaseModelApiHandler.dart';
-import '../model/pigeonModel/PurchaseModelApi.dart';
 import '../model/state/AppConfigState.dart';
+import '../model/state/PurchaseState.dart';
 import '../model/state/RepositoryDataState.dart';
 import '../model/state_notifier/APIRepositoryNotifier.dart';
+import '../model/state_notifier/PurchaseNotifier.dart';
 import '../page/ContactMePage.dart';
 import '../page/EStatInfoPage.dart';
 import '../page/LicenseInfoPage.dart';
@@ -110,6 +110,11 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
           ),
           ChangeNotifierProvider(
             create: (_) => GraphData(),
+          ),
+          StateNotifierProvider<PurchaseNotifier, PurchaseState>(
+            create: (_) => PurchaseNotifier()
+              ..getIsAdDeletedDone()
+              ..initStoreInfo(),
           ),
         ],
         builder: (context, child) {

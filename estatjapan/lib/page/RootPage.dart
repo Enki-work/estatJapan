@@ -3,6 +3,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../model/state/AppConfigState.dart';
+import '../model/state/PurchaseState.dart';
 import '../model/state/RepositoryDataState.dart';
 import '../model/state_notifier/APIRepositoryNotifier.dart';
 import 'GraphDataSelectPage.dart';
@@ -26,7 +27,9 @@ class RootPage extends StatelessWidget {
       final rootPageState = context.watch<RepositoryDataState>();
       return Column(
         children: [
-          if (orientation == Orientation.portrait && bAdModel.isAdLoaded())
+          if (orientation == Orientation.portrait &&
+              bAdModel.isAdLoaded() &&
+              !context.watch<PurchaseState>().isAdDeletedDone)
             Container(
               child: AdWidget(ad: bAdModel.bannerAd()),
               width: double.infinity,

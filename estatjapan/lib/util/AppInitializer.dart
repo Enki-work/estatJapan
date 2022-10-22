@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import '../util/DioHolder.dart';
 import 'Application.dart';
@@ -25,9 +26,13 @@ class AppInitializer {
   /// アプリのスタート
   void run() {
     initialize().then((app) {
-      runApp(ProviderScope(
-        child: app,
-      ));
+      runApp(
+        GetMaterialApp(
+          home: ProviderScope(
+            child: app,
+          ),
+        ),
+      );
     });
   }
 

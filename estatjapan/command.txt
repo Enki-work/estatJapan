@@ -7,4 +7,4 @@ flutter pub run pigeon \
   --java_out ./android/app/src/main/java/pigeon/Pigeon.java \
   --java_package "com.estatjapan"
 
-  flutter pub run build_runner build
+ flutter pub run build_runner build --delete-conflicting-outputs

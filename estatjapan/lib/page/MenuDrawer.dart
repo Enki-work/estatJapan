@@ -1,9 +1,11 @@
-import 'package:estatjapan/model/BannerAdModel.dart';
-import 'package:estatjapan/model/pigeonModel/PurchaseModelApi.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+
+import '../model/state/AppConfigState.dart';
+import '../model/state/PurchaseState.dart';
+import '../model/state_notifier/PurchaseNotifier.dart';
 
 class MenuDrawer extends StatefulWidget {
   const MenuDrawer({
@@ -16,15 +18,15 @@ class MenuDrawer extends StatefulWidget {
 class _MenuDrawerState extends State<MenuDrawer> {
   @override
   Widget build(BuildContext context) {
+    final isAdDeletedDone = context.watch<PurchaseState>().isAdDeletedDone;
     return Drawer(
-        child: MediaQuery.removePadding(
-      context: context,
-      //移除抽屉菜单顶部默认留白
-      removeTop: true,
-      child: ChangeNotifierProvider<BannerAdModel>(
-          create: (_) => BannerAdModel()..loadBannerAd(context),
+      child: MediaQuery.removePadding(
+          context: context,
+          //移除抽屉菜单顶部默认留白
+          removeTop: true,
           child: Builder(builder: (context) {
-            BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
+            final bAdModel = context.watch<AppConfigState>().bannerAdModel!
+              ..loadBannerAd(context);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -60,7 +62,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                         title: Text('課金',
                             style: TextStyle(fontSize: 12, color: Colors.grey)),
                       ),
-                      bAdModel.isPurchase()
+                      isAdDeletedDone
                           ? const ListTile(
                               leading: Icon(Icons.check_circle_rounded),
                               title: Text('広告削除済み'),
@@ -85,8 +87,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
                                   title: const Text('支払い済課金復元'),
                                   onTap: () {
                                     Navigator.pop(context);
-                                    HostPurchaseModelApi()
-                                        .restorePurchaseModel();
+                                    // HostPurchaseModelApi()
+                                    //     .restorePurchaseModel();
+                                    context
+                                        .read<PurchaseNotifier>()
+                                        .restorePurchases();
                                   },
                                 ),
                               ],
@@ -169,6 +174,6 @@ class _MenuDrawerState extends State<MenuDrawer> {
               ],
             );
           })),
-    ));
+    );
   }
 }

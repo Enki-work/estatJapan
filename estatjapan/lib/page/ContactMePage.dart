@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../util/UIUnti.dart';
 
 class ContactMePage extends StatelessWidget {
   const ContactMePage({Key? key}) : super(key: key);
@@ -52,14 +53,10 @@ class ContactMePage extends StatelessWidget {
                             'subject': '${info.appName}_V${info.version}'
                           }),
                         );
-                        _launchURL(emailLaunchUri.toString());
+                        launchURL(emailLaunchUri.toString());
                       },
                     ),
                   ],
                 ))));
   }
-
-  void _launchURL(String _url) async => await canLaunchUrl(Uri.parse(_url))
-      ? launchUrl(Uri.parse(_url))
-      : throw 'Could not launch $_url';
 }

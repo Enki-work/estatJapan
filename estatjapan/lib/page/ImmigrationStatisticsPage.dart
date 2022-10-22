@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../model/jsonModel/Class.dart';
 import '../model/jsonModel/ClassOBJ.dart';
 import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
+import '../model/state/AppConfigState.dart';
 import 'MenuDrawer.dart';
 
 class ImmigrationStatisticsPage extends StatefulWidget {
@@ -195,75 +196,75 @@ class _ImmigrationStatisticsPageState extends State<ImmigrationStatisticsPage> {
 
   Widget getPageWidget() {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<ImmigrationStatisticsModel>.value(
-              value: model),
-          ChangeNotifierProvider<BannerAdModel>(
-              create: (_) => BannerAdModel()..loadBannerAd(context)),
-        ],
-        child: Scaffold(
-            appBar: AppBar(
-              //导航栏
-              title: Text(widget.title),
-              actions: const <Widget>[
-                //导航栏右侧菜单
-                // IconButton(icon: Icon(Icons.share), onPressed: () {}),
-              ],
-            ),
-            drawer: const MenuDrawer(), //抽屉
-            bottomNavigationBar: Builder(builder: (context) {
-              return BottomNavigationBar(
-                // 底部导航
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.add_chart_rounded), label: '在留資格審査'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.align_horizontal_left_rounded),
-                      label: '審査受理・処理'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.all_inbox_rounded), label: '在留管理局・支局'),
+      providers: [
+        ChangeNotifierProvider<ImmigrationStatisticsModel>.value(value: model),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          //导航栏
+          title: Text(widget.title),
+          actions: const <Widget>[
+            //导航栏右侧菜单
+            // IconButton(icon: Icon(Icons.share), onPressed: () {}),
+          ],
+        ),
+        drawer: const MenuDrawer(), //抽屉
+        bottomNavigationBar: Builder(builder: (context) {
+          return BottomNavigationBar(
+            // 底部导航
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.add_chart_rounded), label: '在留資格審査'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.align_horizontal_left_rounded),
+                  label: '審査受理・処理'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.all_inbox_rounded), label: '在留管理局・支局'),
+            ],
+            currentIndex:
+                Provider.of<ImmigrationStatisticsModel>(context).selectedIndex,
+            onTap: (index) => model.selectedIndex = index,
+          );
+        }),
+        body: Builder(builder: (context) {
+          final bAdModel = context.watch<AppConfigState>().bannerAdModel!
+            ..loadBannerAd(context);
+          ImmigrationStatisticsModel isModel =
+              Provider.of<ImmigrationStatisticsModel>(context);
+          switch (isModel.selectedIndex) {
+            case 0:
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  isModel.model == null
+                      ? const Center(child: Text("予想外エラー"))
+                      : _cat01ListView(isModel.model!, bAdModel)
                 ],
-                currentIndex: Provider.of<ImmigrationStatisticsModel>(context)
-                    .selectedIndex,
-                onTap: (index) => model.selectedIndex = index,
               );
-            }),
-            body: Builder(builder: (context) {
-              BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
-              ImmigrationStatisticsModel isModel =
-                  Provider.of<ImmigrationStatisticsModel>(context);
-              switch (isModel.selectedIndex) {
-                case 0:
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      isModel.model == null
-                          ? const Center(child: Text("予想外エラー"))
-                          : _cat01ListView(isModel.model!, bAdModel)
-                    ],
-                  );
-                case 1:
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      isModel.model == null
-                          ? const Center(child: Text("予想外エラー"))
-                          : _cat02ListView(isModel.model!, bAdModel)
-                    ],
-                  );
-                case 2:
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      isModel.model == null
-                          ? const Center(child: Text("予想外エラー"))
-                          : _cat03ListView(isModel.model!, bAdModel)
-                    ],
-                  );
-                default:
-                  return const Center(child: Text("予想外エラー"));
-              }
-            })));
+            case 1:
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  isModel.model == null
+                      ? const Center(child: Text("予想外エラー"))
+                      : _cat02ListView(isModel.model!, bAdModel)
+                ],
+              );
+            case 2:
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  isModel.model == null
+                      ? const Center(child: Text("予想外エラー"))
+                      : _cat03ListView(isModel.model!, bAdModel)
+                ],
+              );
+            default:
+              return const Center(child: Text("予想外エラー"));
+          }
+        }),
+      ),
+    );
   }
 
   Future<InitializationStatus> _initGoogleMobileAds() {

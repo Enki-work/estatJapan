@@ -1,4 +1,4 @@
-import 'package:estatjapan/model/state/AppConfigState.dart';
+import 'package:estatjapan/model/state/PurchaseState.dart';
 import 'package:estatjapan/util/AdHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -10,8 +10,6 @@ class BannerAdModel extends ChangeNotifier {
   BannerAd bannerAd() => _bannerAd!;
   bool _isAdLoaded = false;
   bool isAdLoaded() => _isAdLoaded;
-  bool _isPurchase = false;
-  bool isPurchase() => _isPurchase;
 
   Future<void> loadBannerAd(BuildContext context) async {
     // if (context.read<AppConfigState>().purchaseModel == null) {
@@ -20,30 +18,30 @@ class BannerAdModel extends ChangeNotifier {
     //   loadBannerAd(context);
     //   return;
     // }
+    if (context.read<PurchaseState>().isAdDeletedDone) {
+      _isAdLoaded = false;
+      _bannerAd?.dispose();
+      notifyListeners();
+      return;
+    }
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId(context),
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) {
-          if (!_isPurchase) {
+          if (!context.read<PurchaseState>().isAdDeletedDone) {
             _isAdLoaded = true;
             notifyListeners();
           }
         },
         onAdFailedToLoad: (ad, error) {
+          _isAdLoaded = false;
           // Releases an ad resource when it fails to load
           ad.dispose();
         },
       ),
     );
-    if (context.read<AppConfigState>().purchaseModel.isPurchase == true) {
-      _isPurchase = true;
-      _isAdLoaded = false;
-      _bannerAd?.dispose();
-      notifyListeners();
-      return;
-    }
 
     _bannerAd?.load();
   }
@@ -53,4 +51,12 @@ class BannerAdModel extends ChangeNotifier {
     _bannerAd?.dispose();
     super.dispose();
   }
+
+  @override
+  bool operator ==(Object other) {
+    return (other is BannerAdModel) && other._isAdLoaded == _isAdLoaded;
+  }
+
+  @override
+  int get hashCode => _isAdLoaded.hashCode;
 }

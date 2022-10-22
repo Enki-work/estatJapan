@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:estatjapan/model/BannerAdModel.dart';
 import 'package:estatjapan/model/RouteModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../model/jsonModel/ClassOBJ.dart';
 import '../model/jsonModel/ImmigrationStatisticsRoot.dart';
 import '../model/jsonModel/Value.dart';
+import '../model/state/AppConfigState.dart';
 import '../model/state_notifier/APIRepositoryNotifier.dart';
 
 class DataTablePage extends StatefulWidget {
@@ -103,78 +103,74 @@ class _DataTablePageState extends State<DataTablePage> {
                     .CLASS
                     .length *
                 DataTablePage.width;
-    return ChangeNotifierProvider<BannerAdModel>(
-        create: (_) => BannerAdModel()..loadBannerAd(context),
-        child: OrientationBuilder(builder: (context, orientation) {
-          BannerAdModel bAdModel = Provider.of<BannerAdModel>(context);
-          return Column(children: [
-            if (orientation == Orientation.portrait && bAdModel.isAdLoaded())
-              Container(
-                child: AdWidget(ad: bAdModel.bannerAd()),
-                width: bAdModel.bannerAd().size.width.toDouble(),
-                height: 72.0,
-                alignment: Alignment.center,
-              ),
-            Expanded(
-              child: HorizontalDataTable(
-                leftHandSideColumnWidth: leftHandSideColumnWidth,
-                rightHandSideColumnWidth: rightHandSideColumnWidth,
-                isFixedHeader: true,
-                headerWidgets: _getTitleWidget(),
-                leftSideItemBuilder: _generateFirstColumnRow,
-                rightSideItemBuilder: _generateRightHandSideColumnRow,
-                itemCount: () {
-                  if (widget.routeModel.selectedCLASS.parentID == "cat01") {
-                    return widget.routeModel.rootModel!.GET_STATS_DATA
-                        .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-                        .firstWhere((element) => element.id == "cat02")
-                        .CLASS
-                        .length;
-                  } else if (widget.routeModel.selectedCLASS.parentID ==
-                      "cat02") {
-                    return widget.routeModel.rootModel!.GET_STATS_DATA
+    return OrientationBuilder(builder: (context, orientation) {
+      final bAdModel = context.watch<AppConfigState>().bannerAdModel!
+        ..loadBannerAd(context);
+      return Column(children: [
+        if (orientation == Orientation.portrait && bAdModel.isAdLoaded())
+          Container(
+            child: AdWidget(ad: bAdModel.bannerAd()),
+            width: bAdModel.bannerAd().size.width.toDouble(),
+            height: 72.0,
+            alignment: Alignment.center,
+          ),
+        Expanded(
+          child: HorizontalDataTable(
+            leftHandSideColumnWidth: leftHandSideColumnWidth,
+            rightHandSideColumnWidth: rightHandSideColumnWidth,
+            isFixedHeader: true,
+            headerWidgets: _getTitleWidget(),
+            leftSideItemBuilder: _generateFirstColumnRow,
+            rightSideItemBuilder: _generateRightHandSideColumnRow,
+            itemCount: () {
+              if (widget.routeModel.selectedCLASS.parentID == "cat01") {
+                return widget.routeModel.rootModel!.GET_STATS_DATA
+                    .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+                    .firstWhere((element) => element.id == "cat02")
+                    .CLASS
+                    .length;
+              } else if (widget.routeModel.selectedCLASS.parentID == "cat02") {
+                return widget.routeModel.rootModel!.GET_STATS_DATA
+                    .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
+                    .firstWhere((element) => element.id == "cat01")
+                    .CLASS
+                    .length;
+              } else {
+                return widget.routeModel.rootModel!.GET_STATS_DATA
                         .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
                         .firstWhere((element) => element.id == "cat01")
                         .CLASS
+                        .length *
+                    widget.routeModel.rootModel!.GET_STATS_DATA.STATISTICAL_DATA
+                        .CLASS_INF.CLASS_OBJ
+                        .firstWhere((element) => element.id == "cat02")
+                        .CLASS
                         .length;
-                  } else {
-                    return widget.routeModel.rootModel!.GET_STATS_DATA
-                            .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-                            .firstWhere((element) => element.id == "cat01")
-                            .CLASS
-                            .length *
-                        widget.routeModel.rootModel!.GET_STATS_DATA
-                            .STATISTICAL_DATA.CLASS_INF.CLASS_OBJ
-                            .firstWhere((element) => element.id == "cat02")
-                            .CLASS
-                            .length;
-                  }
-                }(),
-                rowSeparatorWidget: Divider(
-                  color: Colors.grey[120],
-                  height: 0.5,
-                  thickness: 0.0,
-                ),
-                leftHandSideColBackgroundColor:
-                    Theme.of(context).backgroundColor,
-                rightHandSideColBackgroundColor:
-                    Theme.of(context).backgroundColor,
-                verticalScrollbarStyle: ScrollbarStyle(
-                  thumbColor: Theme.of(context).primaryColorDark,
-                  isAlwaysShown: true,
-                  thickness: 4.0,
-                  radius: const Radius.circular(5.0),
-                ),
-                horizontalScrollbarStyle: ScrollbarStyle(
-                  thumbColor: Theme.of(context).primaryColorDark,
-                  isAlwaysShown: true,
-                  thickness: 4.0,
-                  radius: const Radius.circular(5.0),
-                ),
-              ),
-            )
-          ]);
-        }));
+              }
+            }(),
+            rowSeparatorWidget: Divider(
+              color: Colors.grey[120],
+              height: 0.5,
+              thickness: 0.0,
+            ),
+            leftHandSideColBackgroundColor: Theme.of(context).backgroundColor,
+            rightHandSideColBackgroundColor: Theme.of(context).backgroundColor,
+            verticalScrollbarStyle: ScrollbarStyle(
+              thumbColor: Theme.of(context).primaryColorDark,
+              isAlwaysShown: true,
+              thickness: 4.0,
+              radius: const Radius.circular(5.0),
+            ),
+            horizontalScrollbarStyle: ScrollbarStyle(
+              thumbColor: Theme.of(context).primaryColorDark,
+              isAlwaysShown: true,
+              thickness: 4.0,
+              radius: const Radius.circular(5.0),
+            ),
+          ),
+        )
+      ]);
+    });
   }
 
   List<Widget> _getTitleWidget() {
