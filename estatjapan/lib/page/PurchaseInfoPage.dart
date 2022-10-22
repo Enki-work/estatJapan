@@ -199,7 +199,7 @@ class _PurchaseInfoPageState extends State<PurchaseInfoPage> {
                                             Icons.supervised_user_circle),
                                         label: const Text("利用規約"),
                                         onPressed: () {
-                                          launchURL(
+                                          launchURL(context,
                                               "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/");
                                         },
                                       ),
@@ -207,7 +207,7 @@ class _PurchaseInfoPageState extends State<PurchaseInfoPage> {
                                         icon: const Icon(Icons.privacy_tip),
                                         label: const Text("プライバシー"),
                                         onPressed: () {
-                                          launchURL(
+                                          launchURL(context,
                                               "http://zairyu.maoxiaoqiang.net/privacypolicy.html");
                                         },
                                       ),

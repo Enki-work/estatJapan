@@ -58,7 +58,11 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
 
       return;
     }
-
+    var paymentWrapper = SKPaymentQueueWrapper();
+    var transactions = await paymentWrapper.transactions();
+    for (var transaction in transactions) {
+      await paymentWrapper.finishTransaction(transaction);
+    }
     if (Platform.isIOS) {
       final InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
           inAppPurchase
@@ -118,9 +122,9 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
 
   Future<void> listenToPurchaseUpdated(
       List<PurchaseDetails> purchaseDetailsList) async {
-    if (purchaseDetailsList.isEmpty) {
-      Get.snackbar('error', '課金情報がありません', backgroundColor: Colors.white);
-    }
+    // if (purchaseDetailsList.isEmpty) {
+    //   Get.snackbar('error', '課金情報がありません', backgroundColor: Colors.white);
+    // }
 
     for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
       if (purchaseDetails.status == PurchaseStatus.pending) {

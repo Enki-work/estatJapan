@@ -53,7 +53,7 @@ class ContactMePage extends StatelessWidget {
                             'subject': '${info.appName}_V${info.version}'
                           }),
                         );
-                        launchURL(emailLaunchUri.toString());
+                        launchURL(context, emailLaunchUri.toString());
                       },
                     ),
                   ],

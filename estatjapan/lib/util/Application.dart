@@ -114,7 +114,8 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
           StateNotifierProvider<PurchaseNotifier, PurchaseState>(
             create: (_) => PurchaseNotifier()
               ..getIsAdDeletedDone()
-              ..initStoreInfo(),
+              ..initStoreInfo()
+              ..restorePurchases(),
           ),
         ],
         builder: (context, child) {
