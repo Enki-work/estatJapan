@@ -1,8 +1,11 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
+import '../firebase_options.dart';
 import '../util/DioHolder.dart';
 import 'Application.dart';
 
@@ -39,17 +42,21 @@ class AppInitializer {
   /// アプリ実行に必要なセットアップを入れる
   Future<Widget> initialize() async {
     try {
-      // Crashlytics 設定
-      // await Firebase.initializeApp();
-      // FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-      FlutterError.onError = (details) {
-        // dump to Console
-        FlutterError.dumpErrorToConsole(details);
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      await FirebaseAnalytics.instance.logBeginCheckout();
+      if (!kIsWeb) {
+        // Crashlytics 設定
+        // FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+        FlutterError.onError = (details) {
+          // dump to Console
+          FlutterError.dumpErrorToConsole(details);
 
-        // Crashlytics
-        // FirebaseCrashlytics.instance.recordFlutterError(details);
-      };
-
+          // Crashlytics
+          // FirebaseCrashlytics.instance.recordFlutterError(details);
+        };
+      }
       if (kReleaseMode) {
         setUpRelease();
       } else {

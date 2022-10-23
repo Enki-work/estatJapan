@@ -107,18 +107,18 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.gms:play-services-ads:21.3.0'
-    implementation platform('com.google.firebase:firebase-bom:30.1.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-messaging-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-
-    // Firebase libraries.
-    implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
-    implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
-    implementation "com.google.firebase:firebase-functions:$firebaseFunctionsVersion"
-
-    // FirebaseUI Auth library.
-    implementation "com.firebaseui:firebase-ui-auth:$firebaseUiVersion"
+//    implementation platform('com.google.firebase:firebase-bom:30.1.0')
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation 'com.google.firebase:firebase-messaging-ktx'
+//    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+//
+//    // Firebase libraries.
+//    implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
+//    implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
+//    implementation "com.google.firebase:firebase-functions:$firebaseFunctionsVersion"
+//
+//    // FirebaseUI Auth library.
+//    implementation "com.firebaseui:firebase-ui-auth:$firebaseUiVersion"
     implementation 'androidx.leanback:leanback:1.0.0'
     implementation 'androidx.room:room-common:2.4.3'
 

@@ -11,7 +11,7 @@ import com.android.billingclient.api.Purchase
 import com.estatjapan.purchase.Constants
 import com.estatjapan.purchase.billing.BillingClientLifecycle
 import com.estatjapan.purchase.ui.BillingViewModel
-import com.google.firebase.FirebaseApp
+//import com.google.firebase.FirebaseApp
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import pigeon.Pigeon
@@ -24,7 +24,7 @@ class MainActivity: FlutterFragmentActivity(), Pigeon.HostPurchaseModelApi {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(this);
+//        FirebaseApp.initializeApp(this);
         // Billing APIs are all handled in the this lifecycle observer.
         billingClientLifecycle = (application as MyApplication).billingClientLifecycle
         lifecycle.addObserver(billingClientLifecycle)

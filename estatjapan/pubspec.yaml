@@ -48,9 +48,9 @@ dependencies:
   shared_preferences:
 
   google_mobile_ads: ^2.1.0
-  firebase_core:
-  firebase_analytics:
-  firebase_crashlytics:
+  firebase_core: ^2.1.0
+  firebase_analytics: ^10.0.2
+  firebase_crashlytics: ^3.0.2
   json_serializable:
   stack_trace:
   package_info_plus:
