@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -31,47 +31,57 @@ class AppInitializer {
 
   /// アプリのスタート
   void run() {
-    initialize().then((app) {
-      runApp(
-        GetMaterialApp(
-          home: ProviderScope(
-            child: app,
+    runZonedGuarded<Future<void>>(() async {
+      initialize().then((app) {
+        runApp(
+          GetMaterialApp(
+            home: ProviderScope(
+              child: app,
+            ),
           ),
-        ),
-      );
-    });
+        );
+      });
+    },
+        (error, stack) => FirebaseCrashlytics.instance
+            .recordError(error, stack, fatal: true));
   }
 
   /// アプリ実行に必要なセットアップを入れる
   Future<Widget> initialize() async {
-    runZonedGuarded<Future<Widget>>(() async {
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-      if (!kIsWeb) {
-        // Crashlytics 設定
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    if (!kIsWeb) {
+      // Crashlytics 設定
 
-        FlutterError.onError =
-            FirebaseCrashlytics.instance.recordFlutterFatalError;
-        await FirebaseAnalytics.instance.logBeginCheckout();
+      FlutterError.onError =
+          FirebaseCrashlytics.instance.recordFlutterFatalError;
+      await FirebaseAnalytics.instance.logBeginCheckout();
+    }
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+      // TODO: If necessary send token to application server.
+      if (kDebugMode) {
+        print(fcmToken);
       }
-      if (kReleaseMode) {
-        setUpRelease();
-      } else {
-        setUpDebug();
-      }
+      // Note: This callback is fired at each app startup and whenever a new
+      // token is generated.
+    }).onError((err) {
+      // Error getting token.
+    });
+    if (kReleaseMode) {
+      setUpRelease();
+    } else {
+      setUpDebug();
+    }
 
-      final holder = DioHolder();
+    final holder = DioHolder();
 
-      return Application(
-        key: UniqueKey(),
-        isRestart: isRestart,
-        dioHolder: holder,
-      );
-    },
-        (error, stack) => FirebaseCrashlytics.instance
-            .recordError(error, stack, fatal: true));
-    throw 'error';
+    return Application(
+      key: UniqueKey(),
+      isRestart: isRestart,
+      dioHolder: holder,
+    );
   }
 
   /// リリースビルドのセットアップ

@@ -1,6 +1,6 @@
 import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
+
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
