@@ -130,7 +130,7 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
     // if (purchaseDetailsList.isEmpty) {
     //   Get.snackbar('error', '課金情報がありません', backgroundColor: Colors.white);
     // }
-
+    var isAdDeletedPurchased = false;
     for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
       if (purchaseDetails.status == PurchaseStatus.pending) {
         showPendingUI();
@@ -142,6 +142,9 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
           final bool valid = await verifyPurchase(purchaseDetails);
           if (valid) {
             deliverProduct(purchaseDetails);
+            isAdDeletedPurchased =
+                (purchaseDetails.productID == kSilverSubscriptionId) ||
+                    (purchaseDetails.purchaseID == kSilverSubscriptionId);
           } else {
             handleInvalidPurchase(purchaseDetails);
             return;
@@ -164,6 +167,15 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
           await inAppPurchase.completePurchase(purchaseDetails);
         }
       }
+    }
+
+    if (!isAdDeletedPurchased) {
+      // Get.snackbar('error', '課金情報がありません', backgroundColor: Colors.white);
+      isAdDeletedDone = false;
+      state = state.copyWith(
+        isAdDeletedDone: false,
+      );
+      return;
     }
   }
   //
