@@ -17,20 +17,17 @@ import '../state/PurchaseState.dart';
 
 final bool kAutoConsume = Platform.isIOS || true;
 
-const String kConsumableId = 'com.estatjapan.purchase.ads';
-const String kUpgradeId = 'kUpgradeId';
-const String kSilverSubscriptionId = 'com.estatjapan.purchase.deleteads';
-const String kGoldSubscriptionId = 'kGoldSubscriptionId';
-const List<String> kProductIds = <String>[
-  kConsumableId,
-  kUpgradeId,
-  kSilverSubscriptionId,
-  kGoldSubscriptionId,
-];
 const isAdDeletedDoneKey = "isAdDeletedDoneKey";
 
 class PurchaseNotifier extends StateNotifier<PurchaseState> {
   PurchaseNotifier() : super(const PurchaseState());
+
+  String kConsumableId = 'com.estatjapan.purchase.ads';
+  String kUpgradeId = 'kUpgradeId';
+  String kSilverSubscriptionId = Platform.isIOS
+      ? 'com.estatjapan.purchase.deleteAds'
+      : 'com.estatjapan.purchase.deleteads';
+  String kGoldSubscriptionId = 'kGoldSubscriptionId';
 
   final InAppPurchase inAppPurchase = InAppPurchase.instance;
 
@@ -42,6 +39,9 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
       state.subscription?.cancel();
     }, onError: (Object error) {
       // handle error here.
+      if (kDebugMode) {
+        print(error);
+      }
     });
     final bool isAvailable = await inAppPurchase.isAvailable();
     if (!isAvailable) {
@@ -58,11 +58,11 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
 
       return;
     }
-    var paymentWrapper = SKPaymentQueueWrapper();
-    var transactions = await paymentWrapper.transactions();
-    for (var transaction in transactions) {
-      await paymentWrapper.finishTransaction(transaction);
-    }
+    // var paymentWrapper = SKPaymentQueueWrapper();
+    // var transactions = await paymentWrapper.transactions();
+    // for (var transaction in transactions) {
+    //   await paymentWrapper.finishTransaction(transaction);
+    // }
     if (Platform.isIOS) {
       final InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
           inAppPurchase
@@ -71,7 +71,12 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
     }
 
     final ProductDetailsResponse productDetailResponse =
-        await inAppPurchase.queryProductDetails(kProductIds.toSet());
+        await inAppPurchase.queryProductDetails({
+      kConsumableId,
+      kUpgradeId,
+      kSilverSubscriptionId,
+      kGoldSubscriptionId,
+    });
     final adDeletedSubscriptionDetail = productDetailResponse.productDetails
         .where((element) => element.id == kSilverSubscriptionId)
         .firstOrNull;
@@ -205,7 +210,8 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
       final List<String> consumables = await ConsumableStore.load();
       state = state.copyWith(purchasePending: true, consumables: consumables);
     } else {
-      final adDeleted = (purchaseDetails.productID == kSilverSubscriptionId);
+      final adDeleted = (purchaseDetails.productID == kSilverSubscriptionId) ||
+          (purchaseDetails.purchaseID == kSilverSubscriptionId);
       if (adDeleted) {
         isAdDeletedDone = true;
         state = state.copyWith(

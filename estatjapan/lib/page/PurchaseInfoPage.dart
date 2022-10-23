@@ -20,6 +20,7 @@ class _PurchaseInfoPageState extends State<PurchaseInfoPage> {
   @override
   void initState() {
     super.initState();
+    // context.read<PurchaseNotifier>().initStoreInfo();
   }
 
   @override
