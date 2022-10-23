@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,21 +44,16 @@ class AppInitializer {
 
   /// アプリ実行に必要なセットアップを入れる
   Future<Widget> initialize() async {
-    try {
+    runZonedGuarded<Future<Widget>>(() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-      await FirebaseAnalytics.instance.logBeginCheckout();
       if (!kIsWeb) {
         // Crashlytics 設定
-        // FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-        FlutterError.onError = (details) {
-          // dump to Console
-          FlutterError.dumpErrorToConsole(details);
 
-          // Crashlytics
-          // FirebaseCrashlytics.instance.recordFlutterError(details);
-        };
+        FlutterError.onError =
+            FirebaseCrashlytics.instance.recordFlutterFatalError;
+        await FirebaseAnalytics.instance.logBeginCheckout();
       }
       if (kReleaseMode) {
         setUpRelease();
@@ -70,12 +68,10 @@ class AppInitializer {
         isRestart: isRestart,
         dioHolder: holder,
       );
-    } on Exception catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-      rethrow;
-    }
+    },
+        (error, stack) => FirebaseCrashlytics.instance
+            .recordError(error, stack, fatal: true));
+    throw 'error';
   }
 
   /// リリースビルドのセットアップ
