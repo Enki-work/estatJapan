@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -16,6 +16,7 @@ import 'Application.dart';
 /// アプリの初期化を管理する
 ///
 class AppInitializer {
+  static FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics();
   bool isRestart = false;
 
   /// コンストラクタ
@@ -56,19 +57,19 @@ class AppInitializer {
 
       FlutterError.onError =
           FirebaseCrashlytics.instance.recordFlutterFatalError;
-      await FirebaseAnalytics.instance.logBeginCheckout();
+      await AppInitializer.firebaseAnalytics.logBeginCheckout();
     }
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-      // TODO: If necessary send token to application server.
-      if (kDebugMode) {
-        print(fcmToken);
-      }
-      // Note: This callback is fired at each app startup and whenever a new
-      // token is generated.
-    }).onError((err) {
-      // Error getting token.
-    });
+    // final fcmToken = await FirebaseMessaging.instance.getToken();
+    // FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+    //   // TODO: If necessary send token to application server.
+    //   if (kDebugMode) {
+    //     print(fcmToken);
+    //   }
+    //   // Note: This callback is fired at each app startup and whenever a new
+    //   // token is generated.
+    // }).onError((err) {
+    //   // Error getting token.
+    // });
     if (kReleaseMode) {
       setUpRelease();
     } else {

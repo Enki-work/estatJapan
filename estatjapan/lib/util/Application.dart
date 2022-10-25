@@ -1,5 +1,6 @@
 import 'package:estatjapan/model/state_notifier/AppConfigNotifier.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
+
+import 'package:firebase_analytics/observer.dart';
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ import '../page/RootPage.dart';
 import '../page/SettingPage.dart';
 import '../page/VisaInfoPage.dart';
 import '../page/WebViewPage.dart';
+import 'AppInitializer.dart';
 import 'AppLifecycleReactor.dart';
 import 'AppOpenAdManager.dart';
 import 'DioHolder.dart';
@@ -140,7 +142,7 @@ class MyHomePage extends StatelessWidget {
           scheme: context.watch<AppConfigState>().themeFlexScheme),
       themeMode: context.watch<AppConfigState>().getThemeMode,
       navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)
+        FirebaseAnalyticsObserver(analytics: AppInitializer.firebaseAnalytics)
       ],
       routes: {
         "MonthSelectPage": (context) {
