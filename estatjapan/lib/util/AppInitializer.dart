@@ -1,8 +1,9 @@
 import 'dart:async';
-// import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,17 +60,17 @@ class AppInitializer {
           FirebaseCrashlytics.instance.recordFlutterFatalError;
       await AppInitializer.firebaseAnalytics.logBeginCheckout();
     }
-    // final fcmToken = await FirebaseMessaging.instance.getToken();
-    // FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-    //   // TODO: If necessary send token to application server.
-    //   if (kDebugMode) {
-    //     print(fcmToken);
-    //   }
-    //   // Note: This callback is fired at each app startup and whenever a new
-    //   // token is generated.
-    // }).onError((err) {
-    //   // Error getting token.
-    // });
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+      // TODO: If necessary send token to application server.
+      if (kDebugMode) {
+        print(fcmToken);
+      }
+      // Note: This callback is fired at each app startup and whenever a new
+      // token is generated.
+    }).onError((err) {
+      // Error getting token.
+    });
     if (kReleaseMode) {
       setUpRelease();
     } else {
