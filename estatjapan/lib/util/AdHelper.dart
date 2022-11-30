@@ -20,7 +20,7 @@ class AdHelper {
     if (Platform.isAndroid) {
       return context.read<AppConfigState>().android_appid;
     } else if (Platform.isIOS) {
-      return context.read<AppConfigState>().android_appid;
+      return context.read<AppConfigState>().ios_appid;
     } else {
       throw UnsupportedError("Unsupported platform");
     }

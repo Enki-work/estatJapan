@@ -23,7 +23,7 @@ class AppOpenAdManager {
     );
     final json = jsonDecode(contents);
     final adUnitId =
-        Platform.isAndroid ? json['android_appid'] : json['ios_open_ads'];
+        Platform.isAndroid ? json['android_open_ads'] : json['ios_open_ads'];
     AppOpenAd.load(
       adUnitId: adUnitId,
       orientation: AppOpenAd.orientationPortrait,
