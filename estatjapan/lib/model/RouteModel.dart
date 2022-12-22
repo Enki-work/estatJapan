@@ -1,5 +1,5 @@
-import 'Class.dart';
-import 'ImmigrationStatisticsRoot.dart';
+import 'jsonModel/Class.dart';
+import 'jsonModel/ImmigrationStatisticsRoot.dart';
 
 class RouteModel {
   final Class selectedCLASS;

@@ -1,0 +1,10 @@
+flutter pub run pigeon \
+  --input lib/pigeons/scheme.dart \
+  --dart_out lib/pigeons/pigeon.dart \
+  --objc_header_out ios/Runner/pigeon.h \
+  --objc_source_out ios/Runner/pigeon.m \
+  --experimental_swift_out ios/Runner/Pigeon.swift \
+  --java_out ./android/app/src/main/java/pigeon/Pigeon.java \
+  --java_package "com.estatjapan"
+
+ flutter pub run build_runner build --delete-conflicting-outputs

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'ImmigrationStatisticsRoot.dart';
+import 'jsonModel/ImmigrationStatisticsRoot.dart';
 
 class ImmigrationStatisticsModel extends ChangeNotifier {
   int _selectedIndex = 0;
