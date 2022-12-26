@@ -209,7 +209,7 @@ class _PurchaseInfoPageState extends State<PurchaseInfoPage> {
                                         label: const Text("プライバシー"),
                                         onPressed: () {
                                           launchURL(context,
-                                              "http://zairyu.maoxiaoqiang.net/privacypolicy.html");
+                                              "https://enki-work.github.io/zairyu/privacypolicy.html");
                                         },
                                       ),
                                     ],

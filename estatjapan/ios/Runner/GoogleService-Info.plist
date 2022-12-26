@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>569212364150-ugocfgvoi2esplaqkbh67h4nhgkus3q9.apps.googleusercontent.com</string>
+	<string>327810721125-v8peg5tpmfdft90j7e4rucaj4clrv3ak.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.569212364150-ugocfgvoi2esplaqkbh67h4nhgkus3q9</string>
+	<string>com.googleusercontent.apps.327810721125-v8peg5tpmfdft90j7e4rucaj4clrv3ak</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBoWTFuLlwUaaFSjduzcGpWz1Zx1xx4Ras</string>
+	<string>AIzaSyBlgS9aJLefDL3-NoK9MOXZV2sc_TVvVho</string>
 	<key>GCM_SENDER_ID</key>
-	<string>569212364150</string>
+	<string>327810721125</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.estatjapan</string>
 	<key>PROJECT_ID</key>
-	<string>estatjapan-4a8ac</string>
+	<string>estatjapan-e3be3</string>
 	<key>STORAGE_BUCKET</key>
-	<string>estatjapan-4a8ac.appspot.com</string>
+	<string>estatjapan-e3be3.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:569212364150:ios:61e43ce6802185d3a70657</string>
-	<key>ADMOB_APP_ID</key>
-	<string>ca-app-pub-2960563678064187~1331113256</string>
+	<string>1:327810721125:ios:6c91c3a4197241fdf3ad8c</string>
+    <key>ADMOB_APP_ID</key>
+    <string>ca-app-pub-6766831133184942~3038724788</string>
 </dict>
 </plist>
